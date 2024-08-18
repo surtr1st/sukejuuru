@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    hostname: sukejuuru
+    environment:
+      POSTGRES_PASSWORD: ${SUKEJUURU_PASSWORD}
+      POSTGRES_DB: ${SUKEJUURU_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - skjr_data:/var/lib/postgresql/data
+
+volumes:
+  skjr_data:
+
