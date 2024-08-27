@@ -17,7 +17,7 @@ export default {
                 'h-light': '#ddd6fe',
                 'h-neutral': '#57534e',
                 'h-neutral-2': '#4b5563',
-                'h-dark': '#0f172a',
+                'h-dark': '#030712',
                 'h-danger': '#ef4444',
                 'h-warning': '#fbbf24',
             },
