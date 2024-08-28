@@ -70,4 +70,11 @@ const tracker = pgTable('tracker', {
     priorityId: integer('priority_id').references(() => priority.id),
 });
 
-export { profile, node, penalty, task, criteria, status, duration, priority, tracker };
+const color = pgTable('color', {
+    id: serial('id').primaryKey(),
+    display: varchar('display', { length: 256 }),
+    createdAt: date('created_at'),
+    taskId: integer('task_id').references(() => task.id),
+});
+
+export { profile, node, penalty, task, criteria, status, duration, priority, tracker, color };
