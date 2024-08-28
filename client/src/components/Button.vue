@@ -11,21 +11,12 @@
 import { onMounted } from 'vue';
 import { computed } from 'vue';
 import { ref } from 'vue';
+import type { TColorVariant, TSize } from '@/types';
 
-type TButtonSize = 'sm' | 'md' | 'lg';
-type TButtonColor =
-    | 'primary'
-    | 'secondary'
-    | 'light'
-    | 'neutral'
-    | 'neutral-2'
-    | 'dark'
-    | 'danger'
-    | 'warning';
 type TButton = {
-    size: TButtonSize;
+    size: TSize;
     title: string;
-    color: TButtonColor;
+    color: TColorVariant;
 };
 const props = withDefaults(defineProps<Partial<TButton>>(), {
     color: 'primary',
