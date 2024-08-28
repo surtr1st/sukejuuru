@@ -1,5 +1,5 @@
 <template>
-    <table class="dark:text-light w-full">
+    <table class="dark:text-light w-full border border-b-neutral-2 rounded-bl-7px rounded-br-7px">
         <thead class="uppercase">
             <tr>
                 <th
@@ -13,28 +13,89 @@
         </thead>
         <tbody>
             <tr
+                ref="tableRow"
                 v-for="(content, index) in body"
                 :key="index"
                 class="text-center *:p-5 border border-neutral-2 *:hover:bg-neutral-2 *:hover:cursor-pointer"
             >
-                <td :class="'text-start ' + getColor(content.color.display)">
+                <td
+                    @dblclick="editCell(index, 0, $event)"
+                    @blur="saveOnBlur(index, 0)"
+                    :class="
+                        'focus:outline focus:outline-warning text-start ' +
+                        getColor(content.color.display)
+                    "
+                >
                     {{ content.title }}
                 </td>
-                <td class="text-start max-w-[300px]">{{ content.description }}</td>
-                <td>{{ content.priority.display }}</td>
-                <td>{{ content.minLength }}</td>
-                <td>{{ content.maxLength }}</td>
-                <td>{{ content.startDate }}</td>
-                <td>{{ content.dueDate }}</td>
-                <td></td>
-                <td>{{ content.status.display }}</td>
+                <td
+                    @dblclick="editCell(index, 1, $event)"
+                    @blur="saveOnBlur(index, 1)"
+                    class="text-start max-w-[300px] focus:outline focus:outline-warning"
+                >
+                    {{ content.description }}
+                </td>
+                <td
+                    @dblclick="editCell(index, 2, $event)"
+                    @blur="saveOnBlur(index, 2)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.priority.display }}
+                </td>
+
+                <td
+                    @dblclick="editCell(index, 3, $event)"
+                    @blur="saveOnBlur(index, 3)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.minLength }}
+                </td>
+                <td
+                    @dblclick="editCell(index, 4, $event)"
+                    @blur="saveOnBlur(index, 4)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.maxLength }}
+                </td>
+                <td
+                    @dblclick="editCell(index, 5, $event)"
+                    @blur="saveOnBlur(index, 5)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.startDate }}
+                </td>
+                <td
+                    @dblclick="editCell(index, 6, $event)"
+                    @blur="saveOnBlur(index, 6)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.dueDate }}
+                </td>
+                <td
+                    @dblclick="editCell(index, 7, $event)"
+                    @blur="saveOnBlur(index, 7)"
+                    class="focus:outline focus:outline-warning"
+                ></td>
+                <td
+                    @dblclick="editCell(index, 8, $event)"
+                    @blur="saveOnBlur(index, 8)"
+                    class="focus:outline focus:outline-warning"
+                >
+                    {{ content.status.display }}
+                </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr class="hover:bg-neutral hover:cursor-pointer w-full h-12 text-center text-primary">
+                <td :colspan="headers.length">+</td>
+            </tr>
+        </tfoot>
     </table>
 </template>
 
 <script setup lang="ts">
-import type { TTask } from '../types';
+import type { TTask } from '@/types';
+import { ref } from 'vue';
 
 type TTable = {
     headers: string[];
@@ -65,5 +126,26 @@ function getColor(color: string) {
         default:
             return 'bg-primary/15 text-primary';
     }
+}
+
+const tableRow = ref<HTMLTableCellElement[] | null>(null);
+
+function editCell(row: number, col: number, event: MouseEvent) {
+    if (!tableRow.value) return;
+    tableRow.value[row].focus();
+    const selectedCell = tableRow.value[row].children[col];
+    selectedCell.setAttribute('contenteditable', 'true');
+    autoFocus(event);
+}
+
+function autoFocus(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.contentEditable === 'true') target.focus();
+}
+
+function saveOnBlur(row: number, col: number) {
+    if (!tableRow.value) return;
+    const selectedCell = tableRow.value[row].children[col];
+    selectedCell.setAttribute('contenteditable', 'false');
 }
 </script>
