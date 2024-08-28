@@ -1,6 +1,7 @@
 <template>
-    <div class="flex items-start flex-col m-1 gap-2">
+    <div class="flex items-start flex-col mx-1 mt-1 mb-5 gap-2">
         <label
+            v-show="!noTitle"
             :for="title"
             class="text-lg font-semibold dark:text-light"
             >{{ title }}</label
@@ -21,11 +22,13 @@ type TInput = {
     title: string;
     placeholder: string;
     type: TInputType;
+    noTitle: boolean;
 };
 const props = withDefaults(defineProps<Partial<TInput>>(), {
     title: 'No title',
     placeholder: '',
     type: 'text',
+    noTitle: false,
 });
 const model = defineModel('value', { type: String });
 </script>
