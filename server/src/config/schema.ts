@@ -31,6 +31,7 @@ const task = pgTable('task', {
     createdAt: date('created_at'),
     startDate: date('start_date'),
     dueDate: date('due_date'),
+    color: text('color'),
     nodeId: integer('node_id').references(() => node.id),
 });
 
@@ -46,6 +47,7 @@ const status = pgTable('status', {
     display: varchar('display', { length: 256 }),
     description: text('description'),
     createdAt: date('created_at'),
+    color: text('color'),
     taskId: integer('task_id').references(() => task.id),
 });
 
@@ -62,6 +64,7 @@ const priority = pgTable('priority', {
     display: varchar('display', { length: 256 }),
     description: text('description'),
     createdAt: date('created_at'),
+    color: text('color'),
     taskId: integer('task_id').references(() => task.id),
 });
 
@@ -70,11 +73,4 @@ const tracker = pgTable('tracker', {
     priorityId: integer('priority_id').references(() => priority.id),
 });
 
-const color = pgTable('color', {
-    id: serial('id').primaryKey(),
-    display: varchar('display', { length: 256 }),
-    createdAt: date('created_at'),
-    taskId: integer('task_id').references(() => task.id),
-});
-
-export { profile, node, penalty, task, criteria, status, duration, priority, tracker, color };
+export { profile, node, penalty, task, criteria, status, duration, priority, tracker };
