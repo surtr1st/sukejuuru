@@ -1,5 +1,20 @@
 <template>
     <button
+        v-if="iconOnly"
+        :class="theme"
+        @click="emit('click')"
+    >
+        <component :is="icon" />
+    </button>
+    <button
+        v-else-if="!iconOnly && icon"
+        :class="theme"
+        @click="emit('click')"
+    >
+        <component :is="icon" /> {{ title }}
+    </button>
+    <button
+        v-else
         :class="theme"
         @click="emit('click')"
     >
@@ -12,30 +27,35 @@ import { onMounted } from 'vue';
 import { computed } from 'vue';
 import { ref } from 'vue';
 import type { TColorVariant, TSize } from '@/types';
+import type { Component } from 'vue';
 
 type TButton = {
     size: TSize;
     title: string;
     color: TColorVariant;
+    iconOnly: boolean;
+    icon: Component;
 };
 const props = withDefaults(defineProps<Partial<TButton>>(), {
     color: 'primary',
     size: 'sm',
     title: 'No title',
+    iconOnly: false,
+    icon: undefined,
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
-    'rounded-7px drop-shadow-lg text-light font-semibold m-1 transition ease-in-out text-[15px]',
+    'rounded-7px drop-shadow-lg text-light font-semibold m-1 p-3 transition ease-in-out text-[15px]',
 );
 
 const computedSize = computed(() => {
     switch (props.size) {
         case 'md':
-            return 'w-[150px] h-[50px]';
+            return 'max-w-[200px] h-[50px]';
         case 'lg':
-            return 'w-[180px] h-[60px]';
+            return 'max-w-[250px] h-[60px]';
         default:
-            return 'w-[84px] h-[42px]';
+            return 'max-w-[150px] h-[42px]';
     }
 });
 
@@ -60,5 +80,8 @@ const computedColor = computed(() => {
     }
 });
 
-onMounted(() => (theme.value = `${theme.value} ${computedSize.value} ${computedColor.value}`));
+onMounted(
+    () =>
+        (theme.value = `${theme.value} ${computedSize.value} ${computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
+);
 </script>
