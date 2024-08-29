@@ -10,6 +10,7 @@ export default {
                 neutral: '#4D4D4D',
                 'neutral-2': '#434A64',
                 dark: '#191B22',
+                'dark-2': '#1F2129',
                 danger: '#FF2950',
                 warning: '#FFB629',
                 'h-primary': '#6366f1',
