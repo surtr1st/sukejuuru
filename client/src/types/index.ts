@@ -48,3 +48,10 @@ export type TColorVariant =
     | 'dark'
     | 'danger'
     | 'warning';
+
+export type TTrackHistoryItem = {
+    taskTag: string;
+    description: string;
+    duration: string;
+    localTime: string;
+};
