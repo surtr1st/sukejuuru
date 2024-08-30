@@ -35,6 +35,7 @@ type TButton = {
     color: TColorVariant;
     iconOnly: boolean;
     icon: Component;
+    fixed: boolean;
 };
 const props = withDefaults(defineProps<Partial<TButton>>(), {
     color: 'primary',
@@ -42,20 +43,21 @@ const props = withDefaults(defineProps<Partial<TButton>>(), {
     title: 'No title',
     iconOnly: false,
     icon: undefined,
+    fixed: false,
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
-    'rounded-7px drop-shadow-lg text-light font-semibold m-1 p-3 transition ease-in-out text-[15px]',
+    'rounded-7px drop-shadow-lg text-light font-semibold p-3 transition ease-in-out text-[15px]',
 );
 
 const computedSize = computed(() => {
     switch (props.size) {
         case 'md':
-            return 'max-w-[200px] h-[50px]';
+            return props.fixed ? 'w-[100px] max-w-[200px] h-[60px]' : 'max-w-[200px] h-[60px]';
         case 'lg':
-            return 'max-w-[250px] h-[60px]';
+            return props.fixed ? 'w-[200px] max-w-[250px] h-[65px]' : 'max-w-[250px] h-[65px]';
         default:
-            return 'max-w-[150px] h-[42px]';
+            return props.fixed ? 'w-[75px] max-w-[150px] h-[50px]' : 'max-w-[150px] h-[50px]';
     }
 });
 
