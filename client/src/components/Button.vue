@@ -36,6 +36,7 @@ type TButton = {
     iconOnly: boolean;
     icon: Component;
     fixed: boolean;
+    rounded: boolean;
 };
 const props = withDefaults(defineProps<Partial<TButton>>(), {
     color: 'primary',
@@ -44,11 +45,25 @@ const props = withDefaults(defineProps<Partial<TButton>>(), {
     iconOnly: false,
     icon: undefined,
     fixed: false,
+    rounded: false,
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
-    'rounded-7px drop-shadow-lg text-light font-semibold p-3 transition ease-in-out text-[15px]',
+    'drop-shadow-lg text-light font-semibold p-3 transition ease-in-out text-[15px]',
 );
+
+const computedFullRounded = computed(() => (props.rounded ? 'rounded-full' : 'rounded-7px'));
+
+const computedRoundedSize = computed(() => {
+    switch (props.size) {
+        case 'md':
+            return 'w-[100px] h-[100px]';
+        case 'lg':
+            return 'w-[150px] h-[150px]';
+        default:
+            return 'w-[50px] h-[50px]';
+    }
+});
 
 const computedSize = computed(() => {
     switch (props.size) {
@@ -84,6 +99,6 @@ const computedColor = computed(() => {
 
 onMounted(
     () =>
-        (theme.value = `${theme.value} ${computedSize.value} ${computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
+        (theme.value = `${computedFullRounded.value} ${theme.value} ${props.rounded ? computedRoundedSize.value : computedSize.value} ${computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
 );
 </script>
