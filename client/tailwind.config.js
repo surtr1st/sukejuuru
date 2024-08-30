@@ -13,6 +13,7 @@ export default {
                 'dark-2': '#1F2129',
                 danger: '#FF2950',
                 warning: '#FFB629',
+                success: '#30C386',
                 'h-primary': '#6366f1',
                 'h-secondary': '#818cf8',
                 'h-light': '#ddd6fe',
@@ -21,6 +22,7 @@ export default {
                 'h-dark': '#030712',
                 'h-danger': '#ef4444',
                 'h-warning': '#fbbf24',
+                'h-success': '#14b8a6',
             },
             fontFamily: {
                 sans: ['Hanken Grotesk', 'sans-serif'],
