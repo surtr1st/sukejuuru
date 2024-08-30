@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<Partial<TButton>>(), {
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
-    'drop-shadow-lg text-light font-semibold p-3 transition ease-in-out text-[15px]',
+    'shadow-md shadow-dark/50 text-light font-semibold p-3 transition ease-in-out text-[15px]',
 );
 
 const computedFullRounded = computed(() => (props.rounded ? 'rounded-full' : 'rounded-7px'));
