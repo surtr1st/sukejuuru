@@ -17,17 +17,19 @@
         <div class="lg:col-span-1 md:col-span-3 flex justify-end items-center">
             <h1 class="text-[32px] font-semibold">00:45:12</h1>
         </div>
-        <div class="lg:col-span-1 md:col-span-3 flex justify-end items-center">
+        <div class="lg:col-span-1 md:col-span-3 flex justify-end items-center gap-2">
             <Button
                 icon-only
                 :icon="PlayIcon"
-                size="md"
+                fixed
+                rounded
             />
             <Button
                 icon-only
                 color="danger"
                 :icon="MinusCircleIcon"
-                size="md"
+                fixed
+                rounded
             />
         </div>
     </div>
