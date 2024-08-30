@@ -2,7 +2,7 @@
     <Teleport to="body">
         <div
             v-show="open"
-            class="shadow-lg fixed z-[10000] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[700px] max-h-[800px] p-7 flex flex-col border border-primary rounded-2xl bg-light dark:bg-dark-2 dark:text-light"
+            class="shadow-lg shadow-dark/50 fixed z-[10000] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[700px] max-h-[800px] p-7 flex flex-col border border-primary rounded-2xl bg-light dark:bg-dark-2 dark:text-light"
         >
             <div class="h-[50px]">
                 <h2 class="text-3xl font-semibold">{{ title }}</h2>
