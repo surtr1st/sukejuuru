@@ -47,7 +47,8 @@ export type TColorVariant =
     | 'neutral-2'
     | 'dark'
     | 'danger'
-    | 'warning';
+    | 'warning'
+    | 'success';
 
 export type TTrackHistoryItem = {
     taskTag: string;
