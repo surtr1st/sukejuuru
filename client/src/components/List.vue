@@ -18,10 +18,11 @@
 </template>
 
 <script setup lang="ts">
+import type { Component } from 'vue';
+
 type TListItem = {
-    id: number;
     label: string;
-    icon: unknown;
+    icon: Component;
 };
 
 type TList = {
