@@ -66,7 +66,7 @@ export type TThemePreferences = 'light' | 'dark' | 'system';
 export type TListItem = {
     label: string;
     icon: Component;
-    action: Callback<void>;
+    action?: Callback<void>;
     route?: string;
 };
 
