@@ -1,5 +1,5 @@
 import type { TThemePreferences } from '@/types';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const DEFAULT_THEME = 'system';
 
@@ -39,6 +39,8 @@ export function useTheme() {
                 break;
         }
     };
+
+    watch(theme, () => toggle());
 
     return { setPreference, preference, bySystem, toggle };
 }
