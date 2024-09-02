@@ -6,7 +6,7 @@
                 class="transition ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-start items-center hover:cursor-pointer hover:bg-h-light dark:text-light dark:hover:bg-h-dark"
                 v-for="(item, index) in items"
                 :key="index"
-                @click="emit('click')"
+                @click="item.action"
             >
                 <component :is="item.icon" />
                 <h3 class="font-semibold">
@@ -18,12 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue';
-
-type TListItem = {
-    label: string;
-    icon: Component;
-};
+import type { TListItem } from '@/types';
 
 type TList = {
     title: string;
@@ -33,5 +28,4 @@ withDefaults(defineProps<Partial<TList>>(), {
     title: 'No Title',
     items: () => [],
 });
-const emit = defineEmits(['click']);
 </script>
