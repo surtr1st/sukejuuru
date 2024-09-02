@@ -1,3 +1,7 @@
+import type { Component } from 'vue';
+
+type Callback<T> = () => T;
+
 export type TTask = {
     id: number;
     title: string;
@@ -58,3 +62,13 @@ export type TTrackHistoryItem = {
 };
 
 export type TThemePreferences = 'light' | 'dark' | 'system';
+
+export type TListItem = {
+    label: string;
+    icon: Component;
+    action: Callback<void>;
+};
+
+export type TSidebarItems<T extends readonly string[]> = {
+    readonly [K in T[number]]: TListItem[];
+};
