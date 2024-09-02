@@ -56,3 +56,5 @@ export type TTrackHistoryItem = {
     duration: string;
     localTime: string;
 };
+
+export type TThemePreferences = 'light' | 'dark' | 'system';
