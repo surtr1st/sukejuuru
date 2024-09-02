@@ -67,6 +67,7 @@ export type TListItem = {
     label: string;
     icon: Component;
     action: Callback<void>;
+    route?: string;
 };
 
 export type TSidebarItems<T extends readonly string[]> = {
