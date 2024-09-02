@@ -1,4 +1,3 @@
-import type { TThemePreferences } from '@/types';
 import { computed, ref, watch } from 'vue';
 
 const DEFAULT_THEME = 'system';
@@ -11,10 +10,14 @@ export function useTheme() {
         return preferMedia.matches ? 'dark' : 'light';
     });
 
-    const setPreference = (t: TThemePreferences | unknown) => {
-        const th = t as TThemePreferences;
-        localStorage.setItem('theme', th);
-        theme.value = th;
+    const togglePreference = () => {
+        if (preference.value === 'dark') {
+            theme.value = 'light';
+            localStorage.setItem('theme', 'light');
+        } else {
+            theme.value = 'dark';
+            localStorage.setItem('theme', 'dark');
+        }
     };
 
     const preference = computed(() => theme.value);
@@ -42,5 +45,5 @@ export function useTheme() {
 
     watch(theme, () => toggle());
 
-    return { setPreference, preference, bySystem, toggle };
+    return { togglePreference, preference, bySystem, toggle };
 }
