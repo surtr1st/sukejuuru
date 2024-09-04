@@ -5,3 +5,6 @@ declare module '*.vue' {
     const component: DefineComponent<{}, {}, any>;
     export default component;
 }
+
+declare type Getter<T> = () => T;
+declare type Setter<T> = (value: T) => void;
