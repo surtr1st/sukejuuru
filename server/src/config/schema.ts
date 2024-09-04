@@ -1,11 +1,5 @@
 import { pgTable, serial, varchar, date, text, bigint, integer } from 'drizzle-orm/pg-core';
 
-const profile = pgTable('profile', {
-    id: serial('id').primaryKey(),
-    displayName: varchar('display_name', { length: 256 }),
-    joinedAt: date('joined_at'),
-});
-
 const penalty = pgTable('penalty', {
     id: serial('id').primaryKey(),
     title: text('title'),
@@ -18,7 +12,6 @@ const node = pgTable('node', {
     id: serial('id').primaryKey(),
     title: text('title'),
     createdAt: date('created_at'),
-    profileId: integer('profile_id').references(() => profile.id),
     penaltyId: integer('penalty_id').references(() => penalty.id),
 });
 
@@ -73,4 +66,4 @@ const tracker = pgTable('tracker', {
     priorityId: integer('priority_id').references(() => priority.id),
 });
 
-export { profile, node, penalty, task, criteria, status, duration, priority, tracker };
+export { node, penalty, task, criteria, status, duration, priority, tracker };
