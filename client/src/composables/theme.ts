@@ -1,22 +1,22 @@
+import { useLocalStorage, useMediaPreferred } from '@/helpers';
 import { computed, ref, watch } from 'vue';
 
 const DEFAULT_THEME = 'system';
+const LIGHT_THEME = 'light';
+const DARK_THEME = 'dark';
+
+const [item, setItem] = useLocalStorage('theme', DEFAULT_THEME);
 
 export function useTheme() {
-    const theme = ref(localStorage.getItem('theme') || DEFAULT_THEME);
-
-    const systemPreferred = computed(() => {
-        const preferMedia = window.matchMedia('(prefers-color-scheme: dark)');
-        return preferMedia.matches ? 'dark' : 'light';
-    });
+    const theme = ref(item());
 
     const togglePreference = () => {
-        if (preference.value === 'dark') {
-            theme.value = 'light';
-            localStorage.setItem('theme', 'light');
+        if (preference.value === DARK_THEME) {
+            theme.value = LIGHT_THEME;
+            setItem(LIGHT_THEME);
         } else {
-            theme.value = 'dark';
-            localStorage.setItem('theme', 'dark');
+            theme.value = DARK_THEME;
+            setItem(DARK_THEME);
         }
     };
 
@@ -25,20 +25,20 @@ export function useTheme() {
     const bySystem = () => {
         const body = ref<HTMLElement | null>(document.documentElement);
         if (!body.value) return;
-        if (systemPreferred.value === 'dark') body.value.classList.add('dark');
-        else body.value.classList.remove('dark');
+        if (useMediaPreferred().dark()) body.value.classList.add(DARK_THEME);
+        else body.value.classList.remove(DARK_THEME);
     };
 
     const toggle = () => {
         const body = ref<HTMLElement | null>(document.documentElement);
         if (!body.value) return;
-        const preference = localStorage.getItem('theme') || DEFAULT_THEME;
+        const preference = item();
         switch (preference) {
-            case 'dark':
-                body.value.classList.add('dark');
+            case DARK_THEME:
+                body.value.classList.add(DARK_THEME);
                 break;
             default:
-                body.value.classList.remove('dark');
+                body.value.classList.remove(DARK_THEME);
                 break;
         }
     };
