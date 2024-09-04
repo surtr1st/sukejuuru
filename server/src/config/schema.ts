@@ -1,18 +1,18 @@
 import { pgTable, serial, varchar, text, bigint, integer, timestamp } from 'drizzle-orm/pg-core';
 
+const node = pgTable('node', {
+    id: serial('id').primaryKey(),
+    title: text('title'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
+});
+
 const penalty = pgTable('penalty', {
     id: serial('id').primaryKey(),
     title: text('title'),
     description: text('description'),
     compensation: text('compensation'),
     createdAt: timestamp('created_at', { withTimezone: true }),
-});
-
-const node = pgTable('node', {
-    id: serial('id').primaryKey(),
-    title: text('title'),
-    createdAt: timestamp('created_at', { withTimezone: true }),
-    penaltyId: integer('penalty_id').references(() => penalty.id),
+    nodeId: integer('node_id').references(() => node.id),
 });
 
 const task = pgTable('task', {
