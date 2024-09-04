@@ -1,6 +1,6 @@
 import { t } from 'elysia';
 
-export const penalty = t.Object({
+export const Penalty = t.Object({
     id: t.Integer(),
     title: t.String(),
     description: t.String(),

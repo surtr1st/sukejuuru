@@ -1,6 +1,6 @@
 import { t } from 'elysia';
 
-export const task = t.Object({
+export const Task = t.Object({
     id: t.Integer(),
     title: t.String(),
     description: t.String(),
