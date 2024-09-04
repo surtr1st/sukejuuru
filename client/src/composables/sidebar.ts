@@ -1,19 +1,21 @@
-import { computed, ref, toValue } from 'vue';
+import { useLocalStorage } from '@/helpers';
+import { computed, ref } from 'vue';
+
+const [item, setItem] = useLocalStorage('expand');
 
 export function useSidebar() {
-    const retrieveValue = (key: string) => {
-        const expand = localStorage.getItem(key);
-        if (!expand) return true;
-        return expand === 'true' ? true : false;
+    const retrieveValue = () => {
+        if (!item()) return true;
+        return item() === 'true' ? true : false;
     };
 
-    const isExpand = ref<boolean>(retrieveValue('expand'));
+    const isExpand = ref<boolean>(retrieveValue());
 
     const expanded = computed(() => isExpand.value);
 
     const setExpand = (expand: boolean) => {
         isExpand.value = expand;
-        localStorage.setItem('expand', `${expand}`);
+        setItem(`${expand}`);
     };
 
     return {
