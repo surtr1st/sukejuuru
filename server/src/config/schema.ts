@@ -1,17 +1,17 @@
-import { pgTable, serial, varchar, date, text, bigint, integer } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, text, bigint, integer, timestamp } from 'drizzle-orm/pg-core';
 
 const penalty = pgTable('penalty', {
     id: serial('id').primaryKey(),
     title: text('title'),
     description: text('description'),
     compensation: text('compensation'),
-    createdAt: date('created_at'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
 });
 
 const node = pgTable('node', {
     id: serial('id').primaryKey(),
     title: text('title'),
-    createdAt: date('created_at'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
     penaltyId: integer('penalty_id').references(() => penalty.id),
 });
 
@@ -19,11 +19,11 @@ const task = pgTable('task', {
     id: serial('id').primaryKey(),
     title: text('title'),
     description: text('description'),
-    minLength: bigint('min_length', { mode: 'number' }),
-    maxLength: bigint('max_length', { mode: 'number' }),
-    createdAt: date('created_at'),
-    startDate: date('start_date'),
-    dueDate: date('due_date'),
+    minLength: bigint('min_length', { mode: 'bigint' }),
+    maxLength: bigint('max_length', { mode: 'bigint' }),
+    createdAt: timestamp('created_at', { withTimezone: true }),
+    startDate: timestamp('start_date', { withTimezone: true }),
+    dueDate: timestamp('due_date', { withTimezone: true }),
     color: text('color'),
     nodeId: integer('node_id').references(() => node.id),
 });
@@ -31,7 +31,7 @@ const task = pgTable('task', {
 const criteria = pgTable('criteria', {
     id: serial('id').primaryKey(),
     description: text('description'),
-    createdAt: date('created_at'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
     taskId: integer('task_id').references(() => task.id),
 });
 
@@ -39,15 +39,15 @@ const status = pgTable('status', {
     id: serial('id').primaryKey(),
     display: varchar('display', { length: 256 }),
     description: text('description'),
-    createdAt: date('created_at'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
     color: text('color'),
     taskId: integer('task_id').references(() => task.id),
 });
 
 const duration = pgTable('duration', {
     id: serial('id').primaryKey(),
-    timeOnTask: bigint('time_on_task', { mode: 'number' }),
-    madeOnDate: date('made_on_date'),
+    timeOnTask: bigint('time_on_task', { mode: 'bigint' }),
+    madeOnDate: timestamp('made_on_date', { withTimezone: true }),
     description: text('description'),
     taskId: integer('task_id').references(() => task.id),
 });
@@ -56,7 +56,7 @@ const priority = pgTable('priority', {
     id: serial('id').primaryKey(),
     display: varchar('display', { length: 256 }),
     description: text('description'),
-    createdAt: date('created_at'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
     color: text('color'),
     taskId: integer('task_id').references(() => task.id),
 });
