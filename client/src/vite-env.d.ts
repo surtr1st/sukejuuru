@@ -8,3 +8,8 @@ declare module '*.vue' {
 
 declare type Getter<T> = () => T;
 declare type Setter<T> = (value: T) => void;
+
+interface String {
+    is(value: string): boolean;
+}
+String.prototype.is = (value: string): boolean => this === value;
