@@ -2,7 +2,6 @@ import { Elysia } from 'elysia';
 import { useDrizzle } from '@/config/db';
 import { node } from '@/config/schema';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { PostgresError } from 'postgres';
 import { NodeError, NodeSuccess } from '@/enums';
 import { eq } from 'drizzle-orm';
 
@@ -14,7 +13,7 @@ interface INodeService {
 }
 
 class Service implements INodeService {
-    private db: PostgresJsDatabase<Record<string, never>>;
+    db: PostgresJsDatabase<Record<string, never>>;
 
     constructor() {
         this.db = useDrizzle();
@@ -24,13 +23,13 @@ class Service implements INodeService {
         return await this.db.select().from(node);
     }
 
-    async create(value: TNode): Promise<string> {
+    async create(value: Omit<TNode, 'id'>): Promise<string> {
         try {
             const result = await this.db.insert(node).values(value).returning();
-            if (result.length === 0) throw new PostgresError(NodeError.CREATE);
+            if (result.length === 0) throw new Error(NodeError.CREATE);
             return NodeSuccess.CREATE;
         } catch (e) {
-            return (e as PostgresError).message;
+            return (e as Error).message;
         }
     }
 
@@ -41,25 +40,25 @@ class Service implements INodeService {
                 .set(value)
                 .where(eq(node.id, value.id))
                 .returning();
-            if (result.length === 0) throw new PostgresError(NodeError.UPDATE);
+            if (result.length === 0) throw new Error(NodeError.UPDATE);
             return NodeSuccess.UPDATE;
         } catch (e) {
-            return (e as PostgresError).message;
+            return (e as Error).message;
         }
     }
 
     async remove(id: number): Promise<string> {
         try {
             const result = await this.db.delete(node).where(eq(node.id, id)).returning();
-            if (result.length === 0) throw new PostgresError(NodeError.DELETE);
+            if (result.length === 0) throw new Error(NodeError.DELETE);
             return NodeSuccess.DELETE;
         } catch (e) {
-            return (e as PostgresError).message;
+            return (e as Error).message;
         }
     }
 }
 
 export const NodeService = new Elysia({ name: 'node.service' }).decorate(
-    'NodeService',
+    'nodeService',
     () => new Service(),
 );
