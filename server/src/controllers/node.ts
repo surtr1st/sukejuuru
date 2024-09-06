@@ -1,20 +1,17 @@
 import Elysia from 'elysia';
 import { NodeService } from '@/services';
 import { nodeModels } from '@/models';
-import { NodeRoute } from '@/routes';
+import { NodeMiddlewares } from '@/middlewares';
 
 export const NodeController = new Elysia({ name: 'node.controller' })
     .use(NodeService)
+    .use(NodeMiddlewares)
     .use(nodeModels)
-    .get(NodeRoute.RETRIEVE, async ({ nodeService }) => await nodeService().nodes())
-    .post(
-        NodeRoute.CREATE,
-        async ({ nodeService, body }) => {
-            const { title } = body;
-            if (!title) return;
-            return await nodeService().create({ title, createdAt: new Date() });
-        },
-        { body: 'node.dto' },
-    )
-    .put(NodeRoute.UPDATE, () => {})
-    .delete(NodeRoute.DELETE, () => {});
+    .derive({ as: 'scoped' }, ({ nodeService, body, params }) => ({
+        retrieveNodes: async () => await nodeService().nodes(),
+        createNode: async () =>
+            await nodeService().create({ title: body.title, createdAt: new Date() }),
+        updateNode: async () => await nodeService().update(params.id, body),
+        deleteNode: async () => await nodeService().remove(params.id),
+        findNodeById: async () => await nodeService().findById(params.id),
+    }));
