@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 
 interface INodeService {
     nodes(): Promise<TNode[]>;
-    create(value: TNode): Promise<string>;
+    create(value: Omit<TNode, 'id'>): Promise<string>;
     update(id: number, value: Omit<TNode, 'id'>): Promise<string>;
     remove(id: number): Promise<string>;
     findById(id: number): Promise<TNode>;
