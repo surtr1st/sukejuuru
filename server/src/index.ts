@@ -1,9 +1,11 @@
 import '@/extensions';
 import { Elysia } from 'elysia';
-import { NodeRouter, PenaltyRouter, TaskRouter } from './routes';
+import { NodeRouter, PenaltyRouter, PriorityRouter, TaskRouter } from './routes';
 
 const app = new Elysia()
-    .group('/api', (app) => app.use(NodeRouter).use(PenaltyRouter).use(TaskRouter))
+    .group('/api', (app) =>
+        app.use(NodeRouter).use(PenaltyRouter).use(TaskRouter).use(PriorityRouter),
+    )
     .listen(3000);
 
 console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
