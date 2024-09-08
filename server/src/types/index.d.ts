@@ -28,3 +28,12 @@ declare type TTask = {
 declare type TServiceName = 'node' | 'penalty' | 'task';
 
 declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
+
+declare type TPriority = {
+    id: number;
+    display: string;
+    description: string;
+    createdAt: Date;
+    color: string;
+    taskId: number;
+};
