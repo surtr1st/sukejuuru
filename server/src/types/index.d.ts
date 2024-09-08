@@ -25,7 +25,7 @@ declare type TTask = {
     color: string;
 };
 
-declare type TServiceName = 'node' | 'penalty' | 'task';
+declare type TServiceName = 'node' | 'penalty' | 'task' | 'priority';
 
 declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
 
