@@ -1,4 +1,4 @@
-import { t } from 'elysia';
+import Elysia, { t } from 'elysia';
 
 export const Task = t.Object({
     id: t.Integer(),
@@ -11,3 +11,7 @@ export const Task = t.Object({
     dueDate: t.Date(),
     color: t.String(),
 });
+
+export const TaskDTO = t.Omit(Task, ['id']);
+
+export const taskModels = new Elysia().model({ 'task.m': Task, 'task.dto': TaskDTO });
