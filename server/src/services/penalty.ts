@@ -1,15 +1,13 @@
 import { useDrizzle } from '@/config/db';
 import { penalty } from '@/config/schema';
-import { PenaltyError, PenaltySuccess } from '@/enums';
+import { InternalError, PenaltySuccess } from '@/enums';
 import { eq } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import Elysia, { InternalServerError, NotFoundError } from 'elysia';
+import { BaseService } from './base';
 
-interface IPenaltyService {
+interface IPenaltyService extends BaseService<TPenalty> {
     findByNode(nodeId: number): Promise<TOmits<TPenalty, 'nodeId' | 'createdAt'>>;
-    create(value: Omit<TPenalty, 'id'>): Promise<string>;
-    update(id: number, value: Omit<TPenalty, 'id'>): Promise<string>;
-    remove(id: number): Promise<string>;
 }
 
 class Service implements IPenaltyService {
@@ -30,7 +28,7 @@ class Service implements IPenaltyService {
 
     async create(value: Omit<TPenalty, 'id'>): Promise<string> {
         const result = await this.db.insert(penalty).values(value).returning();
-        if (result.empty()) throw new InternalServerError(PenaltyError.CREATE);
+        if (result.empty()) throw new InternalServerError(InternalError('penalty').CREATE);
         return PenaltySuccess.CREATE;
     }
 
@@ -39,21 +37,22 @@ class Service implements IPenaltyService {
             .select({ id: penalty.id })
             .from(penalty)
             .where(eq(penalty.id, id));
-        if (target.empty()) throw new NotFoundError(PenaltyError.NONEXISTENCE('id', id));
+        if (target.empty())
+            throw new NotFoundError(InternalError('penalty').NONEXISTENCE('id', id));
 
         const result = await this.db
             .update(penalty)
             .set(value)
             .where(eq(penalty.id, id))
             .returning();
-        if (result.empty()) throw new InternalServerError(PenaltyError.UPDATE);
+        if (result.empty()) throw new InternalServerError(InternalError('penalty').UPDATE);
 
         return PenaltySuccess.UPDATE;
     }
 
     async remove(id: number): Promise<string> {
         const result = await this.db.delete(penalty).where(eq(penalty.id, id)).returning();
-        if (result.empty()) throw new InternalServerError(PenaltyError.DELETE);
+        if (result.empty()) throw new InternalServerError(InternalError('penalty').DELETE);
         return PenaltySuccess.DELETE;
     }
 }

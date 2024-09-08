@@ -2,14 +2,12 @@ import { Elysia, InternalServerError, NotFoundError } from 'elysia';
 import { useDrizzle } from '@/config/db';
 import { node } from '@/config/schema';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { NodeError, NodeSuccess } from '@/enums';
+import { InternalError, NodeSuccess } from '@/enums';
 import { eq } from 'drizzle-orm';
+import { BaseService } from './base';
 
-interface INodeService {
+interface INodeService extends BaseService<TNode> {
     nodes(): Promise<TNode[]>;
-    create(value: Omit<TNode, 'id'>): Promise<string>;
-    update(id: number, value: Omit<TNode, 'id'>): Promise<string>;
-    remove(id: number): Promise<string>;
     findById(id: number): Promise<TNode>;
 }
 
@@ -26,31 +24,31 @@ class Service implements INodeService {
 
     async create(value: Omit<TNode, 'id'>): Promise<string> {
         const result = await this.db.insert(node).values(value).returning();
-        if (result.empty()) throw new InternalServerError(NodeError.CREATE);
+        if (result.empty()) throw new InternalServerError(InternalError('node').CREATE);
         return NodeSuccess.CREATE;
     }
 
     async update(id: number, value: TNode): Promise<string> {
         const target = await this.db.select().from(node).where(eq(node.id, id));
-        if (target.empty()) throw new NotFoundError(NodeError.NONEXISTENCE('id', id));
+        if (target.empty()) throw new NotFoundError(InternalError('node').NONEXISTENCE('id', id));
 
         const result = await this.db.update(node).set(value).where(eq(node.id, id)).returning();
-        if (result.empty()) throw new InternalServerError(NodeError.UPDATE);
+        if (result.empty()) throw new InternalServerError(InternalError('node').UPDATE);
         return NodeSuccess.UPDATE;
     }
 
     async remove(id: number): Promise<string> {
         const target = await this.db.select().from(node).where(eq(node.id, id));
-        if (target.empty()) throw new NotFoundError(NodeError.NONEXISTENCE('id', id));
+        if (target.empty()) throw new NotFoundError(InternalError('node').NONEXISTENCE('id', id));
 
         const result = await this.db.delete(node).where(eq(node.id, id)).returning();
-        if (result.empty()) throw new InternalServerError(NodeError.DELETE);
+        if (result.empty()) throw new InternalServerError(InternalError('node').DELETE);
         return NodeSuccess.DELETE;
     }
 
     async findById(id: number): Promise<TNode> {
         const result = await this.db.select().from(node).where(eq(node.id, id));
-        if (result.empty()) throw new NotFoundError(NodeError.NONEXISTENCE('id', id));
+        if (result.empty()) throw new NotFoundError(InternalError('node').NONEXISTENCE('id', id));
         return result[0];
     }
 }
