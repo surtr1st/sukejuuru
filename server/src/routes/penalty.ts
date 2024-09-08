@@ -18,7 +18,10 @@ export const PenaltyRouter = new Elysia({ name: 'penalty.router' })
         beforeHandle: ({ validatePayload }) => validatePayload(),
     })
     .put(PenaltyRoute.UPDATE, ({ updatePenalty }) => updatePenalty(), {
-        beforeHandle: ({ validateParams }) => validateParams(),
+        beforeHandle: [
+            ({ validateParams }) => validateParams(),
+            ({ validatePayload }) => validatePayload(),
+        ],
     })
     .delete(PenaltyRoute.DELETE, ({ deletePenalty }) => deletePenalty(), {
         beforeHandle: ({ validateParams }) => validateParams(),

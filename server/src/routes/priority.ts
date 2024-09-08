@@ -12,7 +12,10 @@ export const PriorityRouter = new Elysia({ name: 'priority.router' })
         beforeHandle: ({ validatePayload }) => validatePayload(),
     })
     .put(PriorityRoute.UPDATE, ({ updatePriority }) => updatePriority(), {
-        beforeHandle: ({ validateParams }) => validateParams(),
+        beforeHandle: [
+            ({ validateParams }) => validateParams(),
+            ({ validatePayload }) => validatePayload(),
+        ],
     })
     .delete(PriorityRoute.DELETE, ({ deletePriority }) => deletePriority(), {
         beforeHandle: ({ validateParams }) => validateParams(),

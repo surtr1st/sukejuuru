@@ -14,7 +14,10 @@ export const TaskRouter = new Elysia({ name: 'task.router' })
         beforeHandle: ({ validatePayload }) => validatePayload(),
     })
     .put(TaskRoute.UPDATE, ({ updateTask }) => updateTask(), {
-        beforeHandle: ({ validateParams }) => validateParams(),
+        beforeHandle: [
+            ({ validateParams }) => validateParams(),
+            ({ validatePayload }) => validatePayload(),
+        ],
     })
     .delete(TaskRoute.DELETE, ({ deleteTask }) => deleteTask(), {
         beforeHandle: ({ validateParams }) => validateParams(),
