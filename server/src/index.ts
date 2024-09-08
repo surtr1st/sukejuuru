@@ -1,10 +1,15 @@
 import '@/extensions';
 import { Elysia } from 'elysia';
-import { NodeRouter, PenaltyRouter, PriorityRouter, TaskRouter } from './routes';
+import { NodeRouter, PenaltyRouter, PriorityRouter, StatusRouter, TaskRouter } from './routes';
 
 const app = new Elysia()
     .group('/api', (app) =>
-        app.use(NodeRouter).use(PenaltyRouter).use(TaskRouter).use(PriorityRouter),
+        app
+            .use(NodeRouter)
+            .use(PenaltyRouter)
+            .use(TaskRouter)
+            .use(PriorityRouter)
+            .use(StatusRouter),
     )
     .listen(3000);
 
