@@ -1,6 +1,6 @@
 import { useDrizzle } from '@/config/db';
 import { penalty } from '@/config/schema';
-import { InternalError, PenaltySuccess } from '@/enums';
+import { InternalError, ServiceSuccess } from '@/enums';
 import { eq } from 'drizzle-orm';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import Elysia, { InternalServerError, NotFoundError } from 'elysia';
@@ -29,7 +29,7 @@ class Service implements IPenaltyService {
     async create(value: Omit<TPenalty, 'id'>): Promise<string> {
         const result = await this.db.insert(penalty).values(value).returning();
         if (result.empty()) throw new InternalServerError(InternalError('penalty').CREATE);
-        return PenaltySuccess.CREATE;
+        return ServiceSuccess.CREATE;
     }
 
     async update(id: number, value: Omit<TPenalty, 'id'>): Promise<string> {
@@ -47,13 +47,13 @@ class Service implements IPenaltyService {
             .returning();
         if (result.empty()) throw new InternalServerError(InternalError('penalty').UPDATE);
 
-        return PenaltySuccess.UPDATE;
+        return ServiceSuccess.UPDATE;
     }
 
     async remove(id: number): Promise<string> {
         const result = await this.db.delete(penalty).where(eq(penalty.id, id)).returning();
         if (result.empty()) throw new InternalServerError(InternalError('penalty').DELETE);
-        return PenaltySuccess.DELETE;
+        return ServiceSuccess.DELETE;
     }
 }
 

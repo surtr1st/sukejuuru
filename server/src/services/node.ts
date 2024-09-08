@@ -2,7 +2,7 @@ import { Elysia, InternalServerError, NotFoundError } from 'elysia';
 import { useDrizzle } from '@/config/db';
 import { node } from '@/config/schema';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { InternalError, NodeSuccess } from '@/enums';
+import { InternalError, ServiceSuccess } from '@/enums';
 import { eq } from 'drizzle-orm';
 import { BaseService } from './base';
 
@@ -25,7 +25,7 @@ class Service implements INodeService {
     async create(value: Omit<TNode, 'id'>): Promise<string> {
         const result = await this.db.insert(node).values(value).returning();
         if (result.empty()) throw new InternalServerError(InternalError('node').CREATE);
-        return NodeSuccess.CREATE;
+        return ServiceSuccess.CREATE;
     }
 
     async update(id: number, value: TNode): Promise<string> {
@@ -34,7 +34,7 @@ class Service implements INodeService {
 
         const result = await this.db.update(node).set(value).where(eq(node.id, id)).returning();
         if (result.empty()) throw new InternalServerError(InternalError('node').UPDATE);
-        return NodeSuccess.UPDATE;
+        return ServiceSuccess.UPDATE;
     }
 
     async remove(id: number): Promise<string> {
@@ -43,7 +43,7 @@ class Service implements INodeService {
 
         const result = await this.db.delete(node).where(eq(node.id, id)).returning();
         if (result.empty()) throw new InternalServerError(InternalError('node').DELETE);
-        return NodeSuccess.DELETE;
+        return ServiceSuccess.DELETE;
     }
 
     async findById(id: number): Promise<TNode> {
