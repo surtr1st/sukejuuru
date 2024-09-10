@@ -1,5 +1,7 @@
 <template>
-    <table class="dark:text-light w-full border border-b-neutral-2 rounded-bl-7px rounded-br-7px">
+    <table
+        class="dark:text-light w-full border border-b-neutral-2 rounded-bl-7px rounded-br-7px overflow-x-auto"
+    >
         <thead class="uppercase">
             <tr>
                 <th
@@ -16,13 +18,13 @@
                 ref="tableRow"
                 v-for="(content, index) in body"
                 :key="index"
-                class="text-center *:p-5 border border-neutral-2 *:hover:bg-neutral-2 *:hover:cursor-pointer"
+                class="text-center *:p-5 border border-neutral-2 *:hover:bg-neutral-2/15 *:hover:cursor-pointer"
             >
                 <td
                     @dblclick="editCell(index, 0, $event)"
                     @blur="saveOnBlur(index, 0)"
                     :class="
-                        'focus:outline focus:outline-warning text-start ' +
+                        'max-w-[200px] focus:outline focus:outline-warning text-start ' +
                         getColor(content.color.display)
                     "
                 >
@@ -74,8 +76,15 @@
                 <td
                     @dblclick="editCell(index, 7, $event)"
                     @blur="saveOnBlur(index, 7)"
-                    class="focus:outline focus:outline-warning"
-                ></td>
+                    class="focus:outline max-w-[300px] focus:outline-warning"
+                >
+                    <Checkbox
+                        v-for="criteria in content.criterias"
+                        :key="criteria.id"
+                        :title="criteria.description"
+                        color="primary"
+                    />
+                </td>
                 <td
                     @dblclick="editCell(index, 8, $event)"
                     @blur="saveOnBlur(index, 8)"
@@ -87,7 +96,12 @@
         </tbody>
         <tfoot>
             <tr class="hover:bg-neutral hover:cursor-pointer w-full h-12 text-center text-primary">
-                <td :colspan="headers.length">+</td>
+                <td
+                    :colspan="headers.length"
+                    @click="onAdd"
+                >
+                    +
+                </td>
             </tr>
         </tfoot>
     </table>
@@ -96,15 +110,18 @@
 <script setup lang="ts">
 import type { TTask } from '@/types';
 import { ref } from 'vue';
+import Checkbox from './Checkbox.vue';
 
 type TTable = {
     headers: string[];
     body: TTask[];
+    onAdd: () => void;
 };
 
 const props = withDefaults(defineProps<Partial<TTable>>(), {
     headers: () => [],
     body: () => [],
+    onAdd: () => {},
 });
 
 function getColor(color: string) {
