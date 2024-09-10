@@ -62,9 +62,11 @@ onMounted(() => toggle());
                 />
             </div>
         </div>
-        <div class="w-full">
+        <div class="w-full min-h-screen">
             <Tracker />
-            <RouterView />
+            <div class="h-[90vh] row-span-11 overflow-x-hidden overflow-y-auto">
+                <RouterView />
+            </div>
         </div>
     </div>
 </template>
