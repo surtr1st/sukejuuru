@@ -1,7 +1,7 @@
 <template>
-    <div class="border border-primary dark:text-light rounded-7px m-2 *:px-5">
+    <div class="border border-primary rounded-7px m-2 *:px-5">
         <div
-            class="grid grid-cols-12 place-items-start text-xl bg-primary border-b border-b-neutral-2 gap-3 *:font-semibold *:h-[74px] *:flex *:items-center"
+            class="grid grid-cols-12 place-items-start text-light text-xl bg-primary border-b border-b-neutral-2 gap-3 *:font-semibold *:h-[74px] *:flex *:items-center"
         >
             <h3 class="col-span-2"><CalendarDaysIcon />Sunday, 25 Aug, 2024</h3>
             <h3 class="col-span-5">Description</h3>
@@ -18,7 +18,7 @@
         </div>
         <div
             ref="accordianBody"
-            class="bg-dark-2 rounded-7px"
+            class="dark:bg-dark-2 rounded-7px dark:text-light"
         >
             <ul
                 class="grid grid-cols-12 gap-3 *:flex *:items-center *:py-3"
@@ -27,9 +27,9 @@
             >
                 <li class="col-span-2">
                     <TaskTag
-                        color="primary"
                         size="md"
-                        :display="track.taskTag"
+                        :color="track.taskTag.color"
+                        :display="track.taskTag.display"
                     />
                 </li>
                 <li class="col-span-5">
@@ -49,13 +49,13 @@
 <script setup lang="ts">
 import type { TTrackHistoryItem } from '@/types';
 import { ref } from 'vue';
-import TaskTag from './TaskTag.vue';
 import CalendarDaysIcon from '@/components/icons/24x24/CalendarDaysIcon.vue';
 import ChevronDownIcon from '@/components/icons/24x24/ChevronDownIcon.vue';
 import ChevronUpIcon from '@/components/icons/24x24/ChevronUpIcon.vue';
+import TaskTag from './TaskTag.vue';
 
 type TTrackHistory = {
-    tracks: TTrackHistory[];
+    tracks: TTrackHistoryItem[];
 };
 
 withDefaults(defineProps<Partial<TTrackHistory>>(), {
