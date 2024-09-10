@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Partial<TCheckbox>>(), {
 
 const checked = defineModel('checked', { type: Boolean });
 
-const theme = computed(() => 'inline-flex gap-2 items-center dark:text-light w-fit p-1');
+const theme = computed(() => 'flex gap-2 items-center text-start dark:text-light w-fit p-1');
 const checkedTheme = ref(theme.value);
 const inputTheme = ref(
     "before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:opacity-0 before:transition-opacity",
