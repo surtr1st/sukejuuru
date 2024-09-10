@@ -55,7 +55,7 @@ export type TColorVariant =
     | 'success';
 
 export type TTrackHistoryItem = {
-    taskTag: string;
+    taskTag: { color: TColorVariant; display: string };
     description: string;
     duration: string;
     localTime: string;
