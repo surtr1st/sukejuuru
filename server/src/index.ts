@@ -1,6 +1,7 @@
 import '@/extensions';
 import { Elysia } from 'elysia';
 import {
+    CriteriaRouter,
     DurationRouter,
     NodeRouter,
     PenaltyRouter,
@@ -17,7 +18,8 @@ const app = new Elysia()
             .use(TaskRouter)
             .use(PriorityRouter)
             .use(StatusRouter)
-            .use(DurationRouter),
+            .use(DurationRouter)
+            .use(CriteriaRouter),
     )
     .listen(3000);
 

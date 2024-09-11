@@ -25,7 +25,14 @@ declare type TTask = {
     color: string;
 };
 
-declare type TServiceName = 'node' | 'penalty' | 'task' | 'priority' | 'status' | 'duration';
+declare type TServiceName =
+    | 'node'
+    | 'penalty'
+    | 'task'
+    | 'priority'
+    | 'status'
+    | 'duration'
+    | 'criteria';
 
 declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
 
@@ -52,5 +59,12 @@ declare type TDuration = {
     timeOnTask: BigInt;
     madeOnDate: Date;
     description: string;
+    taskId: number;
+};
+
+declare type TCriteria = {
+    id: number;
+    description: string;
+    createdAt: Date;
     taskId: number;
 };
