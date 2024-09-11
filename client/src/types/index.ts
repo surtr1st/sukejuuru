@@ -73,3 +73,10 @@ export type TListItem = {
 export type TSidebarItems<T extends readonly string[]> = {
     readonly [K in T[number]]: TListItem[];
 };
+
+export type TTableItem = {
+    id: number;
+    title: string;
+    description: string;
+    color: string;
+};
