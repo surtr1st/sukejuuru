@@ -1,11 +1,11 @@
 <template>
     <table
-        class="dark:text-light w-full border border-b-neutral-2 rounded-bl-7px rounded-br-7px overflow-x-auto"
+        class="dark:text-light w-full border dark:border-neutral-2 rounded-bl-7px rounded-br-7px overflow-x-auto"
     >
         <thead class="uppercase">
             <tr>
                 <th
-                    class="text-primary border border-neutral-2 p-5 font-bold"
+                    class="text-primary border dark:border-neutral-2 p-5 font-bold"
                     v-for="(header, index) in headers"
                     :key="index"
                 >
@@ -18,7 +18,7 @@
                 ref="tableRow"
                 v-for="(content, index) in body"
                 :key="index"
-                class="text-center *:p-5 border border-neutral-2 *:hover:bg-neutral-2/15 *:hover:cursor-pointer"
+                class="text-center *:p-5 border dark:border-neutral-2 *:hover:bg-neutral-2/15 *:hover:cursor-pointer"
             >
                 <td
                     @dblclick="editCell(index, 0, $event)"
@@ -95,7 +95,9 @@
             </tr>
         </tbody>
         <tfoot>
-            <tr class="hover:bg-neutral hover:cursor-pointer w-full h-12 text-center text-primary">
+            <tr
+                class="hover:bg-light dark:hover:bg-neutral hover:cursor-pointer w-full h-12 text-center text-primary"
+            >
                 <td
                     :colspan="headers.length"
                     @click="onAdd"
