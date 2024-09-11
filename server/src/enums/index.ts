@@ -5,3 +5,4 @@ export * from './base-success';
 export * from './task';
 export * from './priority';
 export * from './status';
+export * from './duration';

@@ -25,7 +25,7 @@ declare type TTask = {
     color: string;
 };
 
-declare type TServiceName = 'node' | 'penalty' | 'task' | 'priority' | 'status';
+declare type TServiceName = 'node' | 'penalty' | 'task' | 'priority' | 'status' | 'duration';
 
 declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
 
@@ -44,5 +44,13 @@ declare type TStatus = {
     description: string;
     createdAt: Date;
     color: string;
+    taskId: number;
+};
+
+declare type TDuration = {
+    id: number;
+    timeOnTask: BigInt;
+    madeOnDate: Date;
+    description: string;
     taskId: number;
 };
