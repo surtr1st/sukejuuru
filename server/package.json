@@ -7,11 +7,14 @@
         "format": "prettier --write src/"
     },
     "dependencies": {
+        "drizzle-orm": "^0.33.0",
         "elysia": "latest",
+        "postgres": "^3.4.4",
         "prettier": "3.3.3"
     },
     "devDependencies": {
-        "bun-types": "latest"
+        "bun-types": "latest",
+        "drizzle-kit": "^0.24.0"
     },
     "module": "src/index.js"
 }
