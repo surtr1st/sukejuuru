@@ -1,5 +1,5 @@
 <template>
-    <Table
+    <TaskTable
         :headers
         :body
         @add="open = true"
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import Button from '@/components/Button.vue';
 import Modal from '@/components/Modal.vue';
-import Table from '@/components/Table.vue';
+import TaskTable from '@/components/TaskTable.vue';
 import type { TTask } from '@/types';
 import { ref } from 'vue';
 import { computed } from 'vue';
