@@ -1,3 +1,4 @@
+import './extensions';
 import { Arcane, createRouter, ok } from '@bunarcane/arcane';
 
 const config = {
