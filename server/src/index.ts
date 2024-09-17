@@ -1,26 +1,12 @@
-import '@/extensions';
-import { Elysia } from 'elysia';
-import {
-    CriteriaRouter,
-    DurationRouter,
-    NodeRouter,
-    PenaltyRouter,
-    PriorityRouter,
-    StatusRouter,
-    TaskRouter,
-} from './routes';
+import { Arcane, createRouter, ok } from '@bunarcane/arcane';
 
-const app = new Elysia()
-    .group('/api', (app) =>
-        app
-            .use(NodeRouter)
-            .use(PenaltyRouter)
-            .use(TaskRouter)
-            .use(PriorityRouter)
-            .use(StatusRouter)
-            .use(DurationRouter)
-            .use(CriteriaRouter),
-    )
-    .listen(3000);
+const config = {
+    port: 7000,
+    context: 'Starting application on localhost:7000',
+};
 
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
+const HelloWorld = createRouter()
+    .get('/', () => ok('Hello World'))
+    .compose();
+
+new Arcane().use(HelloWorld).serve(config);

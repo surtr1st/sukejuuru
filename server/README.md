@@ -1,15 +1,14 @@
-# Elysia with Bun runtime
+# arcane-template
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
+To install dependencies:
+
 ```bash
-bun create elysia ./elysia-example
+bun install
 ```
 
-## Development
-To start the development server run:
+To run:
+
 ```bash
-bun run dev
+bun run index.ts
 ```
 
-Open http://localhost:3000/ with your browser to see the result.

@@ -1,20 +1,21 @@
 {
-    "name": "server",
-    "version": "1.0.50",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "bun run --watch src/index.ts",
-        "format": "prettier --write src/"
-    },
-    "dependencies": {
-        "drizzle-orm": "^0.33.0",
-        "elysia": "latest",
-        "postgres": "^3.4.4",
-        "prettier": "3.3.3"
-    },
-    "devDependencies": {
-        "bun-types": "latest",
-        "drizzle-kit": "^0.24.0"
-    },
-    "module": "src/index.js"
+  "name": "server",
+  "module": "index.ts",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build --target=node src/index.ts --outfile=dist/index.js && bun run build:declaration",
+    "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@bunarcane/arcane": "latest"
+  }
 }
