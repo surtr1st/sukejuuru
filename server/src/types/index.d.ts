@@ -1,28 +1,30 @@
+declare type Nullable<T> = T | null;
+
 declare type TNode = {
     id: number;
-    title: string;
-    createdAt: Date;
+    title: Nullable<string>;
+    createdAt: Nullable<Date>;
 };
 
 declare type TPenalty = {
     id: number;
-    title: string;
-    description: string;
-    compensation: string;
-    createdAt: Date;
-    nodeId: number;
+    title: Nullable<string>;
+    description: Nullable<string>;
+    compensation: Nullable<string>;
+    createdAt: Nullable<Date>;
+    nodeId: Nullable<number>;
 };
 
 declare type TTask = {
     id: number;
-    title: string;
-    description: string;
-    minLength: BigInt;
-    maxLength: BigInt;
-    createdAt: Date;
-    startDate: Date;
-    dueDate: Date;
-    color: string;
+    title: Nullable<string>;
+    description: Nullable<string>;
+    minLength: Nullable<bigint>;
+    maxLength: Nullable<bigint>;
+    createdAt: Nullable<Date>;
+    startDate: Nullable<Date>;
+    dueDate: Nullable<Date>;
+    color: Nullable<string>;
 };
 
 declare type TServiceName =
@@ -38,33 +40,33 @@ declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
 
 declare type TPriority = {
     id: number;
-    display: string;
-    description: string;
-    createdAt: Date;
-    color: string;
-    taskId: number;
+    display: Nullable<string>;
+    description: Nullable<string>;
+    createdAt: Nullable<Date>;
+    color: Nullable<string>;
+    taskId: Nullable<number>;
 };
 
 declare type TStatus = {
     id: number;
-    display: string;
-    description: string;
-    createdAt: Date;
-    color: string;
-    taskId: number;
+    display: Nullable<string>;
+    description: Nullable<string>;
+    createdAt: Nullable<Date>;
+    color: Nullable<string>;
+    taskId: Nullable<number>;
 };
 
 declare type TDuration = {
     id: number;
-    timeOnTask: BigInt;
-    madeOnDate: Date;
-    description: string;
-    taskId: number;
+    timeOnTask: Nullable<bigint>;
+    madeOnDate: Nullable<Date>;
+    description: Nullable<string>;
+    taskId: Nullable<number>;
 };
 
 declare type TCriteria = {
     id: number;
-    description: string;
-    createdAt: Date;
-    taskId: number;
+    description: Nullable<string>;
+    createdAt: Nullable<Date>;
+    taskId: Nullable<number>;
 };
