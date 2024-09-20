@@ -1,5 +1,5 @@
 import './extensions';
-import { createArcane, type TArcanePlugin, useResult } from '@bunarcane/arcane';
+import { createArcane } from '@bunarcane/arcane';
 import {
     CriteriaRouter,
     DurationRouter,
@@ -15,13 +15,12 @@ const config = {
     context: 'Starting application on localhost:7000',
 };
 
-const plugin: TArcanePlugin = {
+const plugin = {
     cors: {
         origin: 'http://localhost:5173',
         allowedHeaders: ['Content-Type', 'Accept'],
         allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     },
-    database: useResult(Bun.env.SUKEJUURU_CONNECTION_STRING),
 };
 
 createArcane()
