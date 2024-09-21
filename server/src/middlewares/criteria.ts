@@ -1,18 +1,28 @@
-import { createModule, useErrorHandler } from '@bunarcane/arcane';
+import { body, createMiddleware, params, query, useErrorHandler } from '@bunarcane/arcane';
+import { NotFoundError } from '@/errors';
+import { CriteriaRoute } from '@/enums';
 
 const { handlePayload, handleQuery } = useErrorHandler();
 
-export const CriteriaMiddlewares = createModule()
-    .mod('validatePayload', (requestBody: Omit<TCriteria, 'id'>) =>
+export const CriteriaMiddlewares = createMiddleware(CriteriaRoute.CREATE)
+    .intercept(async () =>
         handlePayload({
-            requestBody,
+            requestBody: await body<Omit<TCriteria, 'id'>>(),
             requiredKeys: ['description'],
         }),
     )
-    .mod('validateQueries', (requestQueries: { taskId: number }) =>
+    .intercept(() =>
         handleQuery({
-            requestQueries,
+            requestQueries: query<{ taskId: number }>(),
             requiredKeys: ['taskId'],
         }),
     )
+    .compose();
+
+export const CriteriaParamMiddlewares = createMiddleware(CriteriaRoute.UPDATE)
+    .intercept(() => {
+        const [id] = params<number[]>();
+        if (!id) throw new NotFoundError('`id` is required!');
+        if (isNaN(id)) throw new NotFoundError('`id` must be number!');
+    })
     .compose();

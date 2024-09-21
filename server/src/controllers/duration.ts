@@ -1,4 +1,3 @@
-import { DurationMiddlewares } from '@/middlewares';
 import { DurationService } from '@/services';
 import { body, createBridge, created, response } from '@bunarcane/arcane';
 
@@ -11,7 +10,6 @@ export const DurationController = createBridge()
     })
     .impl('createDuration', async () => {
         const payload = await body<TDuration>();
-        DurationMiddlewares.validatePayload(payload);
         const result = await service.create(payload);
         return created(result);
     })

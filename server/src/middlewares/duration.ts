@@ -1,10 +1,11 @@
-import { createModule, useErrorHandler } from '@bunarcane/arcane';
+import { DurationRoute } from '@/enums';
+import { body, createMiddleware, useErrorHandler } from '@bunarcane/arcane';
 
-export const DurationMiddlewares = createModule()
-    .mod('validatePayload', (requestBody: Omit<TDuration, 'id'>) => {
+export const DurationMiddlewares = createMiddleware(DurationRoute.CREATE)
+    .intercept(async () =>
         useErrorHandler().handlePayload({
-            requestBody,
+            requestBody: await body<Omit<TDuration, 'id'>>(),
             requiredKeys: ['timeOnTask', 'madeOnDate', 'taskId'],
-        });
-    })
+        }),
+    )
     .compose();

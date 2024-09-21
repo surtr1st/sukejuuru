@@ -1,10 +1,20 @@
-import { createModule, useErrorHandler } from '@bunarcane/arcane';
+import { NodeRoute } from '@/enums';
+import { NotFoundError } from '@/errors';
+import { body, createMiddleware, params, useErrorHandler } from '@bunarcane/arcane';
 
-export const NodeMiddlewares = createModule()
-    .mod('validatePayload', (requestBody: Omit<TNode, 'id'>) => {
+export const NodeMiddlewares = createMiddleware(NodeRoute.CREATE)
+    .intercept(async () =>
         useErrorHandler().handlePayload({
-            requestBody,
+            requestBody: await body<Omit<TNode, 'id'>>(),
             requiredKeys: ['title'],
-        });
+        }),
+    )
+    .compose();
+
+export const NodeParamMiddlewares = createMiddleware(NodeRoute.UPDATE)
+    .intercept(() => {
+        const [id] = params<number[]>();
+        if (!id) throw new NotFoundError('`id` is required!');
+        if (isNaN(id)) throw new NotFoundError('`id` must be number!');
     })
     .compose();
