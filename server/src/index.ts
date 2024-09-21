@@ -24,6 +24,7 @@ const plugin = {
 };
 
 createArcane()
+    .withPrefix('/api')
     .enable(plugin)
     .use(NodeRouter)
     .use(TaskRouter)
