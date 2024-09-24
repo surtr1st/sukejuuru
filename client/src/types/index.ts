@@ -2,6 +2,12 @@ import type { Component } from 'vue';
 
 type Callback<T> = () => T;
 
+export type TNode = {
+    id: number;
+    title: string;
+    createdAt: Date;
+};
+
 export type TTask = {
     id: number;
     title: string;
