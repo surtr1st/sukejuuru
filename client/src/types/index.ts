@@ -8,6 +8,14 @@ export type TNode = {
     createdAt: Date;
 };
 
+export type TPenalty = {
+    id: number;
+    title: string;
+    description: string;
+    compensation: string;
+    nodeId: number;
+};
+
 export type TTask = {
     id: number;
     title: string;
