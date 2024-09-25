@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<Partial<TTaskTag>>(), {
     size: 'sm',
 });
 
-const theme = ref<string>('grid place-items-center border rounded-7px p-2 mx-1 my-3');
+const theme = ref<string>('grid place-items-center border rounded-7px p-2 mx-1');
 
 const computedSize = computed(() => {
     switch (props.size) {
