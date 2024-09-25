@@ -30,6 +30,12 @@ export type TTask = {
     color: Pick<TColor, 'display'>;
 };
 
+export type TTagTask = {
+    id: number;
+    title: string;
+    color: Pick<TColor, 'display'>;
+};
+
 export type TCriteria = {
     id: number;
     description: string;
