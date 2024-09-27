@@ -8,7 +8,7 @@ export function useNode() {
             const { data } = await useFetch(`${BASE_URL}/nodes`).get().json<TNode[]>();
             return data.value ?? [];
         },
-        createNode: async (node: Partial<TNode>) => {
+        createNode: async (node: Partial<Omit<TNode, 'id'>>) => {
             const { data } = await useFetch(`${BASE_URL}/node`).post(node).text();
             return data.value;
         },

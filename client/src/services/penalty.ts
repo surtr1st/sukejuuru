@@ -10,7 +10,7 @@ export function usePenalty() {
                 .json<TPenalty[]>();
             return data.value ?? [];
         },
-        createPenalty: async (penalty: Partial<TPenalty>) => {
+        createPenalty: async (penalty: Partial<Omit<TPenalty, 'id'>>) => {
             const { data } = await useFetch(`${BASE_URL}/penalty`).post(penalty).text();
             return data.value;
         },

@@ -10,7 +10,7 @@ export function useTask() {
                 .json<TTask[]>();
             return data.value ?? [];
         },
-        createTask: async (task: Partial<TTask>) => {
+        createTask: async (task: Partial<Omit<TTask, 'id'>>) => {
             const { data } = await useFetch(`${BASE_URL}/task`).post(task).text();
             return data.value;
         },
