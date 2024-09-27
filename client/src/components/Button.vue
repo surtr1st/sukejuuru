@@ -3,6 +3,7 @@
         v-if="iconOnly"
         :class="theme"
         @click="emit('click')"
+        :disabled="disabled"
     >
         <component :is="icon" />
     </button>
@@ -10,6 +11,7 @@
         v-else-if="!iconOnly && icon"
         :class="theme"
         @click="emit('click')"
+        :disabled="disabled"
     >
         <component :is="icon" /> {{ title }}
     </button>
@@ -17,6 +19,7 @@
         v-else
         :class="theme"
         @click="emit('click')"
+        :disabled="disabled"
     >
         {{ title }}
     </button>
@@ -37,6 +40,7 @@ type TButton = {
     icon: Component;
     fixed: boolean;
     rounded: boolean;
+    disabled: boolean;
 };
 const props = withDefaults(defineProps<Partial<TButton>>(), {
     color: 'primary',
@@ -46,6 +50,7 @@ const props = withDefaults(defineProps<Partial<TButton>>(), {
     icon: undefined,
     fixed: false,
     rounded: false,
+    disabled: false,
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
@@ -99,6 +104,6 @@ const computedColor = computed(() => {
 
 onMounted(
     () =>
-        (theme.value = `${computedFullRounded.value} ${theme.value} ${props.rounded ? computedRoundedSize.value : computedSize.value} ${computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
+        (theme.value = `${computedFullRounded.value} ${theme.value} ${props.rounded ? computedRoundedSize.value : computedSize.value} ${props.disabled ? 'bg-neutral' : computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
 );
 </script>
