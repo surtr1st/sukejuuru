@@ -39,6 +39,7 @@ export type TTagTask = {
 export type TCriteria = {
     id: number;
     description: string;
+    taskId: number;
 };
 
 export type TPriority = {
@@ -99,4 +100,12 @@ export type TTableItem = {
     title: string;
     description: string;
     color: string;
+};
+
+export type TDuration = {
+    id: number;
+    timeOnTask: bigint;
+    madeOnDate: Date;
+    description: string;
+    taskId: number;
 };
