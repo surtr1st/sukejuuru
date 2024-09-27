@@ -13,7 +13,7 @@ const { toggle } = useTheme();
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
-    await replace(`/@node/${id}`);
+    await replace('/@node');
 }
 
 onMounted(() => {
