@@ -55,6 +55,7 @@
                 :icon="MinusCircleIcon"
                 fixed
                 rounded
+                :disabled="!isBegin"
                 @click="resetTimer()"
             />
         </div>
