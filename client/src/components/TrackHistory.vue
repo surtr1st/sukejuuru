@@ -1,5 +1,5 @@
 <template>
-    <div class="border border-primary rounded-7px m-2 *:px-5">
+    <div class="border border-primary m-2 *:px-5">
         <div
             class="grid grid-cols-12 place-items-start text-light text-xl bg-primary border-b border-b-neutral-2 gap-3 *:font-semibold *:h-[74px] *:flex *:items-center"
         >
