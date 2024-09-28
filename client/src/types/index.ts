@@ -47,14 +47,10 @@ export type TPriority = {
     display: string;
     description: string;
     createdAt: string;
+    color: string;
 };
 
-export type TStatus = {
-    id: number;
-    display: string;
-    description: string;
-    createdAt: string;
-};
+export type TStatus = TPriority;
 
 export type TColor = {
     id: number;
@@ -73,7 +69,10 @@ export type TColorVariant =
     | 'dark'
     | 'danger'
     | 'warning'
-    | 'success';
+    | 'success'
+    | 'semi-danger'
+    | 'quarter-danger'
+    | 'info';
 
 export type TTrackHistoryItem = {
     taskTag: { color: TColorVariant; display: string };
@@ -100,6 +99,7 @@ export type TTableItem = {
     display: string;
     description: string;
     color: string;
+    createdAt: Date;
 };
 
 export type TDuration = {
