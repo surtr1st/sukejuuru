@@ -4,7 +4,7 @@ import { useFetch } from '@vueuse/core';
 
 export function usePriority() {
     return {
-        priorirties: async () => {
+        priorities: async () => {
             const { data } = await useFetch(`${BASE_URL}/priorities`).get().json<TPriority[]>();
             return data.value ?? [];
         },
