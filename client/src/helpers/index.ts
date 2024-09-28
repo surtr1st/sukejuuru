@@ -1,3 +1,5 @@
+export { useCustomToast } from './toast';
+
 export function useLocalStorage(name: string, defaultValue = ''): [Getter<string>, Setter<string>] {
     const item = () => localStorage.getItem(name) || defaultValue;
     const setItem = (value: string) => {
