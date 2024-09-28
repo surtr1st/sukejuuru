@@ -25,7 +25,7 @@
                     @blur="saveOnBlur(index, 0)"
                     :class="
                         'max-w-[200px] focus:outline focus:outline-warning text-start ' +
-                        getColor(content.color.display)
+                        getColor(content.color)
                     "
                 >
                     {{ content.title }}

@@ -28,7 +28,7 @@
                         getColor(content.color)
                     "
                 >
-                    {{ content.title }}
+                    {{ content.display }}
                 </td>
                 <td
                     @dblclick="editCell(index, 1, $event)"

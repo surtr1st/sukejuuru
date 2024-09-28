@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-start flex-col mx-1 mt-1 mb-5 gap-2">
+    <div class="flex items-start flex-col m-1 gap-2">
         <label
             v-show="!noTitle"
             :for="title"
@@ -9,7 +9,7 @@
         <textarea
             :id="title"
             :placeholder="placeholder"
-            class="drop-shadow-lg bg-light text-neutral border border-primary rounded-7px w-full p-3 outline outline-primary dark:bg-dark dark:text-light dark:border-neutral-2 dark:outline-neutral-2"
+            class="placeholder:italic drop-shadow-lg bg-light text-neutral rounded-7px w-full p-3 border border-neutral-2 focus:border-primary outline-none dark:bg-dark dark:text-light dark:border-neutral-2"
             v-model="model"
         />
     </div>
