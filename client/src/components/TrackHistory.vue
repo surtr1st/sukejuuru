@@ -1,7 +1,7 @@
 <template>
-    <div class="border border-primary m-2 *:px-5">
+    <div class="border border-neutral-2 m-2 *:px-5">
         <div
-            class="grid grid-cols-12 place-items-start text-light text-xl bg-primary border-b border-b-neutral-2 gap-3 *:font-semibold *:h-[74px] *:flex *:items-center"
+            class="grid grid-cols-12 place-items-start text-light text-xl bg-neutral-2 dark:bg-neutral-2/25 border-b border-b-neutral-2 gap-3 *:font-semibold *:h-[74px] *:flex *:items-center"
         >
             <h3 class="col-span-2"><CalendarDaysIcon />Sunday, 25 Aug, 2024</h3>
             <h3 class="col-span-5">Description</h3>
@@ -21,7 +21,7 @@
             class="dark:bg-dark-2 rounded-7px dark:text-light"
         >
             <ul
-                class="grid grid-cols-12 gap-3 *:flex *:items-center *:py-3"
+                class="grid grid-cols-12 gap *:flex *:items-center *:py-3 hover:cursor-pointer"
                 v-for="(track, index) in tracks"
                 :key="index"
             >

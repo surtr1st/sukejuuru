@@ -1,11 +1,11 @@
 <template>
     <table
-        class="dark:text-light w-full border dark:border-neutral-2 rounded-bl-7px rounded-br-7px overflow-x-auto"
+        class="dark:text-light w-full border border-l-0 border-right-0 border-t-0 dark:border-neutral-2 rounded-bl-7px rounded-br-7px overflow-x-auto"
     >
         <thead class="uppercase">
             <tr>
                 <th
-                    class="text-primary border dark:border-neutral-2 p-5 font-bold"
+                    class="text-primary border-b first:border-l-0 border-l dark:border-neutral-2 p-5 font-bold"
                     v-for="(header, index) in headers"
                     :key="index"
                 >
