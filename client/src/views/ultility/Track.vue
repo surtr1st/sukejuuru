@@ -5,6 +5,8 @@
 <script setup lang="ts">
 import TrackHistory from '@/components/TrackHistory.vue';
 import type { TTrackHistoryItem } from '@/types';
+import { useDuration } from '@/services';
+
 const tracks: TTrackHistoryItem[] = [
     {
         taskTag: { color: 'primary', display: 'Computer Science' },
