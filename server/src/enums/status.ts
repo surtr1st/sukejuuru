@@ -1,6 +1,6 @@
 export const StatusRoute = {
-    RETRIEVE: '/status',
+    RETRIEVE: '/statuses',
     CREATE: '/status',
-    UPDATE: '/status/:id',
-    DELETE: '/status/:id',
+    UPDATE: '/statuses/:id',
+    DELETE: '/statuses/:id',
 };
