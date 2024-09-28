@@ -26,8 +26,8 @@ declare type TTask = {
     dueDate: Nullable<Date>;
     color: Nullable<string>;
     nodeId: Nullable<number>;
-    priority: Nullable<TPriority>;
-    status: Nullable<TStatus>;
+    priority: Nullable<Pick<TPriority, 'display' | 'description' | 'color'>>;
+    status: Nullable<Pick<TStatus, 'display' | 'description' | 'color'>>;
 };
 
 declare type TServiceName =
