@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center dark:text-light">
+    <div class="flex items-start dark:text-light">
         <div class="w-full m-2">
             <h2 class="text-2xl uppercase font-semibold py-3">Priority</h2>
             <Table
@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue';
 import Table from '@/components/Table.vue';
-import type { TTableItem } from '@/types';
 import { ref, computed } from 'vue';
 import { state } from '@/store';
 
