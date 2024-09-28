@@ -21,6 +21,7 @@
                 v-for="item in items"
                 :key="item.id"
                 :value="item.id"
+                :class="'text-' + item.color"
             >
                 {{ item.display }}
             </option>
@@ -33,6 +34,7 @@ type TItems = {
     id: number | string;
     display: string;
     description: string;
+    color: string;
 };
 type TSelect = {
     title: string;
@@ -41,7 +43,7 @@ type TSelect = {
     items: TItems[];
     disabled: boolean;
 };
-const props = withDefaults(defineProps<Partial<TSelect>>(), {
+withDefaults(defineProps<Partial<TSelect>>(), {
     title: 'No title',
     default: '',
     noTitle: false,
@@ -49,5 +51,4 @@ const props = withDefaults(defineProps<Partial<TSelect>>(), {
     disabled: false,
 });
 const model = defineModel('option', { type: String });
-console.log(props);
 </script>
