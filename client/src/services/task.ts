@@ -5,13 +5,15 @@ import { useFetch } from '@vueuse/core';
 export function useTask() {
     return {
         tasksFromNode: async (nodeId: number) => {
-            const { data } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
+            const { data, error } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
                 .get()
                 .json<TTask[]>();
+            if (error.value !== null) throw new Error(error.value);
             return data.value ?? [];
         },
         createTask: async (task: Partial<Omit<TTask, 'id'>>) => {
-            const { data } = await useFetch(`${BASE_URL}/task`).post(task).text();
+            const { data, error } = await useFetch(`${BASE_URL}/task`).post(task).text();
+            if (error.value !== null) throw new Error(error.value);
             return data.value;
         },
         updateTask: async (id: number, newData: Partial<TTask>) => {
