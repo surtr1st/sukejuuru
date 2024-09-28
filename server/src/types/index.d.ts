@@ -49,13 +49,7 @@ declare type TPriority = {
     color: Nullable<string>;
 };
 
-declare type TStatus = {
-    id: number;
-    display: Nullable<string>;
-    description: Nullable<string>;
-    createdAt: Nullable<Date>;
-    color: Nullable<string>;
-};
+declare type TStatus = TPriority;
 
 declare type TDuration = {
     id: number;
