@@ -24,16 +24,16 @@ export type TTask = {
     maxLength: string;
     startDate: string;
     dueDate: string;
-    priority: Partial<TPriority>;
     criterias: TCriteria[];
+    color: string;
     status: Partial<TStatus>;
-    color: Pick<TColor, 'display'>;
+    priority: Partial<TPriority>;
 };
 
 export type TTagTask = {
     id: number;
     title: string;
-    color: Pick<TColor, 'display'>;
+    color: string;
 };
 
 export type TCriteria = {
@@ -97,7 +97,7 @@ export type TSidebarItems<T extends readonly string[]> = {
 
 export type TTableItem = {
     id: number;
-    title: string;
+    display: string;
     description: string;
     color: string;
 };
@@ -108,4 +108,9 @@ export type TDuration = {
     madeOnDate: Date;
     description: string;
     taskId: number;
+};
+
+export type TAppState = {
+    priorities: TPriority[];
+    status: TStatus[];
 };
