@@ -4,7 +4,7 @@
             <h2 class="text-2xl uppercase font-semibold py-3">Priority</h2>
             <Table
                 :headers
-                :body="priorities"
+                :body="state.priorities"
                 @add="open = true"
             />
         </div>
@@ -12,7 +12,7 @@
             <h2 class="text-2xl uppercase font-semibold py-3">Status</h2>
             <Table
                 :headers
-                :body="status"
+                :body="state.status"
                 @add="open = true"
             />
         </div>
@@ -39,27 +39,10 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue';
 import Table from '@/components/Table.vue';
-import { TTableItem } from '@/types';
-import { computed } from 'vue';
-import { ref } from 'vue';
+import type { TTableItem } from '@/types';
+import { ref, computed } from 'vue';
+import { state } from '@/store';
 
 const open = ref(false);
 const headers = computed(() => ['Display', 'Description']);
-const priorities = ref<TTableItem[]>([
-    {
-        id: 1,
-        title: 'Utmost',
-        color: 'danger',
-        description: 'A du dark wa',
-    },
-]);
-
-const status = ref<TTableItem[]>([
-    {
-        id: 1,
-        title: 'Partially Completed',
-        color: 'warning',
-        description: 'A du dark wa',
-    },
-]);
 </script>
