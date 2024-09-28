@@ -25,6 +25,9 @@ declare type TTask = {
     startDate: Nullable<Date>;
     dueDate: Nullable<Date>;
     color: Nullable<string>;
+    nodeId: Nullable<number>;
+    priority: Nullable<TPriority>;
+    status: Nullable<TStatus>;
 };
 
 declare type TServiceName =
@@ -44,7 +47,6 @@ declare type TPriority = {
     description: Nullable<string>;
     createdAt: Nullable<Date>;
     color: Nullable<string>;
-    taskId: Nullable<number>;
 };
 
 declare type TStatus = {
@@ -53,7 +55,6 @@ declare type TStatus = {
     description: Nullable<string>;
     createdAt: Nullable<Date>;
     color: Nullable<string>;
-    taskId: Nullable<number>;
 };
 
 declare type TDuration = {

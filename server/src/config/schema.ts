@@ -15,6 +15,22 @@ const penalty = pgTable('penalty', {
     nodeId: integer('node_id').references(() => node.id),
 });
 
+const status = pgTable('status', {
+    id: serial('id').primaryKey(),
+    display: varchar('display', { length: 256 }),
+    description: text('description'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
+    color: text('color'),
+});
+
+const priority = pgTable('priority', {
+    id: serial('id').primaryKey(),
+    display: varchar('display', { length: 256 }),
+    description: text('description'),
+    createdAt: timestamp('created_at', { withTimezone: true }),
+    color: text('color'),
+});
+
 const task = pgTable('task', {
     id: serial('id').primaryKey(),
     title: text('title'),
@@ -26,6 +42,8 @@ const task = pgTable('task', {
     dueDate: timestamp('due_date', { withTimezone: true }),
     color: text('color'),
     nodeId: integer('node_id').references(() => node.id),
+    priorityId: integer('priority_id').references(() => priority.id),
+    statusId: integer('status_id').references(() => status.id),
 });
 
 const criteria = pgTable('criteria', {
@@ -35,29 +53,11 @@ const criteria = pgTable('criteria', {
     taskId: integer('task_id').references(() => task.id),
 });
 
-const status = pgTable('status', {
-    id: serial('id').primaryKey(),
-    display: varchar('display', { length: 256 }),
-    description: text('description'),
-    createdAt: timestamp('created_at', { withTimezone: true }),
-    color: text('color'),
-    taskId: integer('task_id').references(() => task.id),
-});
-
 const duration = pgTable('duration', {
     id: serial('id').primaryKey(),
     timeOnTask: bigint('time_on_task', { mode: 'bigint' }),
     madeOnDate: timestamp('made_on_date', { withTimezone: true }),
     description: text('description'),
-    taskId: integer('task_id').references(() => task.id),
-});
-
-const priority = pgTable('priority', {
-    id: serial('id').primaryKey(),
-    display: varchar('display', { length: 256 }),
-    description: text('description'),
-    createdAt: timestamp('created_at', { withTimezone: true }),
-    color: text('color'),
     taskId: integer('task_id').references(() => task.id),
 });
 
