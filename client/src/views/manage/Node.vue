@@ -73,11 +73,13 @@
                         class="col-span-6"
                         title="Priority"
                         :items="state.priorities"
+                        v-model:option="priorityOption"
                     />
                     <Select
                         class="col-span-6"
                         title="Status"
                         :items="state.status"
+                        v-model:option="statusOption"
                     />
                 </div>
             </div>
@@ -128,13 +130,15 @@ const body = ref<TTask[]>([]);
 const open = ref(false);
 const task = reactive<Partial<Omit<TTask, 'id'>>>({ title: '', description: '' });
 const isMinEntered = ref(false);
-const timeUnits = computed<Omit<TPriority, 'createdAt'>[]>(() => [
+const timeUnits = computed<Omit<TPriority, 'createdAt' | 'color'>[]>(() => [
     { id: 1, display: 'Minutes', description: '' },
     { id: 2, display: 'Hours', description: '' },
 ]);
 
 const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
+const priorityOption = ref(state.priorities.length > 0 ? state.priorities[0].id : 0);
+const statusOption = ref(state.status.length > 0 ? state.status[0].id : 0);
 
 async function handleCreateTask() {
     try {
