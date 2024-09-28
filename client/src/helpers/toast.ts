@@ -6,7 +6,6 @@ export function useCustomToast(timeout = 3000) {
 
     const options: ToastOptions = {
         hideProgressBar: true,
-        pauseOnHover: true,
         position: POSITION.TOP_CENTER,
         showCloseButtonOnHover: true,
         timeout,
