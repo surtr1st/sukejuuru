@@ -20,7 +20,7 @@
             <option
                 v-for="item in items"
                 :key="item.id"
-                :value="item.id"
+                :value="item"
                 :class="'text-' + item.color"
             >
                 {{ item.display }}
@@ -34,6 +34,7 @@ type TItems = {
     id: number | string;
     display: string;
     description: string;
+    createdAt: string;
     color: string;
 };
 type TSelect = {
@@ -50,5 +51,5 @@ withDefaults(defineProps<Partial<TSelect>>(), {
     items: () => [],
     disabled: false,
 });
-const model = defineModel('option', { type: String });
+const model = defineModel('option', { type: Object });
 </script>
