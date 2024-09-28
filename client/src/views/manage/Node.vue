@@ -57,14 +57,14 @@
                         type="number"
                         placeholder="e.g. 1200"
                         title="Max."
-                        :disabled="!isMinEntered"
+                        :disabled="!task.minLength ? true : false"
                         v-model:value="task.maxLength"
                     />
                     <Select
                         class="col-span-3"
                         title="Max Unit"
                         :items="timeUnits"
-                        :disabled="!isMinEntered"
+                        :disabled="!task.minLength ? true : false"
                         v-model:option="maxUnitSelect"
                     />
                 </div>
@@ -73,13 +73,13 @@
                         class="col-span-6"
                         title="Priority"
                         :items="state.priorities"
-                        v-model:option="priorityOption"
+                        v-model:option="task.priority"
                     />
                     <Select
                         class="col-span-6"
                         title="Status"
                         :items="state.status"
-                        v-model:option="statusOption"
+                        v-model:option="task.status"
                     />
                 </div>
             </div>
@@ -128,22 +128,25 @@ const headers = computed<string[]>(() => [
 ]);
 const body = ref<TTask[]>([]);
 const open = ref(false);
-const task = reactive<Partial<Omit<TTask, 'id'>>>({ title: '', description: '' });
-const isMinEntered = ref(false);
+const task = reactive<Partial<Omit<TTask, 'id'>>>({
+    title: '',
+    description: '',
+    color: 'primary',
+    criterias: [],
+    priority: state.priorities.length > 0 ? state.priorities[0] : {},
+    status: state.status.length > 0 ? state.status[0] : {},
+});
 const timeUnits = computed<Omit<TPriority, 'createdAt' | 'color'>[]>(() => [
     { id: 1, display: 'Minutes', description: '' },
     { id: 2, display: 'Hours', description: '' },
 ]);
-
-const minUnitSelect = ref(timeUnits.value[0].id);
+const minUnitSelect = ref(timeUnits.value[0]);
 const maxUnitSelect = ref(minUnitSelect.value);
-const priorityOption = ref(state.priorities.length > 0 ? state.priorities[0].id : 0);
-const statusOption = ref(state.status.length > 0 ? state.status[0].id : 0);
 
 async function handleCreateTask() {
     try {
         const result = await createTask(task);
-        onSuccess(result);
+        onSuccess(result!);
     } catch (e) {
         onError(e as string);
     }
@@ -155,6 +158,6 @@ onMounted(() => {
     if (body.value.length > 0) return;
     tasksFromNode(parseInt(nodeId))
         .then((res) => (body.value = res))
-        .catch((err) => console.error(err));
+        .catch((err) => onError(err));
 });
 </script>
