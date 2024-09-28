@@ -97,6 +97,14 @@ const computedColor = computed(() => {
             return 'bg-danger hover:bg-h-danger';
         case 'warning':
             return 'bg-warning hover:bg-h-warning';
+        case 'info':
+            return 'bg-info hover:bg-info/15';
+        case 'semi-danger':
+            return 'bg-semi-danger hover:bg-semi-danger/15';
+        case 'quarter-danger':
+            return 'bg-quarter-danger hover:bg-quarter-danger/15';
+        case 'success':
+            return 'bg-success hover:bg-success/15';
         default:
             return 'bg-primary hover:bg-h-primary';
     }

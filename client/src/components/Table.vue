@@ -86,6 +86,14 @@ function getColor(color: string) {
             return 'bg-danger/15 text-danger';
         case 'warning':
             return 'bg-warning/15 text-warning';
+        case 'info':
+            return 'bg-info/15 text-info';
+        case 'semi-danger':
+            return 'bg-semi-danger/15 text-semi-danger';
+        case 'quarter-danger':
+            return 'bg-quarter-danger/15 text-quarter-danger';
+        case 'success':
+            return 'bg-success/15 text-success';
         default:
             return 'bg-primary/15 text-primary';
     }
