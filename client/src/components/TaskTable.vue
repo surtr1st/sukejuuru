@@ -40,7 +40,10 @@
                 <td
                     @dblclick="editCell(index, 2, $event)"
                     @blur="saveOnBlur(index, 2)"
-                    class="focus:outline focus:outline-warning"
+                    :class="
+                        'focus:outline focus:outline-warning ' +
+                        getColor(`${content.priority.color}`)
+                    "
                 >
                     {{ content.priority.display }}
                 </td>
@@ -88,7 +91,9 @@
                 <td
                     @dblclick="editCell(index, 8, $event)"
                     @blur="saveOnBlur(index, 8)"
-                    class="focus:outline focus:outline-warning"
+                    :class="
+                        'focus:outline focus:outline-warning ' + getColor(`${content.status.color}`)
+                    "
                 >
                     {{ content.status.display }}
                 </td>
@@ -110,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TTask } from '@/types';
+import type { TColorVariant, TTask } from '@/types';
 import { ref } from 'vue';
 import Checkbox from './Checkbox.vue';
 
@@ -125,27 +130,6 @@ const props = withDefaults(defineProps<Partial<TTable>>(), {
     body: () => [],
     onAdd: () => {},
 });
-
-function getColor(color: string) {
-    switch (color) {
-        case 'secondary':
-            return 'bg-secondary/15 text-secondary';
-        case 'light':
-            return 'bg-light/15 text-neutral';
-        case 'neutral':
-            return 'bg-neutral/15 text-neutral';
-        case 'neutral-2':
-            return 'bg-neutral-2/15 text-neutral-2';
-        case 'dark':
-            return 'bg-dark/15 text-light';
-        case 'danger':
-            return 'bg-danger/15 text-danger';
-        case 'warning':
-            return 'bg-warning/15 text-warning';
-        default:
-            return 'bg-primary/15 text-primary';
-    }
-}
 
 const tableRow = ref<HTMLTableCellElement[] | null>(null);
 
@@ -166,5 +150,34 @@ function saveOnBlur(row: number, col: number) {
     if (!tableRow.value) return;
     const selectedCell = tableRow.value[row].children[col];
     selectedCell.setAttribute('contenteditable', 'false');
+}
+
+function getColor(color: string) {
+    switch (color) {
+        case 'secondary':
+            return 'bg-secondary/15 text-secondary';
+        case 'light':
+            return 'bg-light/15 text-neutral';
+        case 'neutral':
+            return 'bg-neutral/15 text-neutral';
+        case 'neutral-2':
+            return 'bg-neutral-2/15 text-neutral-2';
+        case 'dark':
+            return 'bg-dark/15 text-light';
+        case 'danger':
+            return 'bg-danger/15 text-danger';
+        case 'warning':
+            return 'bg-warning/15 text-warning';
+        case 'info':
+            return 'bg-info/15 text-info';
+        case 'semi-danger':
+            return 'bg-semi-danger/15 text-semi-danger';
+        case 'quarter-danger':
+            return 'bg-quarter-danger/15 text-quarter-danger';
+        case 'success':
+            return 'bg-success/15 text-success';
+        default:
+            return 'bg-primary/15 text-primary';
+    }
 }
 </script>
