@@ -12,7 +12,7 @@ const penalty = pgTable('penalty', {
     description: text('description'),
     compensation: text('compensation'),
     createdAt: timestamp('created_at', { withTimezone: true }),
-    nodeId: integer('node_id').references(() => node.id),
+    nodeId: integer('node_id').references(() => node.id, { onDelete: 'cascade' }),
 });
 
 const status = pgTable('status', {
@@ -41,16 +41,20 @@ const task = pgTable('task', {
     startDate: timestamp('start_date', { withTimezone: true }),
     dueDate: timestamp('due_date', { withTimezone: true }),
     color: text('color'),
-    nodeId: integer('node_id').references(() => node.id),
-    priorityId: integer('priority_id').references(() => priority.id),
-    statusId: integer('status_id').references(() => status.id),
+    nodeId: integer('node_id').references(() => node.id, { onDelete: 'cascade' }),
+    priorityId: integer('priority_id')
+        .unique()
+        .references(() => priority.id, { onDelete: 'cascade' }),
+    statusId: integer('status_id')
+        .unique()
+        .references(() => status.id, { onDelete: 'cascade' }),
 });
 
 const criteria = pgTable('criteria', {
     id: serial('id').primaryKey(),
     description: text('description'),
     createdAt: timestamp('created_at', { withTimezone: true }),
-    taskId: integer('task_id').references(() => task.id),
+    taskId: integer('task_id').references(() => task.id, { onDelete: 'cascade' }),
 });
 
 const duration = pgTable('duration', {
