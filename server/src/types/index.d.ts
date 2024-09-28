@@ -15,17 +15,27 @@ declare type TPenalty = {
     nodeId: Nullable<number>;
 };
 
-declare type TTask = {
+declare type TTaskPayload = {
     id: number;
     title: Nullable<string>;
     description: Nullable<string>;
-    minLength: Nullable<bigint>;
-    maxLength: Nullable<bigint>;
+    minLength: Nullable<number>;
+    maxLength: Nullable<number>;
     createdAt: Nullable<Date>;
-    startDate: Nullable<Date>;
-    dueDate: Nullable<Date>;
+    startDate: Nullable<string>;
+    dueDate: Nullable<string>;
     color: Nullable<string>;
     nodeId: Nullable<number>;
+    priorityId: Nullable<number>;
+    statusId: Nullable<number>;
+};
+
+declare type TTask = Omit<TTaskPayload, 'startDate' | 'dueDate'> & {
+    startDate: Nullable<Date>;
+    dueDate: Nullable<Date>;
+};
+
+declare type TTaskRelations = Omit<TTask, 'priorityId' | 'statusId'> & {
     priority: Nullable<Pick<TPriority, 'display' | 'description' | 'color'>>;
     status: Nullable<Pick<TStatus, 'display' | 'description' | 'color'>>;
 };

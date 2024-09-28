@@ -7,7 +7,7 @@ import type { IBaseService } from '@bunarcane/arcane';
 import { InternalServerError, NotFoundError } from '@/errors';
 
 interface ITaskService extends IBaseService<TTask, number> {
-    findTaskByNode(nodeId: number): Promise<TOmits<TTask, 'nodeId' | 'createdAt'>>;
+    findTaskByNode(nodeId: number): Promise<TOmits<TTaskRelations, 'nodeId' | 'createdAt'>>;
 }
 
 export class TaskService implements ITaskService {
@@ -21,7 +21,7 @@ export class TaskService implements ITaskService {
         throw new Error('Not implemented');
     }
 
-    async findTaskByNode(nodeId: number): Promise<TOmits<TTask, 'nodeId' | 'createdAt'>> {
+    async findTaskByNode(nodeId: number): Promise<TOmits<TTaskRelations, 'nodeId' | 'createdAt'>> {
         return await this.db
             .select({
                 id: task.id,

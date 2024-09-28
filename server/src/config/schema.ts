@@ -35,19 +35,15 @@ const task = pgTable('task', {
     id: serial('id').primaryKey(),
     title: text('title'),
     description: text('description'),
-    minLength: bigint('min_length', { mode: 'bigint' }),
-    maxLength: bigint('max_length', { mode: 'bigint' }),
+    minLength: integer('min_length'),
+    maxLength: integer('max_length'),
     createdAt: timestamp('created_at', { withTimezone: true }),
     startDate: timestamp('start_date', { withTimezone: true }),
     dueDate: timestamp('due_date', { withTimezone: true }),
     color: text('color'),
     nodeId: integer('node_id').references(() => node.id, { onDelete: 'cascade' }),
-    priorityId: integer('priority_id')
-        .unique()
-        .references(() => priority.id, { onDelete: 'cascade' }),
-    statusId: integer('status_id')
-        .unique()
-        .references(() => status.id, { onDelete: 'cascade' }),
+    priorityId: integer('priority_id').references(() => priority.id, { onDelete: 'cascade' }),
+    statusId: integer('status_id').references(() => status.id, { onDelete: 'cascade' }),
 });
 
 const criteria = pgTable('criteria', {
@@ -59,7 +55,7 @@ const criteria = pgTable('criteria', {
 
 const duration = pgTable('duration', {
     id: serial('id').primaryKey(),
-    timeOnTask: bigint('time_on_task', { mode: 'bigint' }),
+    timeOnTask: bigint('time_on_task', { mode: 'number' }),
     madeOnDate: timestamp('made_on_date', { withTimezone: true }),
     description: text('description'),
     taskId: integer('task_id').references(() => task.id),
