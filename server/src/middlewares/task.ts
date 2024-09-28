@@ -11,12 +11,6 @@ export const TaskMiddlewares = createMiddleware(TaskRoute.CREATE)
             requiredKeys: ['title'],
         }),
     )
-    .intercept(() =>
-        handleQuery({
-            requestQueries: query<{ nodeId: number }>(),
-            requiredKeys: ['nodeId'],
-        }),
-    )
     .compose();
 
 export const TaskParamMiddlewares = createMiddleware(TaskRoute.UPDATE)
