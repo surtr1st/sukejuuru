@@ -1,4 +1,3 @@
-import { NotFoundError } from '@/errors';
 import { NodeService, TaskService } from '@/services';
 import { body, createBridge, created, ok, params, query, response } from '@bunarcane/arcane';
 
