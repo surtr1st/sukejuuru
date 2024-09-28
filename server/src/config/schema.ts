@@ -65,9 +65,11 @@ const duration = pgTable('duration', {
     taskId: integer('task_id').references(() => task.id),
 });
 
-const tracker = pgTable('tracker', {
-    durationId: integer('duration_id').references(() => duration.id),
-    priorityId: integer('priority_id').references(() => priority.id),
+const color = pgTable('color', {
+    id: serial('id').primaryKey(),
+    display: varchar('display', { length: 256 }),
+    hex: varchar('hex', { length: 30 }),
+    createdAt: timestamp('made_on_date', { withTimezone: true }),
 });
 
-export { node, penalty, task, criteria, status, duration, priority, tracker };
+export { node, penalty, task, criteria, status, duration, priority, color };
