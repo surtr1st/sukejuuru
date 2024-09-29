@@ -1,9 +1,10 @@
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { useDrizzle } from '@/config';
+import { task, useDrizzle } from '@/config';
 import { duration } from '@/config';
 import { InternalError, ServiceSuccess } from '@/enums';
 import type { IBaseService } from '@bunarcane/arcane';
 import { InternalServerError } from '@/errors';
+import { eq } from 'drizzle-orm';
 
 interface IDurationService extends IBaseService<TDuration, number> {}
 
@@ -30,5 +31,22 @@ export class DurationService implements IDurationService {
 
     async remove(): Promise<string> {
         throw new Error('Not implemented');
+    }
+
+    async logsFromNode(nodeId: number) {
+        return await this.db
+            .select({
+                taskTag: {
+                    id: task.id,
+                    title: task.title,
+                    color: task.color,
+                },
+                description: duration.description,
+                duration: duration.timeOnTask,
+                madeOnDate: duration.madeOnDate,
+            })
+            .from(duration)
+            .innerJoin(task, eq(task.id, duration.taskId))
+            .where(eq(task.nodeId, nodeId));
     }
 }
