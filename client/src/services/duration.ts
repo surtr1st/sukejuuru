@@ -4,8 +4,10 @@ import { useFetch } from '@vueuse/core';
 
 export function useDuration() {
     return {
-        logsFromNode: async () => {
-            const { data } = await useFetch(`${BASE_URL}/durations`).get().json<TDuration[]>();
+        logsFromNode: async (nodeId: number) => {
+            const { data } = await useFetch(`${BASE_URL}/durations?nodeId=${nodeId}`)
+                .get()
+                .json<TDuration[]>();
             return data.value ?? [];
         },
         createDuration: async (duration: Partial<Omit<TDuration, 'id'>>) => {
