@@ -7,7 +7,7 @@ import { sidebarItems } from '@/data';
 import { RouterView } from 'vue-router';
 import { ref, onMounted, nextTick, onBeforeMount } from 'vue';
 import { state } from '@/store';
-import { usePriority, useStatus } from '@/services';
+import { usePriority, useStatus, useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 
 const { preference, toggle } = useTheme();
@@ -15,6 +15,7 @@ const { expanded, setExpand } = useSidebar();
 const { priorities } = usePriority();
 const { status } = useStatus();
 const { onError } = useCustomToast();
+const { compactTasksFromNode } = useTask();
 const selected = ref('system');
 const isExpand = ref(true);
 const isShrink = ref(false);
@@ -37,6 +38,8 @@ onBeforeMount(() => {
 
 onMounted(() => {
     toggle();
+    const node = localStorage.getItem('node');
+    if (!node) return;
     if (state.priorities.length === 0) {
         priorities()
             .then((data) => (state.priorities = data))
@@ -45,6 +48,11 @@ onMounted(() => {
     if (state.status.length === 0) {
         status()
             .then((data) => (state.status = data))
+            .catch((err) => onError(err));
+    }
+    if (state.tagTasks.length === 0) {
+        compactTasksFromNode(parseInt(node))
+            .then((data) => (state.tagTasks = data))
             .catch((err) => onError(err));
     }
 });
@@ -80,7 +88,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="w-full min-h-screen">
-            <Tracker />
+            <Tracker :list="state.tagTasks" />
             <div class="h-[90vh] row-span-11 overflow-x-hidden overflow-y-auto">
                 <RouterView />
             </div>
