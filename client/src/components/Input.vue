@@ -18,11 +18,13 @@
             }"
             :disabled="disabled"
             v-model="model"
+            @keydown="submitOnEnter()"
         />
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 type TInputType = 'text' | 'password' | 'number';
 type TInput = {
     title: string;
@@ -30,6 +32,7 @@ type TInput = {
     type: TInputType;
     noTitle: boolean;
     disabled: boolean;
+    onEnter: () => void;
 };
 const props = withDefaults(defineProps<Partial<TInput>>(), {
     title: 'No title',
@@ -39,6 +42,11 @@ const props = withDefaults(defineProps<Partial<TInput>>(), {
     disabled: false,
 });
 const model = defineModel('value', { type: String });
+
+function submitOnEnter() {
+    if (!props.onEnter) return;
+    props.onEnter();
+}
 </script>
 
 <style scoped>
