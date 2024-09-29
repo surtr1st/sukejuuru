@@ -4,4 +4,7 @@ import { reactive } from 'vue';
 export const state = reactive<TAppState>({
     priorities: [],
     status: [],
+    tagTasks: [],
+    trackLogs: [],
+    colors: [],
 });
