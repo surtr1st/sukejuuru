@@ -63,7 +63,7 @@ declare type TStatus = TPriority;
 
 declare type TDuration = {
     id: number;
-    timeOnTask: Nullable<bigint>;
+    timeOnTask: Nullable<number>;
     madeOnDate: Nullable<Date>;
     description: Nullable<string>;
     taskId: Nullable<number>;

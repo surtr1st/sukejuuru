@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, text, bigint, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, text, integer, timestamp } from 'drizzle-orm/pg-core';
 
 const node = pgTable('node', {
     id: serial('id').primaryKey(),
@@ -55,7 +55,7 @@ const criteria = pgTable('criteria', {
 
 const duration = pgTable('duration', {
     id: serial('id').primaryKey(),
-    timeOnTask: bigint('time_on_task', { mode: 'number' }),
+    timeOnTask: integer('time_on_task'),
     madeOnDate: timestamp('made_on_date', { withTimezone: true }),
     description: text('description'),
     taskId: integer('task_id').references(() => task.id),
