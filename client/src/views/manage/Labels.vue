@@ -5,7 +5,7 @@
             <Table
                 :headers
                 :body="state.priorities"
-                @add="open = true"
+                @add="openPriorityModal = true"
             />
         </div>
         <div class="w-full m-2">
@@ -13,35 +13,54 @@
             <Table
                 :headers
                 :body="state.status"
-                @add="open = true"
+                @add="openStatusModal = true"
             />
         </div>
     </div>
-    <Modal
-        :open="open"
-        @close="open = false"
-    >
-        <template #body> </template>
-        <template #footer>
-            <Button
-                title="Add"
-                color="primary"
-            />
-            <Button
-                title="Close"
-                color="dark"
-                @click="open = false"
-            />
-        </template>
-    </Modal>
+    <PriorityStatusModal
+        ref="pmodal"
+        :open="openPriorityModal"
+        type="priority"
+        @close="openPriorityModal = false"
+        :colors="transformColors"
+    />
+    <PriorityStatusModal
+        ref="smodal"
+        :open="openStatusModal"
+        type="status"
+        @close="openStatusModal = false"
+        :colors="transformColors"
+    />
 </template>
 
 <script setup lang="ts">
-import Modal from '@/components/Modal.vue';
 import Table from '@/components/Table.vue';
+import PriorityStatusModal from '@/components/mixins/PriorityStausModal.vue';
 import { ref, computed } from 'vue';
 import { state } from '@/store';
+import { onMounted } from 'vue';
+import { provide } from 'vue';
+import type { TPriority } from '@/types';
 
-const open = ref(false);
+const openPriorityModal = ref(false);
+const openStatusModal = ref(false);
 const headers = computed(() => ['Display', 'Description']);
+
+const transformColors = computed(() =>
+    state.colors.map((color) => ({
+        id: color.id,
+        display: color.display,
+        description: '',
+        color: color.hex,
+        createdAt: '',
+    })),
+);
+
+onMounted(() =>
+    provide<Omit<TPriority, 'id' | 'createdAt'>>('priority-status', {
+        display: '',
+        description: '',
+        color: 'primary',
+    }),
+);
 </script>
