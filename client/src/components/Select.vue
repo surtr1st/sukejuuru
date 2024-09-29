@@ -30,13 +30,7 @@
 </template>
 
 <script setup lang="ts">
-type TItems = {
-    id: number | string;
-    display: string;
-    description: string;
-    createdAt: string;
-    color: string;
-};
+import type { TItems } from '@/types';
 type TSelect = {
     title: string;
     default: string;

@@ -29,7 +29,7 @@
                     <TaskTag
                         size="md"
                         :color="track.taskTag.color"
-                        :display="track.taskTag.display"
+                        :display="track.taskTag.title"
                     />
                 </li>
                 <li class="col-span-5">

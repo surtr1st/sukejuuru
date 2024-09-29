@@ -55,6 +55,7 @@ export type TStatus = TPriority;
 export type TColor = {
     id: number;
     display: string;
+    hex: string;
     createdAt: string;
 };
 
@@ -75,7 +76,8 @@ export type TColorVariant =
     | 'info';
 
 export type TTrackHistoryItem = {
-    taskTag: { color: TColorVariant; display: string };
+    id: number;
+    taskTag: { color: string; title: string };
     description: string;
     duration: string;
     localTime: string;
@@ -104,7 +106,7 @@ export type TTableItem = {
 
 export type TDuration = {
     id: number;
-    timeOnTask: bigint;
+    timeOnTask: number;
     madeOnDate: Date;
     description: string;
     taskId: number;
@@ -113,4 +115,15 @@ export type TDuration = {
 export type TAppState = {
     priorities: TPriority[];
     status: TStatus[];
+    tagTasks: TTagTask[];
+    trackLogs: TDuration[];
+    colors: TColor[];
+};
+
+export type TItems = {
+    id: number | string;
+    display: string;
+    description: string;
+    createdAt: string;
+    color: string;
 };

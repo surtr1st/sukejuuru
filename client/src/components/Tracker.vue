@@ -6,8 +6,8 @@
         >
             <TaskTag
                 size="lg"
-                color="primary"
-                :display="task"
+                :color="task.color"
+                :display="task.title"
             />
         </div>
         <div
@@ -36,9 +36,9 @@
                         :key="item.id"
                         :class="
                             'last:rounded-b-7px transition-all ease-in-out w-full p-4 hover:bg-h-light dark:hover:bg-h-dark hover:cursor-pointer text-' +
-                            item.color.display
+                            item.color
                         "
-                        @click="startTimer()"
+                        @click="startTimer(item.id)"
                     >
                         {{ item.title }}
                     </li>
@@ -67,24 +67,20 @@ import Button from './Button.vue';
 import TaskTag from './TaskTag.vue';
 import MinusCircleIcon from './icons/24x24/MinusCircleIcon.vue';
 import { ref } from 'vue';
-import { TTagTask } from '@/types';
+import type { TTagTask } from '@/types';
 import { onBeforeUnmount } from 'vue';
 import { computed } from 'vue';
+import { useDuration } from '@/services';
 
 type TTracker = {
-    task: string;
-    description: string;
-    duration: number;
+    list: TTagTask[];
 };
 
-withDefaults(defineProps<Partial<TTracker>>(), {
-    task: '',
-    description: '',
-    duration: 0,
+const props = withDefaults(defineProps<Partial<TTracker>>(), {
+    list: () => [],
 });
 
 const isBegin = ref(false);
-const list = ref<TTagTask[]>([]);
 const input = ref<HTMLInputElement | null>(null);
 const isListShown = ref(false);
 const isDescriptionFilled = ref(false);
@@ -93,6 +89,8 @@ const minutes = ref(0);
 const seconds = ref(0);
 const timer = ref<number | null>(null);
 const startTime = ref<number | null>(null);
+const task = ref<Partial<TTagTask>>({});
+const { createDuration } = useDuration();
 
 function onFocus() {
     if (!input.value) return;
@@ -113,8 +111,9 @@ const formatTimer = computed(() => {
     return `${h}:${m}:${s}`;
 });
 
-function startTimer() {
+function startTimer(id: number) {
     if (timer.value) return;
+    if (!task.value) task.value = props.list.find((item) => item.id === id);
     startTime.value = Date.now();
     timer.value = window.requestAnimationFrame(updateTimer);
 }
@@ -127,19 +126,28 @@ function updateTimer() {
     timer.value = window.requestAnimationFrame(updateTimer);
 }
 
-function stopTimer() {
+async function stopTimer() {
+    if (input.value) {
+        const description = input.value.value;
+        await createDuration({
+            madeOnDate: new Date(startTime.value!),
+            timeOnTask: 1n,
+            description,
+            taskId: task.value.id,
+        });
+    }
     if (timer.value) {
         cancelAnimationFrame(timer.value);
         timer.value = null;
     }
 }
 
-function resetTimer() {
-    stopTimer();
+async function resetTimer() {
+    await stopTimer();
     hours.value = 0;
     minutes.value = 0;
     seconds.value = 0;
 }
 
-onBeforeUnmount(() => resetTimer());
+onBeforeUnmount(async () => await resetTimer());
 </script>

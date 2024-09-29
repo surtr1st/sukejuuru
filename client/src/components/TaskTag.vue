@@ -13,7 +13,7 @@ import { computed, onMounted } from 'vue';
 
 type TTaskTag = {
     display: string;
-    color: TColorVariant;
+    color: string | TColorVariant;
     size: TSize;
 };
 
