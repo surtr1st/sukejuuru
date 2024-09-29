@@ -5,15 +5,27 @@ import { ref } from 'vue';
 import type { TNode } from '@/types';
 import { useRouter } from 'vue-router';
 import { useTheme } from '@/composables';
+import Input from '@/components/Input.vue';
+import { useCustomToast } from '@/helpers';
 
 const list = ref<TNode[]>([]);
-const { nodes } = useNode();
+const { nodes, createNode } = useNode();
 const { replace } = useRouter();
 const { toggle } = useTheme();
+const { onSuccess, onError } = useCustomToast();
+const input = ref<HTMLInputElement | null>(null);
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
     await replace('/@node');
+}
+
+function handleCreateNode() {
+    if (!input.value) return;
+    const title = input.value.value;
+    createNode({ title })
+        .then((res) => onSuccess(res))
+        .catch((err) => onError(err));
 }
 
 onMounted(() => {
@@ -28,6 +40,11 @@ onMounted(() => {
     <div
         class="min-h-screen dark:bg-dark dark:text-light flex justify-center flex-col items-center relative"
     >
+        <Input
+            ref="input"
+            placeholder="Add new node"
+            @enter="handleCreateNode()"
+        />
         <h1 class="text-4xl font-bold my-3 uppercase">Node Study List</h1>
         <ul class="border dark:border-neutral border-light rounded-7px shadow-md">
             <li
