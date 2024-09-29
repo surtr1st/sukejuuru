@@ -1,4 +1,4 @@
-import type { TTask } from '@/types';
+import type { TTagTask, TTask } from '@/types';
 import { BASE_URL } from '.';
 import { useFetch } from '@vueuse/core';
 
@@ -8,6 +8,13 @@ export function useTask() {
             const { data, error } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
                 .get()
                 .json<TTask[]>();
+            if (error.value !== null) throw new Error(error.value);
+            return data.value ?? [];
+        },
+        compactTasksFromNode: async (nodeId: number) => {
+            const { data, error } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
+                .get()
+                .json<TTagTask[]>();
             if (error.value !== null) throw new Error(error.value);
             return data.value ?? [];
         },
