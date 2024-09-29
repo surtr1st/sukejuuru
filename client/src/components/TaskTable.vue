@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TColorVariant, TTask } from '@/types';
+import type { TTask } from '@/types';
 import { ref } from 'vue';
 import Checkbox from './Checkbox.vue';
 
@@ -125,7 +125,7 @@ type TTable = {
     onAdd: () => void;
 };
 
-const props = withDefaults(defineProps<Partial<TTable>>(), {
+withDefaults(defineProps<Partial<TTable>>(), {
     headers: () => [],
     body: () => [],
     onAdd: () => {},
