@@ -30,6 +30,11 @@ export type TTask = {
     priority: Partial<TPriority>;
 };
 
+export type TTaskPayload = Omit<TTask, 'id' | 'priority' | 'status'> & {
+    priorityId: number;
+    statusId: number;
+};
+
 export type TTagTask = {
     id: number;
     title: string;
@@ -46,7 +51,7 @@ export type TPriority = {
     id: number;
     display: string;
     description: string;
-    createdAt: string;
+    createdAt: string | null;
     color: string;
 };
 
@@ -124,6 +129,6 @@ export type TItems = {
     id: number | string;
     display: string;
     description: string;
-    createdAt: string;
+    createdAt: string | null;
     color: string;
 };
