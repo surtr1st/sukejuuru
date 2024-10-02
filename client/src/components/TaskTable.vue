@@ -38,10 +38,9 @@
                     {{ content.description }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 2, $event)"
-                    @blur="saveOnBlur(index, 2)"
+                    @dblclick="openUpdateModal('Priority', content.priority.display)"
                     :class="
-                        'focus:outline focus:outline-warning ' +
+                        'max-w-[50px] focus:outline focus:outline-warning ' +
                         getColor(`${content.priority.color}`)
                     "
                 >
@@ -63,18 +62,18 @@
                     {{ content.maxLength }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 5, $event)"
+                    @dblclick="openUpdateModal('Start', content.startDate)"
                     @blur="saveOnBlur(index, 5)"
                     class="focus:outline focus:outline-warning"
                 >
-                    {{ content.startDate }}
+                    {{ formatDatetime(content.startDate) }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 6, $event)"
+                    @dblclick="openUpdateModal('Due', content.dueDate)"
                     @blur="saveOnBlur(index, 6)"
                     class="focus:outline focus:outline-warning"
                 >
-                    {{ content.dueDate }}
+                    {{ formatDatetime(content.dueDate) }}
                 </td>
                 <td
                     @dblclick="editCell(index, 7, $event)"
@@ -89,7 +88,7 @@
                     />
                 </td>
                 <td
-                    @dblclick="editCell(index, 8, $event)"
+                    @dblclick="openUpdateModal('Status', content.status.display)"
                     @blur="saveOnBlur(index, 8)"
                     :class="
                         'focus:outline focus:outline-warning ' + getColor(`${content.status.color}`)
@@ -112,26 +111,72 @@
             </tr>
         </tfoot>
     </table>
+    <Modal
+        :title
+        :open
+        @close="onClose()"
+    >
+        <template #body>
+            <div class="w-[300px]">
+                <Select
+                    v-if="title === 'Priority'"
+                    :items="state.priorities"
+                    no-title
+                    v-model:option="refValue.id"
+                />
+                <Select
+                    v-else-if="title === 'Status'"
+                    :items="state.status"
+                    no-title
+                    v-model:option="refValue.id"
+                />
+                <DatePicker
+                    v-else-if="title === 'Start'"
+                    no-title
+                    v-model:pick="refValue.date"
+                />
+                <DatePicker
+                    v-else-if="title === 'Due'"
+                    no-title
+                    v-model:pick="refValue.date"
+                />
+            </div>
+        </template>
+        <template #footer>
+            <Button title="Update" />
+        </template>
+    </Modal>
 </template>
 
 <script setup lang="ts">
 import type { TTask } from '@/types';
 import { ref } from 'vue';
 import Checkbox from './Checkbox.vue';
+import Modal from './Modal.vue';
+import Select from './Select.vue';
+import Button from './Button.vue';
+import { state } from '@/store';
+import DatePicker from './DatePicker.vue';
 
 type TTable = {
     headers: string[];
     body: TTask[];
     onAdd: () => void;
+    onUpdate: () => void;
 };
 
-withDefaults(defineProps<Partial<TTable>>(), {
+const props = withDefaults(defineProps<Partial<TTable>>(), {
     headers: () => [],
     body: () => [],
     onAdd: () => {},
+    onUpdate: () => {},
 });
 
 const tableRow = ref<HTMLTableCellElement[] | null>(null);
+const cellSelected = ref<string | null>(null);
+const title = ref<string>('');
+const open = ref(false);
+const refValue = ref<{ id: number; date: string }>({ id: 0, date: '' });
 
 function editCell(row: number, col: number, event: MouseEvent) {
     if (!tableRow.value) return;
@@ -149,7 +194,39 @@ function autoFocus(event: MouseEvent) {
 function saveOnBlur(row: number, col: number) {
     if (!tableRow.value) return;
     const selectedCell = tableRow.value[row].children[col];
+    cellSelected.value = selectedCell.textContent;
+    if (props.onUpdate) props.onUpdate();
     selectedCell.setAttribute('contenteditable', 'false');
+}
+
+function formatDatetime(datetime: Date | string) {
+    const date = new Date(datetime);
+    return date.toLocaleDateString('vi-VN');
+}
+
+function openUpdateModal(
+    columnName: 'Priority' | 'Status' | 'Start' | 'Due',
+    currentValue?: string,
+) {
+    open.value = true;
+    title.value = columnName;
+    if (!currentValue) return;
+    refValue.value.id = getItemId(currentValue, columnName.toLowerCase()) ?? 0;
+    refValue.value.date = new Date(currentValue).toISOString().split('T')[0];
+}
+
+function getItemId(display: string, type: string) {
+    if (!display) return 0;
+    switch (type) {
+        case 'status':
+            return state.status.find((p) => p.display === display)?.id;
+        default:
+            return state.priorities.find((p) => p.display === display)?.id;
+    }
+}
+
+function onClose() {
+    open.value = false;
 }
 
 function getColor(color: string) {
@@ -180,4 +257,6 @@ function getColor(color: string) {
             return 'bg-primary/15 text-primary';
     }
 }
+
+defineExpose({ cellSelected });
 </script>
