@@ -3,6 +3,8 @@
         :headers
         :body
         @add="open = true"
+        @update="handleUpdateCell()"
+        ref="table"
     />
     <Modal
         :open="open"
@@ -38,9 +40,8 @@
                     />
                 </div>
                 <div class="row-span-3 grid grid-cols-12 gap-3">
-                    <Input
+                    <NumInput
                         class="col-span-3"
-                        type="number"
                         placeholder="e.g. 120"
                         title="Min."
                         v-model:value="task.minLength"
@@ -52,9 +53,8 @@
                         :select-option="timeUnits[0].display"
                         v-model:option="minUnitSelect"
                     />
-                    <Input
+                    <NumInput
                         class="col-span-3"
-                        type="number"
                         placeholder="e.g. 1200"
                         title="Max."
                         :disabled="!task.minLength ? true : false"
@@ -73,13 +73,13 @@
                         class="col-span-6"
                         title="Priority"
                         :items="state.priorities"
-                        v-model:option="task.priority"
+                        v-model:option="task.priorityId"
                     />
                     <Select
                         class="col-span-6"
                         title="Status"
                         :items="state.status"
-                        v-model:option="task.status"
+                        v-model:option="task.statusId"
                     />
                 </div>
             </div>
@@ -107,7 +107,8 @@ import TextArea from '@/components/TextArea.vue';
 import TaskTable from '@/components/TaskTable.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import Select from '@/components/Select.vue';
-import type { TPriority, TTask } from '@/types';
+import NumInput from '@/components/NumInput.vue';
+import type { TPriority, TTask, TTaskPayload } from '@/types';
 import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { state } from '@/store';
@@ -128,28 +129,36 @@ const headers = computed<string[]>(() => [
 ]);
 const body = ref<TTask[]>([]);
 const open = ref(false);
-const task = reactive<Partial<Omit<TTask, 'id'>>>({
+const task = reactive<Partial<TTaskPayload>>({
     title: '',
     description: '',
     color: 'primary',
     criterias: [],
-    priority: state.priorities.length > 0 ? state.priorities[0] : {},
-    status: state.status.length > 0 ? state.status[0] : {},
+    priorityId: state.priorities.length > 0 ? state.priorities[0].id : 1,
+    statusId: state.status.length > 0 ? state.status[0].id : 1,
 });
-const timeUnits = computed<Omit<TPriority, 'createdAt' | 'color'>[]>(() => [
-    { id: 1, display: 'Minutes', description: '' },
-    { id: 2, display: 'Hours', description: '' },
+const timeUnits = computed<TPriority[]>(() => [
+    { id: 1, display: 'Minutes', description: '', createdAt: '', color: '' },
+    { id: 2, display: 'Hours', description: '', createdAt: '', color: '' },
 ]);
-const minUnitSelect = ref(timeUnits.value[0]);
+const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
+const table = ref<InstanceType<typeof TaskTable> | null>(null);
 
 async function handleCreateTask() {
     try {
-        const result = await createTask(task);
+        const node = localStorage.getItem('node');
+        if (!node) return;
+        const result = await createTask(parseInt(node), task);
         onSuccess(result!);
     } catch (e) {
         onError(e as string);
     }
+}
+
+function handleUpdateCell() {
+    if (!table.value) return;
+    if (!table.value.cellSelected) return;
 }
 
 onMounted(() => {
