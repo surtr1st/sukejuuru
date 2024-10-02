@@ -1,4 +1,4 @@
-import type { TTagTask, TTask } from '@/types';
+import type { TTagTask, TTask, TTaskPayload } from '@/types';
 import { BASE_URL } from '.';
 import { useFetch } from '@vueuse/core';
 
@@ -18,8 +18,10 @@ export function useTask() {
             if (error.value !== null) throw new Error(error.value);
             return data.value ?? [];
         },
-        createTask: async (task: Partial<Omit<TTask, 'id'>>) => {
-            const { data, error } = await useFetch(`${BASE_URL}/task`).post(task).text();
+        createTask: async (nodeId: number, task: Partial<TTaskPayload>) => {
+            const { data, error } = await useFetch(`${BASE_URL}/task`)
+                .post({ nodeId, ...task })
+                .text();
             if (error.value !== null) throw new Error(error.value);
             return data.value;
         },
