@@ -16,11 +16,12 @@
             }"
             :disabled="disabled"
             v-model="model"
+            :ref="refSelect"
         >
             <option
                 v-for="item in items"
                 :key="item.id"
-                :value="item"
+                :value="item.id"
                 :class="'text-' + item.color"
             >
                 {{ item.display }}
@@ -31,12 +32,14 @@
 
 <script setup lang="ts">
 import type { TItems } from '@/types';
+import type { VNodeRef } from 'vue';
 type TSelect = {
     title: string;
     default: string;
     noTitle: boolean;
     items: TItems[];
     disabled: boolean;
+    refSelect: VNodeRef;
 };
 withDefaults(defineProps<Partial<TSelect>>(), {
     title: 'No title',
@@ -44,6 +47,7 @@ withDefaults(defineProps<Partial<TSelect>>(), {
     noTitle: false,
     items: () => [],
     disabled: false,
+    refSelect: () => {},
 });
-const model = defineModel('option', { type: Object });
+const model = defineModel('option', { type: Number });
 </script>
