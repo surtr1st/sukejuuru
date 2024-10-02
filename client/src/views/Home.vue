@@ -13,7 +13,7 @@ const { nodes, createNode } = useNode();
 const { replace } = useRouter();
 const { toggle } = useTheme();
 const { onSuccess, onError } = useCustomToast();
-const input = ref<HTMLInputElement | null>(null);
+const input = ref<string | null>(null);
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
@@ -22,7 +22,7 @@ async function selectNode(id: number) {
 
 function handleCreateNode() {
     if (!input.value) return;
-    const title = input.value.value;
+    const title = input.value;
     createNode({ title })
         .then((res) => onSuccess(res))
         .catch((err) => onError(err));
@@ -41,9 +41,10 @@ onMounted(() => {
         class="min-h-screen dark:bg-dark dark:text-light flex justify-center flex-col items-center relative"
     >
         <Input
-            ref="input"
+            title="Node"
             placeholder="Add new node"
             @enter="handleCreateNode()"
+            v-model:value="input"
         />
         <h1 class="text-4xl font-bold my-3 uppercase">Node Study List</h1>
         <ul class="border dark:border-neutral border-light rounded-7px shadow-md">
