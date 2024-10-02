@@ -113,7 +113,7 @@ const formatTimer = computed(() => {
 
 function startTimer(id: number) {
     if (timer.value) return;
-    if (!task.value) task.value = props.list.find((item) => item.id === id);
+    if (!task.value) task.value = props.list.find((item) => item.id === id) ?? {};
     startTime.value = Date.now();
     timer.value = window.requestAnimationFrame(updateTimer);
 }
@@ -131,7 +131,7 @@ async function stopTimer() {
         const description = input.value.value;
         await createDuration({
             madeOnDate: new Date(startTime.value!),
-            timeOnTask: 1n,
+            timeOnTask: 0,
             description,
             taskId: task.value.id,
         });
