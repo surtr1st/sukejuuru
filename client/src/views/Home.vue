@@ -47,7 +47,9 @@ onMounted(() => {
             v-model:value="input"
         />
         <h1 class="text-4xl font-bold my-3 uppercase">Node Study List</h1>
-        <ul class="border dark:border-neutral border-light rounded-7px shadow-md">
+        <ul
+            class="min-w-[500px] max-w-[1000px] border dark:border-neutral border-light rounded-7px shadow-md"
+        >
             <li
                 v-for="node in list"
                 :key="node.id"

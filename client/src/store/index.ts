@@ -1,10 +1,12 @@
-import type { TAppState } from '@/types';
-import { reactive } from 'vue';
+import { type TAppState } from '@/types';
+import { defineStore } from 'pinia';
 
-export const state = reactive<TAppState>({
-    priorities: [],
-    status: [],
-    tagTasks: [],
-    trackLogs: [],
-    colors: [],
+export const useState = defineStore('appState', {
+    state: (): TAppState => ({
+        priorities: [],
+        status: [],
+        tagTasks: [],
+        trackLogs: [],
+        colors: [],
+    }),
 });

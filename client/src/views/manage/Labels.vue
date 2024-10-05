@@ -37,11 +37,12 @@
 import Table from '@/components/Table.vue';
 import PriorityStatusModal from '@/components/mixins/PriorityStausModal.vue';
 import { ref, computed } from 'vue';
-import { state } from '@/store';
+import { useState } from '@/store';
 import { onMounted } from 'vue';
 import { provide } from 'vue';
 import type { TPriority } from '@/types';
 
+const state = useState();
 const openPriorityModal = ref(false);
 const openStatusModal = ref(false);
 const headers = computed(() => ['Display', 'Description']);

@@ -6,10 +6,11 @@ import { useSidebar, useTheme } from '@/composables';
 import { sidebarItems } from '@/data';
 import { RouterView } from 'vue-router';
 import { ref, onMounted, nextTick, onBeforeMount } from 'vue';
-import { state } from '@/store';
+import { useState } from '@/store';
 import { usePriority, useStatus, useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 
+const state = useState();
 const { preference, toggle } = useTheme();
 const { expanded, setExpand } = useSidebar();
 const { priorities } = usePriority();

@@ -111,9 +111,10 @@ import NumInput from '@/components/NumInput.vue';
 import type { TPriority, TTask, TTaskPayload } from '@/types';
 import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
-import { state } from '@/store';
+import { useState } from '@/store';
 import { onMounted, ref, computed, reactive } from 'vue';
 
+const state = useState();
 const { tasksFromNode, createTask } = useTask();
 const { onSuccess, onError } = useCustomToast();
 const headers = computed<string[]>(() => [
