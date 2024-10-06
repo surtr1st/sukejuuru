@@ -1,4 +1,4 @@
 export const DurationRoute = {
-    RETRIEVE: '/durations',
-    CREATE: '/duration/track',
+    RETRIEVE_BY_NODE: '/durations',
+    CREATE: '/duration',
 };
