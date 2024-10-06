@@ -15,12 +15,8 @@ export const TrackerController = createBridge()
             for (const track of tracks) {
                 for (const duration of durations) {
                     const key = track.madeOn!.toString();
-                    if (!map.has(key)) {
-                        map.set(key, []);
-                    }
-                    if (track.durationId === duration.id) {
-                        map.get(key)!.push(duration);
-                    }
+                    if (!map.has(key)) map.set(key, []);
+                    if (track.durationId === duration.id) map.get(key)!.push(duration);
                 }
             }
             const result: TTrackHistory[] = [];
