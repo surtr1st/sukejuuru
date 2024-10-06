@@ -1,14 +1,11 @@
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { task, useDrizzle } from '@/config';
 import { duration } from '@/config';
-import { InternalError, ServiceSuccess } from '@/enums';
-import type { IBaseService } from '@bunarcane/arcane';
+import { InternalError } from '@/enums';
 import { InternalServerError } from '@/errors';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
-interface IDurationService extends IBaseService<TDuration, number> {}
-
-export class DurationService implements IDurationService {
+export class DurationService {
     db: PostgresJsDatabase<Record<string, number>>;
 
     constructor() {
@@ -19,10 +16,13 @@ export class DurationService implements IDurationService {
         throw new Error('Not implemented');
     }
 
-    async create(value: Omit<TDuration, 'id'>): Promise<string> {
-        const result = await this.db.insert(duration).values(value).returning();
+    async create(value: Omit<TDuration, 'id'>): Promise<{ insertedId: number }> {
+        const result = await this.db
+            .insert(duration)
+            .values(value)
+            .returning({ insertedId: duration.id });
         if (result.empty()) throw new InternalServerError(InternalError('duration').CREATE);
-        return ServiceSuccess.CREATE;
+        return result[0];
     }
 
     async update(): Promise<string> {
@@ -49,6 +49,7 @@ export class DurationService implements IDurationService {
             })
             .from(duration)
             .innerJoin(task, eq(duration.taskId, task.id))
-            .where(eq(task.nodeId, nodeId));
+            .where(eq(task.nodeId, nodeId))
+            .orderBy(desc(duration.id));
     }
 }
