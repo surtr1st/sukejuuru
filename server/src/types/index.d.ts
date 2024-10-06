@@ -47,7 +47,8 @@ declare type TServiceName =
     | 'priority'
     | 'status'
     | 'duration'
-    | 'criteria';
+    | 'criteria'
+    | 'tracker';
 
 declare type TOmits<T, K extends keyof T> = Array<Omit<T, K>>;
 
@@ -64,17 +65,23 @@ declare type TStatus = TPriority;
 declare type TDuration = {
     id: number;
     timeOnTask: Nullable<number>;
-    madeOnDate: Nullable<Date>;
     startFrom: Nullable<Date>;
     endAt: Nullable<Date>;
     description: Nullable<string>;
     taskId: Nullable<number>;
 };
 
-declare type TDurationPayload = Omit<TDuration, 'madeOnDate' | 'startFrom' | 'endAt'> & {
-    madeOnDate: Nullable<string>;
+declare type TDurationPayload = Omit<TDuration, 'startFrom' | 'endAt'> & {
     startFrom: Nullable<string>;
     endAt: Nullable<string>;
+};
+
+declare type TDurationFromNode = Omit<TDuration, 'taskId'> & {
+    taskTag: {
+        id: Nullable<number>;
+        title: Nullable<string>;
+        color: Nullable<string>;
+    };
 };
 
 declare type TCriteria = {
@@ -82,4 +89,20 @@ declare type TCriteria = {
     description: Nullable<string>;
     createdAt: Nullable<Date>;
     taskId: Nullable<number>;
+};
+
+declare type TTracker = {
+    madeOnDate: Nullable<Date>;
+    durationId: Nullable<number>;
+};
+
+declare type TTrackerFromRaw = Omit<TTracker, 'madeOnDate'> & {
+    madeOn: Nullable<Date>;
+};
+
+declare type TTrackerPayload = Omit<TTracker, 'madeOnDate'> & { madeOnDate: string };
+
+declare type TTrackHistory = {
+    madeOnDate: string;
+    items: TDurationFromNode[];
 };
