@@ -70,13 +70,19 @@
                 </div>
                 <div class="row-span-3 grid grid-cols-12 gap-3">
                     <Select
-                        class="col-span-6"
+                        class="col-span-4"
+                        title="Color"
+                        :colors="state.colors"
+                        v-model:color="task.color"
+                    />
+                    <Select
+                        class="col-span-4"
                         title="Priority"
                         :items="state.priorities"
                         v-model:option="task.priorityId"
                     />
                     <Select
-                        class="col-span-6"
+                        class="col-span-4"
                         title="Status"
                         :items="state.status"
                         v-model:option="task.statusId"
@@ -133,7 +139,7 @@ const open = ref(false);
 const task = reactive<Partial<TTaskPayload>>({
     title: '',
     description: '',
-    color: 'primary',
+    color: state.colors.length > 0 ? state.colors[0].display : 'primary',
     criterias: [],
     priorityId: state.priorities.length > 0 ? state.priorities[0].id : 1,
     statusId: state.status.length > 0 ? state.status[0].id : 1,
