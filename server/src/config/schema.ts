@@ -66,7 +66,7 @@ const color = pgTable('color', {
     id: serial('id').primaryKey(),
     display: varchar('display', { length: 256 }),
     hex: varchar('hex', { length: 30 }),
-    createdAt: timestamp('made_on_date', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }),
 });
 
 const tracker = pgTable('tracker', {
