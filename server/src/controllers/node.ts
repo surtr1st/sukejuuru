@@ -20,4 +20,13 @@ export const NodeController = createBridge()
         const result = await service.remove(id);
         return ok(result);
     })
+    .impl('findNodeById', async () => {
+        try {
+            const id = params<number[]>();
+            const result = await service.findById(id[0]);
+            return response(result);
+        } catch (e) {
+            return response(e as string, 500);
+        }
+    })
     .compose();
