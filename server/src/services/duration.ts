@@ -16,7 +16,7 @@ export class DurationService implements IDurationService {
     }
 
     async list(): Promise<TDuration[]> {
-        return await this.db.select().from(duration);
+        throw new Error('Not implemented');
     }
 
     async create(value: Omit<TDuration, 'id'>): Promise<string> {
@@ -33,17 +33,17 @@ export class DurationService implements IDurationService {
         throw new Error('Not implemented');
     }
 
-    async logsFromNode(nodeId: number) {
+    async logsFromNode(nodeId: number): Promise<TDurationFromNode[]> {
         return await this.db
             .select({
+                id: duration.id,
                 taskTag: {
                     id: task.id,
                     title: task.title,
                     color: task.color,
                 },
                 description: duration.description,
-                duration: duration.timeOnTask,
-                madeOnDate: duration.madeOnDate,
+                timeOnTask: duration.timeOnTask,
                 startFrom: duration.startFrom,
                 endAt: duration.endAt,
             })
