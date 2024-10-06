@@ -1,5 +1,5 @@
 import { DurationService } from '@/services';
-import { body, createBridge, created, response } from '@bunarcane/arcane';
+import { body, createBridge, response } from '@bunarcane/arcane';
 
 const service = new DurationService();
 
@@ -12,7 +12,7 @@ export const DurationController = createBridge()
                 startFrom: new Date(`${payload.startFrom}`),
                 endAt: new Date(`${payload.endAt}`),
             });
-            return created(result);
+            return response(result, 201);
         } catch (e) {
             return response(e as string, 500);
         }
