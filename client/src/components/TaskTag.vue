@@ -1,5 +1,5 @@
 <template>
-    <div :class="theme">
+    <div :class="theme + ' ' + getColors(color)">
         <h3 class="font-semibold">
             {{ display }}
         </h3>
@@ -36,26 +36,7 @@ const computedSize = computed(() => {
     }
 });
 
-const computedColor = computed(() => {
-    switch (props.color) {
-        case 'secondary':
-            return 'bg-secondary/15 text-secondary border-secondary';
-        case 'light':
-            return 'bg-light/15 text-light border-light';
-        case 'neutral':
-            return 'bg-neutral/15 dark:text-light text-neutral border-neutral';
-        case 'neutral-2':
-            return 'bg-neutral-2/15 dark:text-light text-neutral-2 border-neutral-2';
-        case 'dark':
-            return 'bg-dark/15 dark:text-light text-dark border-dark';
-        case 'danger':
-            return 'bg-danger/15 text-danger border-danger';
-        case 'warning':
-            return 'bg-warning/15 text-warning border-warning';
-        default:
-            return 'bg-primary/15 text-primary border-primary';
-    }
-});
+const getColors = (color: string) => `bg-${color}/15 text-${color} border-${color}`;
 
-onMounted(() => (theme.value = `${theme.value} ${computedSize.value} ${computedColor.value}`));
+onMounted(() => (theme.value = `${theme.value} ${computedSize.value}`));
 </script>
