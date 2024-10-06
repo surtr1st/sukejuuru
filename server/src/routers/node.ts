@@ -7,7 +7,6 @@ export const NodeRouter = createRouter()
     .use(NodeParamMiddlewares)
     .use(NodeMiddlewares)
     .get(NodeRoute.RETRIEVE, NodeController.retrieveNode)
+    .get(NodeRoute.FIND_BY_ID, NodeController.findNodeById)
     .post(NodeRoute.CREATE, NodeController.createNode)
-    .put(NodeRoute.UPDATE, NodeController.updateNode)
-    .delete(NodeRoute.DELETE, NodeController.deleteNode)
     .compose();
