@@ -84,8 +84,14 @@ export type TTrackHistoryItem = {
     id: number;
     taskTag: { color: string; title: string };
     description: string;
-    duration: string;
-    localTime: string;
+    timeOnTask: number;
+    startFrom: string;
+    endAt: string;
+};
+
+export type TTrackHistory = {
+    madeOnDate: string;
+    items: TTrackHistoryItem[];
 };
 
 export type TThemePreferences = 'light' | 'dark' | 'system';
@@ -113,6 +119,8 @@ export type TDuration = {
     id: number;
     timeOnTask: number;
     madeOnDate: Date;
+    startFrom: Date;
+    endAt: Date;
     description: string;
     taskId: number;
 };
@@ -121,7 +129,7 @@ export type TAppState = {
     priorities: TPriority[];
     status: TStatus[];
     tagTasks: TTagTask[];
-    trackLogs: TDuration[];
+    trackLogs: TTrackHistory[];
     colors: TColor[];
 };
 
@@ -131,4 +139,9 @@ export type TItems = {
     description: string;
     createdAt: string | null;
     color: string;
+};
+
+export type TTracker = {
+    madeOnDate: Date;
+    durationId: number;
 };
