@@ -155,7 +155,7 @@ import Checkbox from './Checkbox.vue';
 import Modal from './Modal.vue';
 import Select from './Select.vue';
 import Button from './Button.vue';
-import { state } from '@/store';
+import { useState } from '@/store';
 import DatePicker from './DatePicker.vue';
 
 type TTable = {
@@ -172,6 +172,7 @@ const props = withDefaults(defineProps<Partial<TTable>>(), {
     onUpdate: () => {},
 });
 
+const state = useState();
 const tableRow = ref<HTMLTableCellElement[] | null>(null);
 const cellSelected = ref<string | null>(null);
 const title = ref<string>('');
