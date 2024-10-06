@@ -13,7 +13,7 @@ export class TrackerService {
 
     async list(): Promise<TTrackerFromRaw[]> {
         return await this.db.execute(
-            sql`SELECT duration_id, DATE(made_on_date) as made_on FROM tracker GROUP BY DATE(made_on_date)`,
+            sql`SELECT duration_id, TO_CHAR(made_on_date, 'Dy, Mon DD, YYYY') as made_on FROM tracker GROUP BY made_on, duration_id ORDER BY duration_id DESC`,
         );
     }
 
