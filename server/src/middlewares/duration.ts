@@ -5,7 +5,7 @@ export const DurationMiddlewares = createMiddleware(DurationRoute.CREATE)
     .intercept(async () =>
         useErrorHandler().handlePayload({
             requestBody: await body<Omit<TDurationPayload, 'id'>>(),
-            requiredKeys: ['timeOnTask', 'madeOnDate', 'taskId', 'description'],
+            requiredKeys: ['timeOnTask', 'taskId', 'description'],
         }),
     )
     .compose();
