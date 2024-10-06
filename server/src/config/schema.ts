@@ -56,7 +56,8 @@ const criteria = pgTable('criteria', {
 const duration = pgTable('duration', {
     id: serial('id').primaryKey(),
     timeOnTask: integer('time_on_task'),
-    madeOnDate: timestamp('made_on_date', { withTimezone: true }),
+    startFrom: timestamp('start_from', { withTimezone: true }),
+    endAt: timestamp('end_at', { withTimezone: true }),
     description: text('description'),
     taskId: integer('task_id').references(() => task.id),
 });
@@ -68,4 +69,9 @@ const color = pgTable('color', {
     createdAt: timestamp('made_on_date', { withTimezone: true }),
 });
 
-export { node, penalty, task, criteria, status, duration, priority, color };
+const tracker = pgTable('tracker', {
+    madeOnDate: timestamp('made_on_date', { withTimezone: true }),
+    durationId: integer('duration_id').references(() => duration.id),
+});
+
+export { node, penalty, task, criteria, status, duration, priority, color, tracker };

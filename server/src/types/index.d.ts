@@ -65,8 +65,16 @@ declare type TDuration = {
     id: number;
     timeOnTask: Nullable<number>;
     madeOnDate: Nullable<Date>;
+    startFrom: Nullable<Date>;
+    endAt: Nullable<Date>;
     description: Nullable<string>;
     taskId: Nullable<number>;
+};
+
+declare type TDurationPayload = Omit<TDuration, 'madeOnDate' | 'startFrom' | 'endAt'> & {
+    madeOnDate: Nullable<string>;
+    startFrom: Nullable<string>;
+    endAt: Nullable<string>;
 };
 
 declare type TCriteria = {

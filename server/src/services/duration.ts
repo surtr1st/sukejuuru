@@ -44,9 +44,11 @@ export class DurationService implements IDurationService {
                 description: duration.description,
                 duration: duration.timeOnTask,
                 madeOnDate: duration.madeOnDate,
+                startFrom: duration.startFrom,
+                endAt: duration.endAt,
             })
             .from(duration)
-            .innerJoin(task, eq(task.id, duration.taskId))
+            .innerJoin(task, eq(duration.taskId, task.id))
             .where(eq(task.nodeId, nodeId));
     }
 }
