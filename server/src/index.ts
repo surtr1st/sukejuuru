@@ -8,6 +8,7 @@ import {
     PriorityRouter,
     StatusRouter,
     TaskRouter,
+    TrackerRouter,
 } from './routers';
 
 const config = {
@@ -29,6 +30,7 @@ createArcane()
     .use(NodeRouter)
     .use(TaskRouter)
     .use(DurationRouter)
+    .use(TrackerRouter)
     .use(PenaltyRouter)
     .use(PriorityRouter)
     .use(StatusRouter)

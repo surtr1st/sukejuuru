@@ -71,7 +71,7 @@ const color = pgTable('color', {
 
 const tracker = pgTable('tracker', {
     madeOnDate: timestamp('made_on_date', { withTimezone: true }),
-    durationId: integer('duration_id').references(() => duration.id),
+    durationId: integer('duration_id').references(() => duration.id, { onDelete: 'cascade' }),
 });
 
 export { node, penalty, task, criteria, status, duration, priority, color, tracker };
