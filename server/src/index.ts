@@ -1,6 +1,7 @@
 import './extensions';
 import { createArcane } from '@bunarcane/arcane';
 import {
+    ColorRouter,
     CriteriaRouter,
     DurationRouter,
     NodeRouter,
@@ -27,12 +28,13 @@ const plugin = {
 createArcane()
     .withPrefix('/api')
     .enable(plugin)
+    .use(DurationRouter)
     .use(NodeRouter)
     .use(TaskRouter)
-    .use(DurationRouter)
     .use(TrackerRouter)
     .use(PenaltyRouter)
     .use(PriorityRouter)
     .use(StatusRouter)
     .use(CriteriaRouter)
+    .use(ColorRouter)
     .serve(config);

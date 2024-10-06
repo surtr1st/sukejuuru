@@ -106,3 +106,12 @@ declare type TTrackHistory = {
     madeOnDate: string;
     items: TDurationFromNode[];
 };
+
+declare type TColor = {
+    id: number;
+    display: Nullable<string>;
+    hex: Nullable<string>;
+    createdAt: Nullable<Date>;
+};
+
+declare type TColorPayload = Omit<TColor, 'id'>;

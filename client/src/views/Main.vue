@@ -7,8 +7,9 @@ import { sidebarItems } from '@/data';
 import { RouterView } from 'vue-router';
 import { ref, onMounted, nextTick, onBeforeMount } from 'vue';
 import { useState } from '@/store';
-import { usePriority, useStatus, useTask } from '@/services';
+import { useNode, usePriority, useStatus, useTask, useColor } from '@/services';
 import { useCustomToast } from '@/helpers';
+import { useRouter } from 'vue-router';
 
 const state = useState();
 const { preference, toggle } = useTheme();
@@ -17,10 +18,13 @@ const { priorities } = usePriority();
 const { status } = useStatus();
 const { onError } = useCustomToast();
 const { compactTasksFromNode } = useTask();
+const { findNodeById } = useNode();
+const { colors } = useColor();
 const selected = ref('system');
 const isExpand = ref(true);
 const isShrink = ref(false);
 const list = ref<HTMLDivElement | null>(null);
+const router = useRouter();
 
 async function expand() {
     if (!list.value) return;
@@ -35,6 +39,12 @@ onBeforeMount(() => {
     selected.value = preference.value;
     isExpand.value = expanded.value;
     isShrink.value = !expanded.value;
+    const node = localStorage.getItem('node');
+    if (!node) return;
+    findNodeById(parseInt(node)).catch(async (err) => {
+        onError(err);
+        await router.replace('/');
+    });
 });
 
 onMounted(() => {
@@ -54,6 +64,11 @@ onMounted(() => {
     if (state.tagTasks.length === 0) {
         compactTasksFromNode(parseInt(node))
             .then((data) => (state.tagTasks = data))
+            .catch((err) => onError(err));
+    }
+    if (state.colors.length === 0) {
+        colors()
+            .then((data) => (state.colors = data))
             .catch((err) => onError(err));
     }
 });
