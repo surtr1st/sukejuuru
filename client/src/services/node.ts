@@ -21,5 +21,10 @@ export function useNode() {
             const { data } = await useFetch(`${BASE_URL}/nodes/${id}`).delete().text();
             return data.value;
         },
+        findNodeById: async (id: number) => {
+            const { data, error } = await useFetch(`${BASE_URL}/nodes/${id}`).get().json<TNode>();
+            if (error.value !== null) throw new Error(error.value);
+            return data.value ?? {};
+        },
     };
 }
