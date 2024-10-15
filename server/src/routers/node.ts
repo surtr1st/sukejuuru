@@ -13,12 +13,8 @@ node.get(NodeRoute.RETRIEVE, async (c) => {
 
 node.post(NodeRoute.CREATE, nodeValidator.payload, async (c) => {
     const { title } = c.req.valid('json');
-    try {
-        const result = await service.create({ title, createdAt: new Date() });
-        return c.text(result, 201);
-    } catch (e) {
-        return c.text(e as string, 500);
-    }
+    const result = await service.create({ title, createdAt: new Date() });
+    return c.text(result, 201);
 });
 
 export { node };

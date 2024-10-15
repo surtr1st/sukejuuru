@@ -1,15 +1,15 @@
 import { NotFoundError } from '@/errors';
 import { validator } from 'hono/validator';
 
-const query = validator('query', (value, c) => {
+const query = validator('query', (value, _) => {
     const nodeId = value['nodeId'];
-    if (!nodeId) return c.text('Missing required query `nodeId`!', 404);
+    if (!nodeId) throw new NotFoundError('Missing required query `nodeId`!');
     return {
         nodeId: parseInt(nodeId as string),
     };
 });
 
-const payload = validator('json', (value: TTaskPayload, c) => {
+const payload = validator('json', (value: TTaskPayload, _) => {
     if (!value.title) throw new NotFoundError('missing `title`');
 
     const payload: TTask = {
