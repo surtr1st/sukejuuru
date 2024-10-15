@@ -12,7 +12,7 @@ export function useTracker() {
             return data.value;
         },
         createTrack: async (track: TTracker) => {
-            const { data, error } = await useFetch(`${BASE_URL}/track`).post(track).text();
+            const { data, error } = await useFetch(`${BASE_URL}/tracks`).post(track).text();
             if (error.value !== null) throw new Error(error.value);
             return data.value;
         },

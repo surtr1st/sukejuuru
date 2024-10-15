@@ -19,7 +19,7 @@ export function useTask() {
             return data.value ?? [];
         },
         createTask: async (nodeId: number, task: Partial<TTaskPayload>) => {
-            const { data, error } = await useFetch(`${BASE_URL}/task`)
+            const { data, error } = await useFetch(`${BASE_URL}/tasks`)
                 .post({ nodeId, ...task })
                 .text();
             if (error.value !== null) throw new Error(error.value);

@@ -9,7 +9,7 @@ export function useNode() {
             return data.value ?? [];
         },
         createNode: async (node: Partial<Omit<TNode, 'id'>>) => {
-            const { data, error } = await useFetch(`${BASE_URL}/node`).post(node).text();
+            const { data, error } = await useFetch(`${BASE_URL}/nodes`).post(node).text();
             if (error.value !== null) throw new Error(error.value);
             return data.value;
         },

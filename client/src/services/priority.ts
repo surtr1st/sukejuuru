@@ -9,7 +9,7 @@ export function usePriority() {
             return data.value ?? [];
         },
         createPriority: async (priority: Partial<Omit<TPriority, 'id'>>) => {
-            const { data } = await useFetch(`${BASE_URL}/priority`).post(priority).text();
+            const { data } = await useFetch(`${BASE_URL}/priorities`).post(priority).text();
             return data.value;
         },
         updatePriority: async (id: number, newData: Partial<TPriority>) => {
