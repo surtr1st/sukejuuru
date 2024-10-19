@@ -12,14 +12,14 @@ const query = validator('query', (value, _) => {
 const payload = validator('json', (value: TTaskPayload, _) => {
     if (!value.title) throw new NotFoundError('missing `title`');
 
-    const payload: TTask = {
+    const data: TTask = {
         ...value,
         startDate: new Date(`${value.startDate}`),
         dueDate: new Date(`${value.dueDate}`),
         createdAt: new Date(),
     };
     return {
-        payload,
+        data,
     };
 });
 
