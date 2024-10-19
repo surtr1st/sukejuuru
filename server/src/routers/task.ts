@@ -13,9 +13,9 @@ task.get(TaskRoute.RETRIEVE_BY_NODE, taskValidator.query, async (c) => {
 });
 
 task.post(TaskRoute.CREATE, taskValidator.payload, async (c) => {
-    const { payload } = c.req.valid('json');
-    const result = await service.create(payload);
-    return c.json(result, 201);
+    const { data } = c.req.valid('json');
+    const result = await service.create(data);
+    return c.text(result, 201);
 });
 
 export { task };

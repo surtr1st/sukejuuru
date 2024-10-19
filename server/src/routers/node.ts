@@ -11,6 +11,12 @@ node.get(NodeRoute.RETRIEVE, async (c) => {
     return c.json(res);
 });
 
+node.get(NodeRoute.FIND_BY_ID, nodeValidator.params, async (c) => {
+    const { id } = c.req.valid('param');
+    const result = await service.findById(id);
+    return c.json(result);
+});
+
 node.post(NodeRoute.CREATE, nodeValidator.payload, async (c) => {
     const { title } = c.req.valid('json');
     const result = await service.create({ title, createdAt: new Date() });
