@@ -13,7 +13,7 @@ const { nodes, createNode } = useNode();
 const { replace } = useRouter();
 const { toggle } = useTheme();
 const { onSuccess, onError } = useCustomToast();
-const input = ref<string | null>(null);
+const input = ref<string>('');
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
@@ -24,7 +24,7 @@ function handleCreateNode() {
     if (!input.value) return;
     const title = input.value;
     createNode({ title })
-        .then((res) => onSuccess(res))
+        .then((res) => onSuccess(res!))
         .catch((err) => onError(err.message));
 }
 

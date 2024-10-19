@@ -20,8 +20,8 @@ export type TTask = {
     id: number;
     title: string;
     description: string;
-    minLength: string;
-    maxLength: string;
+    minLength: number;
+    maxLength: number;
     startDate: string;
     dueDate: string;
     criterias: TCriteria[];
@@ -112,7 +112,7 @@ export type TTableItem = {
     display: string;
     description: string;
     color: string;
-    createdAt: Date;
+    createdAt: string | null;
 };
 
 export type TDuration = {
