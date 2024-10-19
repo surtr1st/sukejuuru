@@ -3,7 +3,12 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 export interface IBaseService<T1, T2> {}
-export const db = () => drizzle(postgres(useResult(Bun.env.SUKEJUURU_CONNECTION_STRING)));
+export const db = () =>
+    drizzle(
+        postgres(useResult(Bun.env.SUKEJUURU_CONNECTION_STRING), {
+            transform: { column: postgres.toCamel },
+        }),
+    );
 
 export * from './node';
 export * from './task';
