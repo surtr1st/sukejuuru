@@ -19,6 +19,6 @@ onMounted(() => {
     if (state.trackLogs.length === 0)
         logsFromNode(parseInt(node))
             .then((data) => (state.trackLogs = data ?? []))
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
 });
 </script>

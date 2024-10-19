@@ -177,7 +177,7 @@ function resetTimer() {
                 });
                 if (input.value) input.value.value = '';
             })
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
     }
 }
 

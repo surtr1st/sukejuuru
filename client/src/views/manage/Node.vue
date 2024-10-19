@@ -159,7 +159,7 @@ async function handleCreateTask() {
         const result = await createTask(parseInt(node), task);
         onSuccess(result!);
     } catch (e) {
-        onError(e as string);
+        onError((e as unknown as { message: string }).message);
     }
 }
 
@@ -174,6 +174,6 @@ onMounted(() => {
     if (body.value.length > 0) return;
     tasksFromNode(parseInt(nodeId))
         .then((res) => (body.value = res))
-        .catch((err) => onError(err));
+        .catch((err) => onError(err.message));
 });
 </script>

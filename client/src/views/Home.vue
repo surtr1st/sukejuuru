@@ -25,14 +25,14 @@ function handleCreateNode() {
     const title = input.value;
     createNode({ title })
         .then((res) => onSuccess(res))
-        .catch((err) => onError(err));
+        .catch((err) => onError(err.message));
 }
 
 onMounted(() => {
     toggle();
     nodes()
         .then((res) => (list.value = res))
-        .catch((err) => console.error(err));
+        .catch((err) => onError(err.message));
 });
 </script>
 

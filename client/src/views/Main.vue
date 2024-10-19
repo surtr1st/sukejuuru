@@ -54,22 +54,22 @@ onMounted(() => {
     if (state.priorities.length === 0) {
         priorities()
             .then((data) => (state.priorities = data))
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
     }
     if (state.status.length === 0) {
         status()
             .then((data) => (state.status = data))
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
     }
     if (state.tagTasks.length === 0) {
         compactTasksFromNode(parseInt(node))
             .then((data) => (state.tagTasks = data))
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
     }
     if (state.colors.length === 0) {
         colors()
             .then((data) => (state.colors = data))
-            .catch((err) => onError(err));
+            .catch((err) => onError(err.message));
     }
 });
 </script>
