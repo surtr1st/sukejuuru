@@ -5,7 +5,7 @@ import { InternalError, ServiceSuccess } from '@/enums';
 import { InternalServerError } from '@/errors';
 import { sql } from 'drizzle-orm';
 
-export class TrackerService {
+class TrackerService {
     db: PostgresJsDatabase<Record<string, number>>;
 
     constructor() {
@@ -14,7 +14,11 @@ export class TrackerService {
 
     async list(): Promise<TTrackerFromRaw[]> {
         return await this.db.execute(
-            sql`SELECT duration_id, TO_CHAR(made_on_date, 'Dy, Mon DD, YYYY') as made_on FROM tracker GROUP BY made_on, duration_id ORDER BY duration_id DESC`,
+            sql`
+                SELECT duration_id, TO_CHAR(made_on_date, 'Dy, Mon DD, YYYY') as made_on 
+                FROM tracker
+                GROUP BY made_on, duration_id 
+                ORDER BY duration_id DESC`,
         );
     }
 
@@ -23,4 +27,8 @@ export class TrackerService {
         if (result.empty()) throw new InternalServerError(InternalError('tracker').CREATE);
         return ServiceSuccess.CREATE;
     }
+}
+
+export function useTracker() {
+    return new TrackerService();
 }
