@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import Table from '@/components/Table.vue';
-import PriorityStatusModal from '@/components/mixins/PriorityStatusModal.vue';
+import PriorityStatusModal from '@/components/miscellaneos/PriorityStatusModal.vue';
 import { ref, computed } from 'vue';
 import { useState } from '@/store';
 import { onMounted } from 'vue';
