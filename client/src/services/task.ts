@@ -26,7 +26,8 @@ export function useTask() {
             return data.value;
         },
         updateTask: async (id: number, newData: Partial<TTask>) => {
-            const { data } = await useFetch(`${BASE_URL}/tasks/${id}`).put(newData).text();
+            const { data, error } = await useFetch(`${BASE_URL}/tasks/${id}`).put(newData).text();
+            if (error.value !== null) throw new Error(error.value);
             return data.value;
         },
         deleteTask: async (id: number) => {

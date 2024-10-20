@@ -119,9 +119,10 @@ import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { useState } from '@/store';
 import { onMounted, ref, computed, reactive } from 'vue';
+import { RefSymbol } from '@vue/reactivity';
 
 const state = useState();
-const { tasksFromNode, createTask } = useTask();
+const { tasksFromNode, createTask, updateTask } = useTask();
 const { onSuccess, onError } = useCustomToast();
 const headers = computed<string[]>(() => [
     'Title',
@@ -164,8 +165,24 @@ async function handleCreateTask() {
 }
 
 function handleUpdateCell() {
-    if (!table.value) return;
-    if (!table.value.cellSelected) return;
+    if (!table.value || !table.value.cellSelected || !table.value.refId) return;
+
+    const { cellSelected, refId: taskId } = table.value;
+    const selectedTask = body.value.find((task) => task.id === taskId);
+    if (!selectedTask) return;
+
+    const column = cellSelected.column as keyof typeof selectedTask;
+    const value = cellSelected.value;
+
+    if (!(column in selectedTask)) return;
+
+    const updatedValue = typeof selectedTask[column] === 'number' ? Number(value) : value;
+
+    const updatedField = { ...selectedTask, [column]: updatedValue };
+
+    updateTask(taskId, updatedField)
+        .then((res) => onSuccess(res!))
+        .catch((err) => onError(err.message));
 }
 
 onMounted(() => {

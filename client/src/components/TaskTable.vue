@@ -21,7 +21,8 @@
                 class="text-center *:p-5 border dark:border-neutral-2 *:hover:bg-neutral-2/15 *:hover:cursor-pointer"
             >
                 <td
-                    @dblclick="editCell(index, 0, $event)"
+                    id="title"
+                    @dblclick="editCell(content.id, index, 0, $event)"
                     @blur="saveOnBlur(index, 0)"
                     :class="
                         'max-w-[200px] focus:outline focus:outline-warning text-start ' +
@@ -31,14 +32,16 @@
                     {{ content.title }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 1, $event)"
+                    id="description"
+                    @dblclick="editCell(content.id, index, 1, $event)"
                     @blur="saveOnBlur(index, 1)"
                     class="text-start max-w-[300px] focus:outline focus:outline-warning"
                 >
                     {{ content.description }}
                 </td>
                 <td
-                    @dblclick="openUpdateModal('Priority', content.priority.display)"
+                    id="priority"
+                    @dblclick="openUpdateModal('Priority', content.id, content.priority.display)"
                     :class="
                         'max-w-[50px] focus:outline focus:outline-warning ' +
                         getColor(`${content.priority.color}`)
@@ -48,35 +51,40 @@
                 </td>
 
                 <td
-                    @dblclick="editCell(index, 3, $event)"
+                    id="minLength"
+                    @dblclick="editCell(content.id, index, 3, $event)"
                     @blur="saveOnBlur(index, 3)"
                     class="focus:outline focus:outline-warning"
                 >
                     {{ content.minLength }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 4, $event)"
+                    id="maxLength"
+                    @dblclick="editCell(content.id, index, 4, $event)"
                     @blur="saveOnBlur(index, 4)"
                     class="focus:outline focus:outline-warning"
                 >
                     {{ content.maxLength }}
                 </td>
                 <td
-                    @dblclick="openUpdateModal('Start', content.startDate)"
+                    id="startDate"
+                    @dblclick="openUpdateModal('Start', content.id, content.startDate)"
                     @blur="saveOnBlur(index, 5)"
                     class="focus:outline focus:outline-warning"
                 >
                     {{ formatDatetime(content.startDate) }}
                 </td>
                 <td
-                    @dblclick="openUpdateModal('Due', content.dueDate)"
+                    id="dueDate"
+                    @dblclick="openUpdateModal('Due', content.id, content.dueDate)"
                     @blur="saveOnBlur(index, 6)"
                     class="focus:outline focus:outline-warning"
                 >
                     {{ formatDatetime(content.dueDate) }}
                 </td>
                 <td
-                    @dblclick="editCell(index, 7, $event)"
+                    id="criterias"
+                    @dblclick="editCell(content.id, index, 7, $event)"
                     @blur="saveOnBlur(index, 7)"
                     class="focus:outline max-w-[300px] focus:outline-warning"
                 >
@@ -88,7 +96,8 @@
                     />
                 </td>
                 <td
-                    @dblclick="openUpdateModal('Status', content.status.display)"
+                    id="status"
+                    @dblclick="openUpdateModal('Status', content.id, content.status.display)"
                     @blur="saveOnBlur(index, 8)"
                     :class="
                         'focus:outline focus:outline-warning ' + getColor(`${content.status.color}`)
@@ -174,17 +183,19 @@ const props = withDefaults(defineProps<Partial<TTable>>(), {
 
 const state = useState();
 const tableRow = ref<HTMLTableCellElement[] | null>(null);
-const cellSelected = ref<string | null>(null);
+const cellSelected = ref<{ column: string; value: any } | null>(null);
 const title = ref<string>('');
 const open = ref(false);
 const refValue = ref<{ id: number; date: string }>({ id: 0, date: '' });
+const refId = ref(0);
 
-function editCell(row: number, col: number, event: MouseEvent) {
+function editCell(id: number, row: number, col: number, event: MouseEvent) {
     if (!tableRow.value) return;
     tableRow.value[row].focus();
     const selectedCell = tableRow.value[row].children[col];
     selectedCell.setAttribute('contenteditable', 'true');
     autoFocus(event);
+    refId.value = id;
 }
 
 function autoFocus(event: MouseEvent) {
@@ -195,7 +206,10 @@ function autoFocus(event: MouseEvent) {
 function saveOnBlur(row: number, col: number) {
     if (!tableRow.value) return;
     const selectedCell = tableRow.value[row].children[col];
-    cellSelected.value = selectedCell.textContent;
+    cellSelected.value = {
+        column: selectedCell.id,
+        value: selectedCell.textContent,
+    };
     if (props.onUpdate) props.onUpdate();
     selectedCell.setAttribute('contenteditable', 'false');
 }
@@ -207,6 +221,7 @@ function formatDatetime(datetime: Date | string) {
 
 function openUpdateModal(
     columnName: 'Priority' | 'Status' | 'Start' | 'Due',
+    id: number,
     currentValue?: string,
 ) {
     open.value = true;
@@ -214,6 +229,13 @@ function openUpdateModal(
     if (!currentValue) return;
     refValue.value.id = getItemId(currentValue, columnName.toLowerCase()) ?? 0;
     refValue.value.date = new Date(currentValue).toISOString().split('T')[0];
+    refId.value = id;
+
+    // TODO
+    cellSelected.value = {
+        column: columnName.toLowerCase(),
+        value: refValue.value.date,
+    };
 }
 
 function getItemId(display: string, type: string) {
@@ -231,33 +253,8 @@ function onClose() {
 }
 
 function getColor(color: string) {
-    switch (color) {
-        case 'secondary':
-            return 'bg-secondary/15 text-secondary';
-        case 'light':
-            return 'bg-light/15 text-neutral';
-        case 'neutral':
-            return 'bg-neutral/15 text-neutral';
-        case 'neutral-2':
-            return 'bg-neutral-2/15 text-neutral-2';
-        case 'dark':
-            return 'bg-dark/15 text-light';
-        case 'danger':
-            return 'bg-danger/15 text-danger';
-        case 'warning':
-            return 'bg-warning/15 text-warning';
-        case 'info':
-            return 'bg-info/15 text-info';
-        case 'semi-danger':
-            return 'bg-semi-danger/15 text-semi-danger';
-        case 'quarter-danger':
-            return 'bg-quarter-danger/15 text-quarter-danger';
-        case 'success':
-            return 'bg-success/15 text-success';
-        default:
-            return 'bg-primary/15 text-primary';
-    }
+    return `bg-${color}/15 text-${color}`;
 }
 
-defineExpose({ cellSelected });
+defineExpose({ cellSelected, refId });
 </script>
