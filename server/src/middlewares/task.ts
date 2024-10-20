@@ -1,6 +1,14 @@
 import { NotFoundError } from '@/errors';
 import { validator } from 'hono/validator';
 
+const params = validator('param', (_, c) => {
+    const id = c.req.param('id');
+    if (!id) throw new NotFoundError('Missing required param `id`!');
+    return {
+        id: parseInt(id),
+    };
+});
+
 const query = validator('query', (value, _) => {
     const nodeId = value['nodeId'];
     if (!nodeId) throw new NotFoundError('Missing required query `nodeId`!');
@@ -24,6 +32,7 @@ const payload = validator('json', (value: TTaskPayload, _) => {
 });
 
 export const taskValidator = {
+    params,
     query,
     payload,
 };

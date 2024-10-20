@@ -18,4 +18,11 @@ task.post(TaskRoute.CREATE, taskValidator.payload, async (c) => {
     return c.text(result, 201);
 });
 
+task.put(TaskRoute.UPDATE, taskValidator.params, taskValidator.payload, async (c) => {
+    const { id } = c.req.valid('param');
+    const { data } = c.req.valid('json');
+    const result = await service.update(id, data);
+    return c.text(result);
+});
+
 export { task };
