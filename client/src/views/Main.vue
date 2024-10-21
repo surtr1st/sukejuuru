@@ -36,6 +36,7 @@ async function expand() {
 }
 
 onBeforeMount(() => {
+    toggle();
     selected.value = preference.value;
     isExpand.value = expanded.value;
     isShrink.value = !expanded.value;
@@ -45,12 +46,6 @@ onBeforeMount(() => {
         onError(err);
         await router.replace('/');
     });
-});
-
-onMounted(() => {
-    toggle();
-    const node = localStorage.getItem('node');
-    if (!node) return;
     if (state.priorities.length === 0) {
         priorities()
             .then((data) => (state.priorities = data))
