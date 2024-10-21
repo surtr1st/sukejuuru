@@ -22,14 +22,14 @@
         :open="openPriorityModal"
         type="priority"
         @close="openPriorityModal = false"
-        :colors="transformColors"
+        :colors="state.colors"
     />
     <PriorityStatusModal
         ref="smodal"
         :open="openStatusModal"
         type="status"
         @close="openStatusModal = false"
-        :colors="transformColors"
+        :colors="state.colors"
     />
 </template>
 
@@ -47,18 +47,9 @@ const openPriorityModal = ref(false);
 const openStatusModal = ref(false);
 const headers = computed(() => ['Display', 'Description']);
 
-const transformColors = computed(() =>
-    state.colors.map((color) => ({
-        id: color.id,
-        display: color.display,
-        description: '',
-        color: color.hex,
-        createdAt: '',
-    })),
-);
-
 onMounted(() =>
-    provide<Omit<TPriority, 'id' | 'createdAt'>>('priority-status', {
+    provide<Omit<TPriority, 'createdAt'>>('priority-status', {
+        id: 1,
         display: '',
         description: '',
         color: 'primary',

@@ -25,7 +25,7 @@
                         title="Color"
                         :items="colors"
                         :select-option="colors[0].display"
-                        v-model:option="item.color"
+                        v-model:option="item.id"
                     />
                 </div>
             </div>
@@ -48,9 +48,10 @@
 <script setup lang="ts">
 import Modal from '@/components/Modal.vue';
 import Input from '@/components/Input.vue';
+import TextArea from '@/components/TextArea.vue';
 import Select from '@/components/Select.vue';
 import Button from '@/components/Button.vue';
-import type { TPriority, TStatus, TItems } from '@/types';
+import type { TPriority, TStatus, TColor } from '@/types';
 import { ref, inject } from 'vue';
 import { onMounted } from 'vue';
 import { usePriority, useStatus } from '@/services';
@@ -60,7 +61,7 @@ type TPriorityStatusModal = {
     type: 'priority' | 'status';
     open: boolean;
     onClose: () => void;
-    colors: TItems[];
+    colors: TColor[];
 };
 
 const item = ref<Partial<TPriority>>({});
@@ -84,12 +85,12 @@ function submit() {
 
 function handleCreatePriority(item: Omit<TPriority, 'id'>) {
     createPriority(item)
-        .then((res) => onSuccess(res))
+        .then((res) => onSuccess(res!))
         .catch((err) => onError(err));
 }
 function handleCreateStatus(item: Omit<TStatus, 'id'>) {
     createStatus(item)
-        .then((res) => onSuccess(res))
+        .then((res) => onSuccess(res!))
         .catch((err) => onError(err));
 }
 
