@@ -152,7 +152,10 @@
             </div>
         </template>
         <template #footer>
-            <Button title="Update" />
+            <Button
+                title="Update"
+                @click="updateModalItem"
+            />
         </template>
     </Modal>
 </template>
@@ -172,6 +175,7 @@ type TTable = {
     body: TTask[];
     onAdd: () => void;
     onUpdate: () => void;
+    onModalClose: () => void;
 };
 
 const props = withDefaults(defineProps<Partial<TTable>>(), {
@@ -179,6 +183,7 @@ const props = withDefaults(defineProps<Partial<TTable>>(), {
     body: () => [],
     onAdd: () => {},
     onUpdate: () => {},
+    onModalClose: () => {},
 });
 
 const state = useState();
@@ -227,15 +232,18 @@ function openUpdateModal(
     open.value = true;
     title.value = columnName;
     if (!currentValue) return;
-    refValue.value.id = getItemId(currentValue, columnName.toLowerCase()) ?? 0;
-    refValue.value.date = new Date(currentValue).toISOString().split('T')[0];
-    refId.value = id;
+    switch (columnName) {
+        case 'Priority':
+        case 'Status':
+            refValue.value.id = getItemId(currentValue, columnName.toLowerCase()) ?? 0;
+            break;
+        case 'Start':
+        case 'Due':
+            refValue.value.date = new Date(currentValue).toISOString().split('T')[0];
+            break;
+    }
 
-    // TODO
-    cellSelected.value = {
-        column: columnName.toLowerCase(),
-        value: refValue.value.date,
-    };
+    refId.value = id;
 }
 
 function getItemId(display: string, type: string) {
@@ -254,6 +262,33 @@ function onClose() {
 
 function getColor(color: string) {
     return `bg-${color}/15 text-${color}`;
+}
+
+function getRelationItem(id: number, type: string) {
+    if (!id) return 0;
+    switch (type) {
+        case 'status':
+            return state.status.find((p) => p.id === id);
+        default:
+            return state.priorities.find((p) => p.id === id);
+    }
+}
+
+function updateModalItem() {
+    title.value = title.value.toLowerCase();
+    if (title.value.startsWith('start') || title.value.startsWith('due')) {
+        cellSelected.value = {
+            column: title.value + 'Date',
+            value: new Date(refValue.value.date),
+        };
+    } else {
+        cellSelected.value = {
+            column: title.value + 'Id',
+            value: refValue.value.id,
+        };
+    }
+    props.onModalClose();
+    onClose();
 }
 
 defineExpose({ cellSelected, refId });

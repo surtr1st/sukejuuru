@@ -4,6 +4,7 @@
         :body
         @add="open = true"
         @update="handleUpdateCell()"
+        @modal-close="handleUpdateCell()"
         ref="table"
     />
     <Modal
@@ -119,7 +120,6 @@ import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { useState } from '@/store';
 import { onMounted, ref, computed, reactive } from 'vue';
-import { RefSymbol } from '@vue/reactivity';
 
 const state = useState();
 const { tasksFromNode, createTask, updateTask } = useTask();
@@ -171,15 +171,9 @@ function handleUpdateCell() {
     const selectedTask = body.value.find((task) => task.id === taskId);
     if (!selectedTask) return;
 
-    const column = cellSelected.column as keyof typeof selectedTask;
+    const column = cellSelected.column as keyof TTaskPayload;
     const value = cellSelected.value;
-
-    if (!(column in selectedTask)) return;
-
-    const updatedValue = typeof selectedTask[column] === 'number' ? Number(value) : value;
-
-    const updatedField = { ...selectedTask, [column]: updatedValue };
-
+    const updatedField = { ...selectedTask, [column]: value };
     updateTask(taskId, updatedField)
         .then((res) => onSuccess(res!))
         .catch((err) => onError(err.message));
