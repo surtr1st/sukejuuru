@@ -4,7 +4,8 @@
     "main": "dist/index.js",
     "version": "0.0.3",
     "scripts": {
-        "dev": "bun run --hot src/index.ts"
+        "dev": "bun run --hot src/index.ts",
+        "build": "bun run build src/index.ts"
     },
     "dependencies": {
         "dotenv": "^16.4.5",

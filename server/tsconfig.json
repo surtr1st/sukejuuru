@@ -28,7 +28,8 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "outDir": "dist"
     },
     "include": ["env.d.ts", "src/**/*"]
 }
