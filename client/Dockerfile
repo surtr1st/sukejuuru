@@ -1,5 +1,7 @@
 FROM oven/bun AS base
 
+ARG VITE_SERVER_URL
+
 WORKDIR /usr/src/app
 
 FROM base AS install

@@ -11,6 +11,6 @@ COPY . .
 COPY --from=install /usr/src/app/node_modules ./node_modules
 RUN bun run build
 
-EXPOSE 70
+EXPOSE 7000/tcp
 CMD ["bun", "run", "start"]
 
