@@ -132,7 +132,6 @@ function startTimer(id: number) {
     if (input.value.value.length === 0) return;
     if (isAlreadyStarted()) isListShown.value = false;
     task.value = props.list.find((item) => item.id === id) ?? {};
-    console.log(task.value);
     startTime.value = Date.now();
     elapsedTime.value.start = startTime.value;
     isBegin.value = true;
