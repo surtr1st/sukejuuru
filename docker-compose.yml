@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: sukejuuru_frontend
+    restart: always
+    container_name: skjr_client
+    environment:
+      VITE_SERVER_URL: ${VITE_SERVER_URL}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+
+  backend:
+    image: sukejuuru_backend
+    restart: always
+    container_name: skjr_server
+    enviroment:
+      SUKEJUURU_CONNECTION_STRING: ${SUKEJUURU_CONNECTION_STRING}
+    ports:
+      - "7000:7000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local
