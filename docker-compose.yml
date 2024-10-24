@@ -17,6 +17,7 @@ services:
     restart: always
     container_name: skjr_server
     environment:
+      REL_ALLOWED_ORIGIN: ${REL_ALLOWED_ORIGIN}
       SUKEJUURU_CONNECTION_STRING: ${SUKEJUURU_CONNECTION_STRING}
     ports:
       - "7000:7000"
