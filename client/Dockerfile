@@ -2,11 +2,12 @@ FROM oven/bun AS base
 
 WORKDIR /usr/src/app
 
+RUN bun i -g serve
+
 # Caching to speed up future builds
 FROM base AS install
 RUN mkdir -p /temp/dev
-COPY package.json /temp/dev
-COPY bun.lockb /temp/dev
+COPY package.json bun.lockb /temp/dev/
 RUN cd /temp/dev && bun install --frozen-lockfile
 
 # install with --production (exclude devDependencies)
@@ -28,6 +29,6 @@ COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/index.ts .
 COPY --from=prerelease /usr/src/app/package.json .
 
-USER bun
+USER sukejuuru
 EXPOSE 5000/tcp
-ENTRYPOINT [ "bun", "run" , "index.ts"]
+ENTRYPOINT [ "serve", "-s" , "dist"]
