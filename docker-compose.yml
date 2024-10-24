@@ -8,7 +8,7 @@ services:
     environment:
       VITE_SERVER_URL: ${VITE_SERVER_URL}
     ports:
-      - "5000:5000"
+      - "5000:80"
     depends_on:
       - backend
 
@@ -16,7 +16,7 @@ services:
     image: sukejuuru_backend
     restart: always
     container_name: skjr_server
-    enviroment:
+    environment:
       SUKEJUURU_CONNECTION_STRING: ${SUKEJUURU_CONNECTION_STRING}
     ports:
       - "7000:7000"
@@ -26,7 +26,7 @@ services:
   db:
     image: postgres
     restart: always
-    container_name: postgres_db
+    container_name: skjr_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
