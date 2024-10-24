@@ -68,7 +68,6 @@
 <script setup lang="ts">
 import type { TItems, TColor } from '@/types';
 import type { VNodeRef } from 'vue';
-import { ref } from 'vue';
 
 type TSelect = {
     title: string;

@@ -23,7 +23,7 @@
                     <Select
                         class="col-span-3"
                         title="Color"
-                        :items="colors"
+                        :colors
                         :select-option="colors[0].display"
                         v-model:option="item.id"
                     />
@@ -74,11 +74,11 @@ function submit() {
     switch (props.type) {
         case 'status':
             if (!item.value) return;
-            handleCreateStatus(item.value);
+            handleCreateStatus(item.value as TPriority);
             break;
         default:
             if (!item.value) return;
-            handleCreatePriority(item.value);
+            handleCreatePriority(item.value as TPriority);
             break;
     }
 }
