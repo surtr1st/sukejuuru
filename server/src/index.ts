@@ -24,6 +24,7 @@ const app = new Hono()
         err instanceof HTTPException ? err.getResponse() : c.text(err.message, 500),
     );
 
+app.get('/checkhealth', (c) => c.text('OK'))
 app.route('/', node);
 app.route('/', task);
 app.route('/', duration);
