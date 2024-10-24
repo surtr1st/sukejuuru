@@ -1,4 +1,4 @@
-export const BASE_URL = `${import.meta.env.VITE_SERVER_URL || 'http://localhost:3000'}/api`;
+export const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api`;
 
 export * from './node';
 export * from './task';
