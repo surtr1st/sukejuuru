@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { nextTick, onMounted } from 'vue';
 import { useNode } from '@/services';
 import { ref } from 'vue';
 import type { TNode } from '@/types';
@@ -7,13 +7,19 @@ import { useRouter } from 'vue-router';
 import { useTheme } from '@/composables';
 import Input from '@/components/Input.vue';
 import { useCustomToast } from '@/helpers';
+import { watchTriggerable } from '@vueuse/core';
+import { useBoolState } from '@/store';
 
-const list = ref<TNode[]>([]);
+const input = ref<string>('');
+const list = ref<TNode[] | null>([]);
+
+const boolState = useBoolState();
 const { nodes, createNode } = useNode();
 const { replace } = useRouter();
 const { toggle } = useTheme();
 const { onSuccess, onError } = useCustomToast();
-const input = ref<string>('');
+
+const { trigger } = watchTriggerable(() => boolState.added, fetchNodes);
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
@@ -24,15 +30,27 @@ function handleCreateNode() {
     if (!input.value) return;
     const title = input.value;
     createNode({ title })
-        .then((res) => onSuccess(res!))
+        .then((res) => {
+            onSuccess(res!);
+            boolState.toggleAdded();
+        })
         .catch((err) => onError(err.message));
 }
 
-onMounted(() => {
+async function fetchNodes() {
+    try {
+        const response = await nodes();
+        list.value = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+onMounted(async () => {
     toggle();
-    nodes()
-        .then((res) => (list.value = res))
-        .catch((err) => onError(err.message));
+    await fetchNodes();
+    await nextTick();
+    trigger();
 });
 </script>
 
