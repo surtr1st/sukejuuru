@@ -5,13 +5,15 @@ import Tracker from '@/components/Tracker.vue';
 import { useSidebar, useTheme } from '@/composables';
 import { sidebarItems } from '@/data';
 import { RouterView } from 'vue-router';
-import { ref, onMounted, nextTick, onBeforeMount } from 'vue';
-import { useState } from '@/store';
+import { ref, nextTick, onBeforeMount } from 'vue';
+import { useBoolState, useState } from '@/store';
 import { useNode, usePriority, useStatus, useTask, useColor } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { useRouter } from 'vue-router';
+import { watchTriggerable } from '@vueuse/core';
 
 const state = useState();
+const boolState = useBoolState();
 const { preference, toggle } = useTheme();
 const { expanded, setExpand } = useSidebar();
 const { priorities } = usePriority();
@@ -25,6 +27,10 @@ const isExpand = ref(true);
 const isShrink = ref(false);
 const list = ref<HTMLDivElement | null>(null);
 const router = useRouter();
+const { trigger: _triggerPriority } = watchTriggerable(() => state.priorities, fetchPriorities);
+const { trigger: _triggerStatus } = watchTriggerable(() => state.status, fetchStatus);
+const { trigger: _triggerColor } = watchTriggerable(() => state.colors, fetchColors);
+const { trigger: _triggerTagTask } = watchTriggerable(() => state.tagTasks, fetchTagTasks);
 
 async function expand() {
     if (!list.value) return;
@@ -35,37 +41,61 @@ async function expand() {
     else isShrink.value = false;
 }
 
-onBeforeMount(() => {
+async function fetchPriorities() {
+    try {
+        const response = await priorities();
+        state.priorities = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+async function fetchStatus() {
+    try {
+        const response = await status();
+        state.status = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+async function fetchColors() {
+    try {
+        const response = await colors();
+        state.colors = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+async function fetchTagTasks() {
+    try {
+        const node = localStorage.getItem('node');
+        if (!node) return;
+        const response = await compactTasksFromNode(parseInt(node));
+        state.tagTasks = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+onBeforeMount(async () => {
     toggle();
     selected.value = preference.value;
     isExpand.value = expanded.value;
     isShrink.value = !expanded.value;
+
     const node = localStorage.getItem('node');
     if (!node) return;
     findNodeById(parseInt(node)).catch(async (err) => {
         onError(err);
         await router.replace('/');
     });
-    if (state.priorities.length === 0) {
-        priorities()
-            .then((data) => (state.priorities = data))
-            .catch((err) => onError(err.message));
-    }
-    if (state.status.length === 0) {
-        status()
-            .then((data) => (state.status = data))
-            .catch((err) => onError(err.message));
-    }
-    if (state.tagTasks.length === 0) {
-        compactTasksFromNode(parseInt(node))
-            .then((data) => (state.tagTasks = data))
-            .catch((err) => onError(err.message));
-    }
-    if (state.colors.length === 0) {
-        colors()
-            .then((data) => (state.colors = data))
-            .catch((err) => onError(err.message));
-    }
+
+    if (state.priorities.length === 0) await fetchPriorities();
+    if (state.status.length === 0) await fetchStatus();
+    if (state.colors.length === 0) await fetchColors();
+    if (state.tagTasks.length === 0) await fetchTagTasks();
 });
 </script>
 
