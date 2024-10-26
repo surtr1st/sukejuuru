@@ -5,7 +5,7 @@ import Tracker from '@/components/Tracker.vue';
 import { useSidebar, useTheme } from '@/composables';
 import { sidebarItems } from '@/data';
 import { RouterView } from 'vue-router';
-import { ref, nextTick, onBeforeMount } from 'vue';
+import { ref, nextTick, onBeforeMount, onMounted } from 'vue';
 import { useBoolState, useState } from '@/store';
 import { useNode, usePriority, useStatus, useTask, useColor } from '@/services';
 import { useCustomToast } from '@/helpers';
@@ -27,10 +27,10 @@ const isExpand = ref(true);
 const isShrink = ref(false);
 const list = ref<HTMLDivElement | null>(null);
 const router = useRouter();
-const { trigger: _triggerPriority } = watchTriggerable(() => state.priorities, fetchPriorities);
-const { trigger: _triggerStatus } = watchTriggerable(() => state.status, fetchStatus);
-const { trigger: _triggerColor } = watchTriggerable(() => state.colors, fetchColors);
-const { trigger: _triggerTagTask } = watchTriggerable(() => state.tagTasks, fetchTagTasks);
+// const { trigger: triggerPriority } = watchTriggerable(() => state.priorities, fetchPriorities);
+// const { trigger: triggerStatus } = watchTriggerable(() => state.status, fetchStatus);
+// const { trigger: triggerColor } = watchTriggerable(() => state.colors, fetchColors);
+// const { trigger: triggerTagTask } = watchTriggerable(() => state.tagTasks, fetchTagTasks);
 
 async function expand() {
     if (!list.value) return;
@@ -96,6 +96,13 @@ onBeforeMount(async () => {
     if (state.status.length === 0) await fetchStatus();
     if (state.colors.length === 0) await fetchColors();
     if (state.tagTasks.length === 0) await fetchTagTasks();
+});
+
+onMounted(() => {
+    // if (boolState.priority) triggerPriority();
+    // if (boolState.status) triggerStatus();
+    // if (boolState.color) triggerColor();
+    // if (boolState.tagTask) triggerTagTask();
 });
 </script>
 

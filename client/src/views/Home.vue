@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { nextTick, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useNode } from '@/services';
-import { ref } from 'vue';
 import type { TNode } from '@/types';
 import { useRouter } from 'vue-router';
 import { useTheme } from '@/composables';
@@ -49,8 +48,7 @@ async function fetchNodes() {
 onMounted(async () => {
     toggle();
     await fetchNodes();
-    await nextTick();
-    trigger();
+    if (boolState.node) trigger();
 });
 </script>
 

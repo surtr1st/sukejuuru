@@ -118,10 +118,12 @@ import NumInput from '@/components/NumInput.vue';
 import type { TPriority, TTask, TTaskPayload } from '@/types';
 import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
-import { useState } from '@/store';
-import { onMounted, ref, computed, reactive } from 'vue';
+import { useBoolState, useState } from '@/store';
+import { onMounted, ref, computed, nextTick } from 'vue';
+import { watchTriggerable } from '@vueuse/core';
 
 const state = useState();
+const boolState = useBoolState();
 const { tasksFromNode, createTask, updateTask } = useTask();
 const { onSuccess, onError } = useCustomToast();
 const headers = computed<string[]>(() => [
@@ -137,14 +139,15 @@ const headers = computed<string[]>(() => [
 ]);
 const body = ref<TTask[]>([]);
 const open = ref(false);
-const task = reactive<Partial<TTaskPayload>>({
+const defaultTaskValue = computed(() => ({
     title: '',
     description: '',
     color: state.colors.length > 0 ? state.colors[0].display : 'primary',
     criterias: [],
     priorityId: state.priorities.length > 0 ? state.priorities[0].id : 1,
     statusId: state.status.length > 0 ? state.status[0].id : 1,
-});
+}));
+const task = ref<Partial<TTaskPayload>>(defaultTaskValue.value);
 const timeUnits = computed<TPriority[]>(() => [
     { id: 1, display: 'Minutes', description: '', createdAt: '', color: '' },
     { id: 2, display: 'Hours', description: '', createdAt: '', color: '' },
@@ -153,12 +156,16 @@ const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
 const table = ref<InstanceType<typeof TaskTable> | null>(null);
 
+const { trigger } = watchTriggerable(() => boolState.task, fetchTasksFromNode);
+
 async function handleCreateTask() {
     try {
         const node = localStorage.getItem('node');
         if (!node) return;
-        const result = await createTask(parseInt(node), task);
+        const result = await createTask(parseInt(node), task.value);
         onSuccess(result!);
+        boolState.toggle('task');
+        task.value = defaultTaskValue.value;
     } catch (e) {
         onError((e as unknown as { message: string }).message);
     }
@@ -179,12 +186,19 @@ function handleUpdateCell() {
         .catch((err) => onError(err.message));
 }
 
-onMounted(() => {
-    const nodeId = localStorage.getItem('node');
-    if (!nodeId) return;
-    if (body.value.length > 0) return;
-    tasksFromNode(parseInt(nodeId))
-        .then((res) => (body.value = res))
-        .catch((err) => onError(err.message));
+async function fetchTasksFromNode() {
+    try {
+        const nodeId = localStorage.getItem('node');
+        if (!nodeId) return;
+        const response = await tasksFromNode(parseInt(nodeId));
+        body.value = response;
+    } catch (e) {
+        onError((e as Error).message);
+    }
+}
+
+onMounted(async () => {
+    await fetchTasksFromNode();
+    if (boolState.task) trigger();
 });
 </script>
