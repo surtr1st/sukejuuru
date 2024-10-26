@@ -19,7 +19,7 @@ const { replace } = useRouter();
 const { toggle } = useTheme();
 const { onSuccess, onError } = useCustomToast();
 
-const { trigger } = watchTriggerable(() => boolState.added, fetchNodes);
+const { trigger } = watchTriggerable(() => boolState.node, fetchNodes);
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
@@ -32,7 +32,7 @@ function handleCreateNode() {
     createNode({ title })
         .then((res) => {
             onSuccess(res!);
-            boolState.toggleAdded();
+            boolState.toggle('node');
         })
         .catch((err) => onError(err.message));
 }

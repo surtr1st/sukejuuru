@@ -145,3 +145,5 @@ export type TTracker = {
     madeOnDate: Date;
     durationId: number;
 };
+
+export type TBoolStateKey = 'node' | 'priority' | 'status' | 'color' | 'tag-task';
