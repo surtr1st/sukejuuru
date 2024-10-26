@@ -5,7 +5,8 @@ import { useFetch } from '@vueuse/core';
 export function useNode() {
     return {
         nodes: async () => {
-            const { data } = await useFetch(`${BASE_URL}/nodes`).get().json<TNode[]>();
+            const { data, error } = await useFetch(`${BASE_URL}/nodes`).get().json<TNode[]>();
+            if (error.value !== null) throw new Error(error.value);
             return data.value ?? [];
         },
         createNode: async (node: Partial<Omit<TNode, 'id'>>) => {
