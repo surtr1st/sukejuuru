@@ -75,12 +75,12 @@
 import Button from './Button.vue';
 import TaskTag from './TaskTag.vue';
 import MinusCircleIcon from './icons/24x24/MinusCircleIcon.vue';
-import { ref } from 'vue';
 import type { TTagTask } from '@/types';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useDuration, useTracker } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { tryOnMounted, tryOnUnmounted } from '@vueuse/core';
+import { useBoolState } from '@/store';
 
 type TTracker = {
     list: TTagTask[];
@@ -90,6 +90,7 @@ const props = withDefaults(defineProps<Partial<TTracker>>(), {
     list: () => [],
 });
 
+const boolState = useBoolState();
 const isBegin = ref(false);
 const input = ref<HTMLInputElement | null>(null);
 const isListShown = ref(false);
@@ -175,6 +176,7 @@ function resetTimer() {
                     durationId: insertedId,
                 });
                 if (input.value) input.value.value = '';
+                boolState.toggle('tracker');
             })
             .catch((err) => onError(err.message));
     }

@@ -19,11 +19,12 @@ export const useBoolState = defineStore('boolState', {
         color: false,
         tagTask: false,
         task: false,
+        tracker: false,
     }),
 
     getters: {
         keys() {
-            return ['node', 'color', 'priority', 'status', 'tag-task', 'task'];
+            return ['node', 'color', 'priority', 'status', 'tag-task', 'task', 'tracker'];
         },
     },
 
@@ -53,6 +54,10 @@ export const useBoolState = defineStore('boolState', {
                 case 'task':
                     this.task = true;
                     setTimeout(() => (this.task = false), 0);
+                    break;
+                case 'tracker':
+                    this.tracker = true;
+                    setTimeout(() => (this.tracker = false), 0);
                     break;
             }
         },

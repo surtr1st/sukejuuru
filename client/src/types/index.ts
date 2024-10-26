@@ -146,4 +146,11 @@ export type TTracker = {
     durationId: number;
 };
 
-export type TBoolStateKey = 'node' | 'priority' | 'status' | 'color' | 'tag-task' | 'task';
+export type TBoolStateKey =
+    | 'node'
+    | 'priority'
+    | 'status'
+    | 'color'
+    | 'tag-task'
+    | 'task'
+    | 'tracker';
