@@ -3,13 +3,14 @@
         <label
             v-show="!noTitle"
             :for="title"
-            class="text-lg font-semibold dark:text-light"
+            class="text-lg font-semibold dark:text-frost"
             >{{ title }}</label
         >
         <textarea
             :id="title"
+            :name="title"
             :placeholder="placeholder"
-            class="placeholder:italic drop-shadow-lg bg-light text-neutral rounded-7px w-full p-3 border border-neutral-2 focus:border-primary outline-none dark:bg-dark dark:text-light dark:border-neutral-2"
+            class="placeholder:italic drop-shadow-lg bg-frost text-neutral rounded-7px w-full p-3 border border-slate focus:border-primary outline-none dark:bg-midnight dark:text-frost dark:border-slate"
             v-model="model"
         />
     </div>
@@ -22,7 +23,7 @@ type TTextArea = {
     noTitle: boolean;
 };
 
-const props = withDefaults(defineProps<Partial<TTextArea>>(), {
+withDefaults(defineProps<Partial<TTextArea>>(), {
     title: 'No title',
     placeholder: '',
     noTitle: false,

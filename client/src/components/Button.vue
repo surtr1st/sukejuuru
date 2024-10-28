@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Partial<TButton>>(), {
 });
 const emit = defineEmits(['click']);
 const theme = ref<string>(
-    'shadow-md shadow-dark/50 text-light font-semibold p-3 transition ease-in-out text-[15px]',
+    'shadow-md shadow-dark/50 text-frost font-semibold p-3 transition ease-in-out text-[15px]',
 );
 
 const computedFullRounded = computed(() => (props.rounded ? 'rounded-full' : 'rounded-7px'));
@@ -81,34 +81,10 @@ const computedSize = computed(() => {
     }
 });
 
-const computedColor = computed(() => {
-    switch (props.color) {
-        case 'secondary':
-            return 'bg-secondary hover:bg-h-secondary';
-        case 'light':
-            return 'bg-light text-neutral hover:bg-h-light';
-        case 'neutral':
-            return 'bg-neutral hover:bg-h-neutral';
-        case 'neutral-2':
-            return 'bg-neutral-2 hover:bg-h-neutral-2';
-        case 'dark':
-            return 'bg-dark hover:bg-h-dark';
-        case 'danger':
-            return 'bg-danger hover:bg-h-danger';
-        case 'warning':
-            return 'bg-warning hover:bg-h-warning';
-        case 'info':
-            return 'bg-info hover:bg-info/15';
-        case 'semi-danger':
-            return 'bg-semi-danger hover:bg-semi-danger/15';
-        case 'quarter-danger':
-            return 'bg-quarter-danger hover:bg-quarter-danger/15';
-        case 'success':
-            return 'bg-success hover:bg-success/15';
-        default:
-            return 'bg-primary hover:bg-h-primary';
-    }
-});
+const computedColor = computed(
+    () =>
+        `bg-${props.color} hover:bg-h-${props.color} ${props.color === 'frost' ? 'text-neutral' : ''}`,
+);
 
 onMounted(
     () =>

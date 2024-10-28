@@ -46,7 +46,7 @@
                     {{ convertTimeDiffrence(item.timeOnTask) }}
                 </li>
                 <li class="col-span-2">
-                    {{ formatDate(item.startFrom) }} - {{ formatDate(item.endAt) }}
+                    {{ formatLocalDate(item.startFrom) }} - {{ formatLocalDate(item.endAt) }}
                 </li>
             </ul>
         </div>
@@ -60,7 +60,7 @@ import CalendarDaysIcon from '@/components/icons/24x24/CalendarDaysIcon.vue';
 import ChevronDownIcon from '@/components/icons/24x24/ChevronDownIcon.vue';
 import ChevronUpIcon from '@/components/icons/24x24/ChevronUpIcon.vue';
 import TaskTag from './TaskTag.vue';
-import { useDateFormat } from '@vueuse/core';
+import { formatLocalDate } from '@/composables';
 
 type TTrackHistory = {
     tracks: TrackHistory[];
@@ -74,10 +74,6 @@ const isActive = ref<boolean>(false);
 
 function toggle() {
     isActive.value = !isActive.value;
-}
-
-function formatDate(timestamp: string) {
-    return useDateFormat(timestamp, 'HH:mm A');
 }
 
 function convertTimeDiffrence(ms: number) {

@@ -3,9 +3,6 @@
         :headers
         :body
         @add="open = true"
-        @update="handleUpdateCell()"
-        @modal-close="handleUpdateCell()"
-        ref="table"
     />
     <Modal
         :open="open"
@@ -93,14 +90,14 @@
         </template>
         <template #footer>
             <Button
+                title="Close"
+                color="midnight"
+                @click="open = false"
+            />
+            <Button
                 title="Add"
                 color="primary"
                 @click="handleCreateTask()"
-            />
-            <Button
-                title="Close"
-                color="dark"
-                @click="open = false"
             />
         </template>
     </Modal>
@@ -119,12 +116,12 @@ import type { TPriority, TTask, TTaskPayload } from '@/types';
 import { useTask } from '@/services';
 import { useCustomToast } from '@/helpers';
 import { useBoolState, useState } from '@/store';
-import { onMounted, ref, computed, nextTick } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { watchTriggerable } from '@vueuse/core';
 
 const state = useState();
 const boolState = useBoolState();
-const { tasksFromNode, createTask, updateTask } = useTask();
+const { tasksFromNode, createTask } = useTask();
 const { onSuccess, onError } = useCustomToast();
 const headers = computed<string[]>(() => [
     'Title',
@@ -154,47 +151,27 @@ const timeUnits = computed<TPriority[]>(() => [
 ]);
 const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
-const table = ref<InstanceType<typeof TaskTable> | null>(null);
 
 const { trigger } = watchTriggerable(() => boolState.task, fetchTasksFromNode);
 
-async function handleCreateTask() {
-    try {
-        const node = localStorage.getItem('node');
-        if (!node) return;
-        const result = await createTask(parseInt(node), task.value);
-        onSuccess(result!);
-        boolState.toggle('task');
-        task.value = defaultTaskValue.value;
-    } catch (e) {
-        onError((e as unknown as { message: string }).message);
-    }
-}
-
-function handleUpdateCell() {
-    if (!table.value || !table.value.cellSelected || !table.value.refId) return;
-
-    const { cellSelected, refId: taskId } = table.value;
-    const selectedTask = body.value.find((task) => task.id === taskId);
-    if (!selectedTask) return;
-
-    const column = cellSelected.column as keyof TTaskPayload;
-    const value = cellSelected.value;
-    const updatedField = { ...selectedTask, [column]: value };
-    updateTask(taskId, updatedField)
-        .then((res) => onSuccess(res!))
+function handleCreateTask() {
+    const node = localStorage.getItem('node');
+    if (!node) return;
+    createTask(parseInt(node), task.value)
+        .then((res) => {
+            onSuccess(res!);
+            boolState.toggle('task');
+            task.value = defaultTaskValue.value;
+        })
         .catch((err) => onError(err.message));
 }
 
-async function fetchTasksFromNode() {
-    try {
-        const nodeId = localStorage.getItem('node');
-        if (!nodeId) return;
-        const response = await tasksFromNode(parseInt(nodeId));
-        body.value = response;
-    } catch (e) {
-        onError((e as Error).message);
-    }
+function fetchTasksFromNode() {
+    const nodeId = localStorage.getItem('node');
+    if (!nodeId) return;
+    tasksFromNode(parseInt(nodeId))
+        .then((res) => (body.value = res))
+        .catch((err) => onError(err.message));
 }
 
 onMounted(async () => {

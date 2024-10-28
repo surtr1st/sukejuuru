@@ -10,7 +10,7 @@
                 :key="index"
             >
                 <li
-                    class="transition ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-center items-center hover:cursor-pointer hover:bg-h-light dark:text-light dark:hover:bg-h-dark"
+                    class="transition ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-center items-center hover:cursor-pointer hover:bg-neutral/15 dark:text-frost dark:hover:bg-shadow"
                     v-if="item.action"
                     @click="item.action"
                 >
@@ -21,7 +21,7 @@
                     v-else
                 >
                     <li
-                        class="transition ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-center items-center hover:cursor-pointer hover:bg-h-light dark:text-light dark:hover:bg-h-dark"
+                        class="transition ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-center items-center hover:cursor-pointer hover:bg-neutral/15 dark:text-frost dark:hover:bg-shadow"
                     >
                         <component :is="item.icon" />
                     </li>
@@ -40,7 +40,7 @@
                 :key="index"
             >
                 <li
-                    class="transition-all ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-start items-center hover:cursor-pointer hover:bg-h-light dark:text-light dark:hover:bg-h-dark"
+                    class="transition-all ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-start items-center hover:cursor-pointer hover:bg-neutral/15 dark:text-frost dark:hover:bg-shadow"
                     v-if="item.action"
                     @click="item.action"
                 >
@@ -54,7 +54,7 @@
                     v-else
                 >
                     <li
-                        class="transition-all ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-start items-center hover:cursor-pointer hover:bg-h-light dark:text-light dark:hover:bg-h-dark"
+                        class="transition-all ease-in-out w-full h-[48px] py-1 px-3 border-l border-primary flex gap-5 justify-start items-center hover:cursor-pointer hover:bg-neutral/15 dark:text-frost dark:hover:bg-shadow"
                     >
                         <component :is="item.icon" />
                         <h3 class="font-semibold">

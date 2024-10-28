@@ -107,17 +107,17 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="dark:bg-dark flex justify-center relative">
+    <div class="dark:bg-midnight flex justify-center relative">
         <div
             ref="list"
             :class="{
-                'w-[250px] border-r border-r-neutral-2 min-h-screen': isExpand,
-                'w-[70px] border-r border-r-neutral-2 min-h-screen': !isExpand,
+                'w-[250px] border-r border-r-slate min-h-screen': isExpand,
+                'w-[70px] border-r border-r-slate min-h-screen': !isExpand,
             }"
         >
             <div :class="{ 'flex justify-end': isExpand, 'flex justify-center': !isExpand }">
                 <button
-                    class="bg-none dark:text-light hover:bg-h-light dark:hover:bg-h-neutral-2 transition-all ease-in-out rounded-7px m-1 p-2"
+                    class="bg-none dark:text-frost hover:bg-neutral/15 dark:hover:bg-h-slate transition-all ease-in-out rounded-7px m-1 p-2"
                     @click="expand()"
                 >
                     <Bars3Icon />

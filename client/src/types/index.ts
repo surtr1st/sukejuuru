@@ -69,16 +69,17 @@ export type TSize = 'sm' | 'md' | 'lg';
 export type TColorVariant =
     | 'primary'
     | 'secondary'
-    | 'light'
+    | 'frost'
     | 'neutral'
-    | 'neutral-2'
-    | 'dark'
-    | 'danger'
-    | 'warning'
-    | 'success'
-    | 'semi-danger'
-    | 'quarter-danger'
-    | 'info';
+    | 'slate'
+    | 'midnight'
+    | 'shadow'
+    | 'rose'
+    | 'amber'
+    | 'mint'
+    | 'skyblue'
+    | 'sunset'
+    | 'blush';
 
 export type TTrackHistoryItem = {
     id: number;

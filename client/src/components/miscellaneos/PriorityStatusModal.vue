@@ -32,14 +32,14 @@
         </template>
         <template #footer>
             <Button
+                title="Close"
+                color="midnight"
+                @click="onClose"
+            />
+            <Button
                 title="Add"
                 color="primary"
                 @click="submit"
-            />
-            <Button
-                title="Close"
-                color="dark"
-                @click="onClose"
             />
         </template>
     </Modal>

@@ -9,7 +9,7 @@
                 v-model="checked"
             />
             <span
-                class="absolute text-light transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100"
+                class="absolute text-frost transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Partial<TCheckbox>>(), {
 
 const checked = defineModel('checked', { type: Boolean });
 
-const theme = computed(() => 'flex gap-2 items-center text-start dark:text-light w-fit p-1');
+const theme = computed(() => 'flex gap-2 items-center text-start dark:text-frost w-fit p-1');
 const checkedTheme = ref(theme.value);
 const inputTheme = ref(
     "before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:opacity-0 before:transition-opacity",
@@ -77,20 +77,9 @@ const computedColor = computed(() => {
     }
 });
 
-const computedCheckedColor = computed(() => {
-    switch (props.color) {
-        case 'secondary':
-            return 'line-through bg-secondary/15 rounded-7px text-secondary';
-        case 'neutral':
-            return 'line-through bg-neutral/15 rounded-7px text-neutral';
-        case 'neutral-2':
-            return 'line-through bg-neutral-2/15 rounded-7px text-neutral-2';
-        case 'success':
-            return 'line-through bg-success/15 rounded-7px text-success';
-        default:
-            return 'line-through bg-primary/15 rounded-7px text-primary';
-    }
-});
+const computedCheckedColor = computed(
+    () => `line-through bg-${props.color}/15 rounded-7px text-${props.color}`,
+);
 
 onMounted(() => {
     inputTheme.value = `${inputTheme.value} ${computedColor.value}`;

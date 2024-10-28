@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-12 gap-3 dark:text-light border-b border-b-neutral-2 p-3">
+    <div class="grid grid-cols-12 gap-3 dark:text-frost border-b border-b-slate p-3">
         <div
             class="lg:col-span-2 lg:block md:hidden"
             v-if="isBegin"
@@ -28,13 +28,13 @@
                 class="absolute top-[65px] left-0 -transition-x-[50%] -transition-y-[50%]"
             >
                 <ul
-                    class="bg-white dark:bg-dark w-[300px] max-h-[500px] border border-t-0 border-r-neutral-2 border-l-neutral-2 border-b-neutral-2 rounded-b-7px"
+                    class="bg-white dark:bg-midnight w-[300px] max-h-[500px] border border-t-0 border-r-slate border-l-slate border-b-slate rounded-b-7px"
                 >
                     <li
                         v-for="item in list"
                         :key="item.id"
                         :class="
-                            'last:rounded-b-7px transition-all ease-in-out w-full p-4 hover:bg-h-light dark:hover:bg-h-dark hover:cursor-pointer text-' +
+                            'last:rounded-b-7px transition-all ease-in-out w-full p-4 hover:bg-neutral/15 dark:hover:bg-shadow hover:cursor-pointer text-' +
                             item.color
                         "
                         @click="startTimer(item.id)"

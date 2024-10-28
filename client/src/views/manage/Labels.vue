@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-start dark:text-light">
+    <div class="flex items-start dark:text-frost">
         <div class="w-full m-2">
             <h2 class="text-2xl uppercase font-semibold py-3">Priority</h2>
             <Table

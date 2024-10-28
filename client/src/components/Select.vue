@@ -6,15 +6,15 @@
         <label
             v-show="!noTitle"
             :for="title"
-            class="text-lg font-semibold dark:text-light"
+            class="text-lg font-semibold dark:text-frost"
             >{{ title }}</label
         >
         <select
             :id="title"
             :class="{
-                'drop-shadow-lg bg-light text-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 focus:border-primary outline-none dark:bg-dark dark:text-light dark:border-neutral-2':
+                'drop-shadow-lg bg-frost text-neutral rounded-7px w-full h-[50px] px-3 border border-slate focus:border-primary outline-none dark:bg-midnight dark:text-frost dark:border-slate':
                     !disabled,
-                'drop-shadow-lg text-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 outline-none bg-neutral dark:text-light dark:border-neutral-2':
+                'drop-shadow-lg text-neutral rounded-7px w-full h-[50px] px-3 border border-slate outline-none bg-neutral dark:text-frost dark:border-slate':
                     disabled,
             }"
             :disabled="disabled"
@@ -38,15 +38,16 @@
         <label
             v-show="!noTitle"
             :for="title"
-            class="text-lg font-semibold dark:text-light"
+            class="text-lg font-semibold dark:text-frost"
             >{{ title }}</label
         >
         <select
             :id="title"
+            :name="title"
             :class="{
-                'drop-shadow-lg bg-light text-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 focus:border-primary outline-none dark:bg-dark dark:text-light dark:border-neutral-2':
+                'drop-shadow-lg bg-frost text-neutral rounded-7px w-full h-[50px] px-3 border border-slate focus:border-primary outline-none dark:bg-midnight dark:text-frost dark:border-slate':
                     !disabled,
-                'drop-shadow-lg text-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 outline-none bg-neutral dark:text-light dark:border-neutral-2':
+                'drop-shadow-lg text-neutral rounded-7px w-full h-[50px] px-3 border border-slate outline-none bg-neutral dark:text-frost dark:border-slate':
                     disabled,
             }"
             :disabled="disabled"

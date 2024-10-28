@@ -3,17 +3,18 @@
         <label
             v-show="!noTitle"
             :for="title"
-            class="text-lg font-semibold dark:text-light"
+            class="text-lg font-semibold dark:text-frost"
             >{{ title }}</label
         >
         <input
             :id="title"
+            :name="title"
             type="number"
             :placeholder="placeholder"
             :class="{
-                'placeholder:italic drop-shadow-lg bg-light text-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 focus:border-primary outline-none dark:bg-dark dark:text-light dark:border-neutral-2':
+                'placeholder:italic drop-shadow-lg bg-frost text-neutral rounded-7px w-full h-[50px] px-3 border border-slate focus:border-primary outline-none dark:bg-midnight dark:text-frost dark:border-slate':
                     !disabled,
-                'placeholder:italic drop-shadow-lg text-neutral bg-neutral rounded-7px w-full h-[50px] px-3 border border-neutral-2 focus:border-primary outline-none dark:text-light dark:border-neutral-2':
+                'placeholder:italic drop-shadow-lg text-neutral bg-neutral rounded-7px w-full h-[50px] px-3 border border-slate focus:border-primary outline-none dark:text-frost dark:border-slate':
                     disabled,
             }"
             :disabled="disabled"

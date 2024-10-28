@@ -36,13 +36,10 @@ function handleCreateNode() {
         .catch((err) => onError(err.message));
 }
 
-async function fetchNodes() {
-    try {
-        const response = await nodes();
-        list.value = response;
-    } catch (e) {
-        onError((e as Error).message);
-    }
+function fetchNodes() {
+    nodes()
+        .then((res) => (list.value = res))
+        .catch((err) => onError(err.message));
 }
 
 onMounted(async () => {
@@ -54,7 +51,7 @@ onMounted(async () => {
 
 <template>
     <div
-        class="min-h-screen dark:bg-dark dark:text-light flex justify-center flex-col items-center relative"
+        class="min-h-screen dark:bg-midnight dark:text-frost flex justify-center flex-col items-center relative"
     >
         <Input
             title="Node"
@@ -64,13 +61,13 @@ onMounted(async () => {
         />
         <h1 class="text-4xl font-bold my-3 uppercase">Node Study List</h1>
         <ul
-            class="min-w-[500px] max-w-[1000px] border dark:border-neutral border-light rounded-7px shadow-md"
+            class="min-w-[500px] max-w-[1000px] border dark:border-neutral border-frost rounded-7px shadow-md"
         >
             <li
                 v-for="node in list"
                 :key="node.id"
                 @click="selectNode(node.id)"
-                class="p-3 hover:bg-light dark:hover:bg-neutral hover:cursor-pointer transition-all ease-in-out"
+                class="p-3 hover:bg-frost dark:hover:bg-neutral hover:cursor-pointer transition-all ease-in-out"
             >
                 {{ node.title }}
             </li>
