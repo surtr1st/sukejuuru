@@ -60,6 +60,8 @@ onMounted(async () => {
             placeholder="Add new node"
             @enter="handleCreateNode()"
             v-model:value="input"
+            required
+            :invalid="{ when: input.length === 0, message: 'Node title should be larger than 0' }"
         />
         <h1 class="text-4xl font-bold my-3 uppercase">Node Study List</h1>
         <ul

@@ -16,6 +16,12 @@
                         title="Title"
                         placeholder="e.g. Computer Science"
                         v-model:value="task.title"
+                        required
+                        :invalid="{
+                            when: task.title.length === 0,
+                            message: 'Title cannot be empty',
+                        }"
+                        check-on-blur
                     />
                 </div>
                 <div class="row-span-3">
@@ -43,6 +49,11 @@
                         placeholder="e.g. 120"
                         title="Min."
                         v-model:value="task.minLength"
+                        required
+                        :invalid="{
+                            when: isMaxEntered && task.minLength > task.maxLength,
+                            message: 'Min should be less than Max',
+                        }"
                     />
                     <Select
                         class="col-span-3"
@@ -152,6 +163,7 @@ const timeUnits = computed<TPriority[]>(() => [
 ]);
 const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
+const isMaxEntered = ref(task.value.maxLength !== 0);
 
 const { trigger } = watchTriggerable(() => boolState.task, fetchTasksFromNode);
 const debounceCreateTask = debounce(handleCreateTask);
