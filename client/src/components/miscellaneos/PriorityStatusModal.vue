@@ -1,10 +1,11 @@
 <template>
     <Modal
         :open="open"
+        :title
         @close="onClose"
     >
         <template #body>
-            <div class="grid w-[600px] grid-rows-12 gap-3">
+            <div class="grid w-[600px] grid-rows-10 gap-3">
                 <div class="row-span-3">
                     <Input
                         title="Display"
@@ -24,8 +25,7 @@
                         class="col-span-3"
                         title="Color"
                         :colors
-                        :select-option="colors[0].display"
-                        v-model:option="item.id"
+                        v-model:color="item.display"
                     />
                 </div>
             </div>
@@ -60,6 +60,7 @@ import { useCustomToast } from '@/helpers';
 type TPriorityStatusModal = {
     type: 'priority' | 'status';
     open: boolean;
+    title: string;
     onClose: () => void;
     colors: TColor[];
 };
