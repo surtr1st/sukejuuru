@@ -25,7 +25,7 @@
                 v-for="item in items"
                 :key="item.id"
                 :value="item.id"
-                :class="'text-' + item.color"
+                :class="getTextColor(item.color) + ' ' + getBackgroundColor(item.color, true)"
             >
                 {{ item.display }}
             </option>
@@ -58,7 +58,7 @@
                 v-for="color in colors"
                 :key="color.id"
                 :value="color.display"
-                :class="'text-' + color.display + ' bg-' + color.display + '/15'"
+                :class="getTextColor(color.display) + ' ' + getBackgroundColor(color.display, true)"
             >
                 {{ color.display }}
             </option>
@@ -69,6 +69,7 @@
 <script setup lang="ts">
 import type { TItems, TColor } from '@/types';
 import type { VNodeRef } from 'vue';
+import { getBackgroundColor, getTextColor } from '@/composables';
 
 type TSelect = {
     title: string;

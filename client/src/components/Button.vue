@@ -26,11 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { computed } from 'vue';
-import { ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import type { TColorVariant, TSize } from '@/types';
 import type { Component } from 'vue';
+import { getBackgroundColor, getHoverColor } from '@/composables';
 
 type TButton = {
     size: TSize;
@@ -81,13 +80,8 @@ const computedSize = computed(() => {
     }
 });
 
-const computedColor = computed(
-    () =>
-        `bg-${props.color} hover:bg-h-${props.color} ${props.color === 'frost' ? 'text-neutral' : ''}`,
-);
-
 onMounted(
     () =>
-        (theme.value = `${computedFullRounded.value} ${theme.value} ${props.rounded ? computedRoundedSize.value : computedSize.value} ${props.disabled ? 'bg-neutral' : computedColor.value}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
+        (theme.value = `${computedFullRounded.value} ${theme.value} ${props.rounded ? computedRoundedSize.value : computedSize.value} ${props.disabled ? 'bg-neutral' : getBackgroundColor(props.color) + ' ' + getHoverColor(props.color)}${props.icon ? ' flex justify-center items-center gap-2' : ''}`),
 );
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div :class="theme + ' ' + getColors(color)">
+    <div :class="theme">
         <h3 class="font-semibold">
             {{ display }}
         </h3>
@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 import type { TColorVariant, TSize } from '@/types';
-import { ref } from 'vue';
-import { computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { getBackgroundColor, getBorderColor, getTextColor } from '@/composables';
 
 type TTaskTag = {
     display: string;
@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<Partial<TTaskTag>>(), {
     size: 'sm',
 });
 
-const theme = ref<string>('grid place-items-center border rounded-7px p-2 mx-1');
+const theme = ref<string>('grid place-items-center rounded-7px p-2 mx-1');
 
 const computedSize = computed(() => {
     switch (props.size) {
@@ -36,7 +36,8 @@ const computedSize = computed(() => {
     }
 });
 
-const getColors = (color: string) => `bg-${color}/15 text-${color} border-${color}`;
-
-onMounted(() => (theme.value = `${theme.value} ${computedSize.value}`));
+onMounted(
+    () =>
+        (theme.value = `${theme.value} ${computedSize.value} ${getBackgroundColor(props.color, true)} ${getBorderColor(props.color)} ${getTextColor(props.color)}`),
+);
 </script>
