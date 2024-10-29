@@ -19,6 +19,7 @@
     </div>
     <PriorityStatusModal
         ref="pmodal"
+        title="Add Priority"
         :open="openPriorityModal"
         type="priority"
         @close="openPriorityModal = false"
@@ -26,6 +27,7 @@
     />
     <PriorityStatusModal
         ref="smodal"
+        title="Add Status"
         :open="openStatusModal"
         type="status"
         @close="openStatusModal = false"
