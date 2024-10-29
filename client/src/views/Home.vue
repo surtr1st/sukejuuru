@@ -8,6 +8,7 @@ import Input from '@/components/Input.vue';
 import { useCustomToast } from '@/helpers';
 import { watchTriggerable } from '@vueuse/core';
 import { useBoolState } from '@/store';
+import { debounce } from '@/composables';
 
 const input = ref<string>('');
 const list = ref<TNode[] | null>([]);
@@ -19,6 +20,7 @@ const { toggle } = useTheme();
 const { onSuccess, onError } = useCustomToast();
 
 const { trigger } = watchTriggerable(() => boolState.node, fetchNodes);
+const debounceSelectNode = debounce(selectNode);
 
 async function selectNode(id: number) {
     localStorage.setItem('node', String(id));
@@ -66,7 +68,7 @@ onMounted(async () => {
             <li
                 v-for="node in list"
                 :key="node.id"
-                @click="selectNode(node.id)"
+                @click="debounceSelectNode(node.id)"
                 class="p-3 hover:bg-frost dark:hover:bg-neutral hover:cursor-pointer transition-all ease-in-out"
             >
                 {{ node.title }}

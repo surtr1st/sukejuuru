@@ -1,11 +1,11 @@
 <template>
     <table
-        class="dark:text-frost w-full border border-l-0 border-right-0 border-t-0 dark:border-slate rounded-bl-7px rounded-br-7px overflow-x-auto"
+        class="dark:text-frost w-full border border-l-0 border-right-0 border-t-0 border-slate rounded-bl-7px rounded-br-7px overflow-x-auto"
     >
         <thead class="uppercase">
             <tr>
                 <th
-                    class="text-primary border-b first:border-l-0 border-l dark:border-slate p-5 font-bold"
+                    class="text-primary border-b first:border-l-0 border-l border-slate p-5 font-bold"
                     v-for="(header, index) in headers"
                     :key="index"
                 >
@@ -18,7 +18,7 @@
                 ref="tableRow"
                 v-for="(content, index) in body"
                 :key="index"
-                class="text-center *:p-5 border dark:border-slate *:hover:bg-slate/15 *:hover:cursor-pointer"
+                class="text-center *:p-5 border border-l-0 border-r-0 border-slate hover:bg-neutral/15 *:dark:hover:bg-shadow *:hover:cursor-pointer"
             >
                 <td
                     id="title"
@@ -72,7 +72,7 @@
         </tbody>
         <tfoot>
             <tr
-                class="hover:bg-frost dark:hover:bg-neutral hover:cursor-pointer w-full h-12 text-center text-primary"
+                class="hover:bg-neutral/15 dark:hover:bg-shadow hover:cursor-pointer w-full h-12 text-center text-primary"
             >
                 <td
                     :colspan="headers.length"

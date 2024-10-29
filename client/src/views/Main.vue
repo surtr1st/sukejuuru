@@ -117,7 +117,7 @@ onMounted(() => {
         >
             <div :class="{ 'flex justify-end': isExpand, 'flex justify-center': !isExpand }">
                 <button
-                    class="bg-none dark:text-frost hover:bg-neutral/15 dark:hover:bg-h-slate transition-all ease-in-out rounded-7px m-1 p-2"
+                    class="bg-none dark:text-frost hover:bg-neutral/15 dark:hover:bg-shadow transition-all ease-in-out rounded-7px m-1 p-2"
                     @click="expand()"
                 >
                     <Bars3Icon />

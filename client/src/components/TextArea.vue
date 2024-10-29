@@ -31,3 +31,9 @@ withDefaults(defineProps<Partial<TTextArea>>(), {
 
 const model = defineModel('value', { type: String });
 </script>
+
+<style scoped>
+textarea {
+    resize: none;
+}
+</style>

@@ -97,7 +97,7 @@
             <Button
                 title="Add"
                 color="primary"
-                @click="handleCreateTask()"
+                @click="debounceCreateTask"
             />
         </template>
     </Modal>
@@ -118,6 +118,7 @@ import { useCustomToast } from '@/helpers';
 import { useBoolState, useState } from '@/store';
 import { onMounted, ref, computed } from 'vue';
 import { watchTriggerable } from '@vueuse/core';
+import { debounce } from '@/composables';
 
 const state = useState();
 const boolState = useBoolState();
@@ -153,6 +154,7 @@ const minUnitSelect = ref(timeUnits.value[0].id);
 const maxUnitSelect = ref(minUnitSelect.value);
 
 const { trigger } = watchTriggerable(() => boolState.task, fetchTasksFromNode);
+const debounceCreateTask = debounce(handleCreateTask);
 
 function handleCreateTask() {
     const node = localStorage.getItem('node');

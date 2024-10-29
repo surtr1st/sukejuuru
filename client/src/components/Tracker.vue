@@ -51,7 +51,7 @@
             <Button
                 v-if="isBegin"
                 icon-only
-                color="danger"
+                color="rose"
                 :icon="MinusCircleIcon"
                 fixed
                 rounded
@@ -60,8 +60,8 @@
             <Button
                 v-else
                 icon-only
-                color="danger"
-                :icon="MinusCircleIcon"
+                color="rose"
+                :icon="PlayIcon"
                 fixed
                 rounded
                 :disabled="!isBegin"
@@ -75,6 +75,7 @@
 import Button from './Button.vue';
 import TaskTag from './TaskTag.vue';
 import MinusCircleIcon from './icons/24x24/MinusCircleIcon.vue';
+import PlayIcon from './icons/24x24/PlayIcon.vue';
 import type { TTagTask } from '@/types';
 import { computed, ref } from 'vue';
 import { useDuration, useTracker } from '@/services';

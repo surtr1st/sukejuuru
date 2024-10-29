@@ -1,11 +1,11 @@
 <template>
     <div
-        class="border border-neutral-2 m-2 *:px-5"
+        class="border border-slate m-2 *:px-5"
         v-for="(track, index) in tracks"
         :key="index"
     >
         <div
-            class="grid grid-cols-12 place-items-start text-light text-xl bg-neutral-2 dark:bg-neutral-2/25 border-b border-b-neutral-2 *:font-semibold *:h-[74px] *:flex *:items-center"
+            class="grid grid-cols-12 place-items-start text-frost text-xl bg-slate dark:bg-slate/25 border-b border-b-slate *:font-semibold *:h-[74px] *:flex *:items-center"
         >
             <h3 class="col-span-3 gap-2"><CalendarDaysIcon />{{ track.madeOnDate }}</h3>
             <h3 class="col-span-4">Description</h3>
@@ -21,7 +21,7 @@
         </div>
         <div
             ref="accordianBody"
-            class="dark:bg-dark-2 rounded-7px dark:text-light"
+            class="dark:bg-shadow rounded-7px dark:text-frost"
         >
             <ul
                 :class="{
