@@ -15,7 +15,7 @@
                 [theme]: !disabled,
                 'placeholder:italic drop-shadow-lg text-neutral bg-neutral rounded-7px w-full h-[50px] px-3 border border-slate focus:border-primary outline-none dark:text-frost dark:border-slate':
                     disabled,
-                [invalidTheme]: !disabeld && isInvalid,
+                [invalidTheme]: !disabled && isInvalid,
             }"
             :disabled="disabled"
             :required="required"
