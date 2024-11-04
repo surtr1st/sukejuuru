@@ -8,27 +8,23 @@ export function useTask() {
             const { data, error } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
                 .get()
                 .json<TTask[]>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value ?? [];
+            return [data.value ?? [], error.value];
         },
         compactTasksFromNode: async (nodeId: number) => {
             const { data, error } = await useFetch(`${BASE_URL}/tasks?nodeId=${nodeId}`)
                 .get()
                 .json<TTagTask[]>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value ?? [];
+            return [data.value ?? [], error.value];
         },
         createTask: async (nodeId: number, task: Partial<TTaskPayload>) => {
             const { data, error } = await useFetch(`${BASE_URL}/tasks`)
                 .post({ nodeId, ...task })
                 .text();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value;
+            return [data.value, error.value];
         },
         updateTask: async (id: number, newData: Partial<TTask>) => {
             const { data, error } = await useFetch(`${BASE_URL}/tasks/${id}`).put(newData).text();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value;
+            return [data.value, error.value];
         },
         deleteTask: async (id: number) => {
             const { data } = await useFetch(`${BASE_URL}/tasks/${id}`).delete().text();

@@ -8,8 +8,7 @@ export function useDuration() {
             const { data, error } = await useFetch(`${BASE_URL}/durations`)
                 .post(duration)
                 .json<{ insertedId: number }>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value!.insertedId;
+            return [data.value!.insertedId, error.value];
         },
     };
 }

@@ -18,14 +18,14 @@ const { onError } = useCustomToast();
 const { trigger } = watchTriggerable(() => boolState.tracker, fetchLogsFromNode);
 
 async function fetchLogsFromNode() {
-    try {
-        const node = localStorage.getItem('node');
-        if (!node) return;
-        const response = await logsFromNode(parseInt(node));
-        state.trackLogs = response ?? [];
-    } catch (e) {
-        onError((e as Error).message);
+    const node = localStorage.getItem('node');
+    if (!node) return;
+    const [response, error] = await logsFromNode(parseInt(node));
+    if (error !== null) {
+        onError(error.message);
+        return;
     }
+    state.trackLogs = response;
 }
 
 onMounted(async () => {

@@ -8,13 +8,11 @@ export function useTracker() {
             const { data, error } = await useFetch(`${BASE_URL}/tracks?nodeId=${nodeId}`)
                 .get()
                 .json<TTrackHistory[]>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value;
+            return [data.value, error.value];
         },
         createTrack: async (track: TTracker) => {
             const { data, error } = await useFetch(`${BASE_URL}/tracks`).post(track).text();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value;
+            return [data.value, error.value];
         },
     };
 }

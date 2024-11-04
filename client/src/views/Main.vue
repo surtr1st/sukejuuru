@@ -42,41 +42,41 @@ async function expand() {
 }
 
 async function fetchPriorities() {
-    try {
-        const response = await priorities();
-        state.priorities = response;
-    } catch (e) {
-        onError((e as Error).message);
+    const [response, error] = await priorities();
+    if (error !== null) {
+        onError(error.message);
+        return;
     }
+    state.priorities = response;
 }
 
 async function fetchStatus() {
-    try {
-        const response = await status();
-        state.status = response;
-    } catch (e) {
-        onError((e as Error).message);
+    const [response, error] = await status();
+    if (error !== null) {
+        onError(error.message);
+        return;
     }
+    state.status = response;
 }
 
 async function fetchColors() {
-    try {
-        const response = await colors();
-        state.colors = response;
-    } catch (e) {
-        onError((e as Error).message);
+    const [response, error] = await colors();
+    if (error !== null) {
+        onError(error.message);
+        return;
     }
+    state.colors = response;
 }
 
 async function fetchTagTasks() {
-    try {
-        const node = localStorage.getItem('node');
-        if (!node) return;
-        const response = await compactTasksFromNode(parseInt(node));
-        state.tagTasks = response;
-    } catch (e) {
-        onError((e as Error).message);
+    const node = localStorage.getItem('node');
+    if (!node) return;
+    const [response, error] = await compactTasksFromNode(parseInt(node));
+    if (error !== null) {
+        onError(error.message);
+        return;
     }
+    state.tagTasks = response;
 }
 
 onBeforeMount(async () => {
@@ -87,10 +87,11 @@ onBeforeMount(async () => {
 
     const node = localStorage.getItem('node');
     if (!node) return;
-    findNodeById(parseInt(node)).catch(async (err) => {
+    const [_, error] = await findNodeById(parseInt(node));
+    if (error !== null) {
         onError(err);
         await router.replace('/');
-    });
+    }
 
     if (state.priorities.length === 0) await fetchPriorities();
     if (state.status.length === 0) await fetchStatus();

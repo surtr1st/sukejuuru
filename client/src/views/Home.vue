@@ -27,21 +27,25 @@ async function selectNode(id: number) {
     await replace('/@node');
 }
 
-function handleCreateNode() {
+async function handleCreateNode() {
     if (!input.value) return;
     const title = input.value;
-    createNode({ title })
-        .then((res) => {
-            onSuccess(res!);
-            boolState.toggle('node');
-        })
-        .catch((err) => onError(err.message));
+    const [response, error] = await createNode({ title });
+    if (error !== null) {
+        onError(error.message);
+        return;
+    }
+    onSuccess(response);
+    boolState.toggle('node');
 }
 
-function fetchNodes() {
-    nodes()
-        .then((res) => (list.value = res))
-        .catch((err) => onError(err.message));
+async function fetchNodes() {
+    const [response, error] = await nodes();
+    if (error !== null) {
+        onError(error.message);
+        return;
+    }
+    list.value = response;
 }
 
 onMounted(async () => {

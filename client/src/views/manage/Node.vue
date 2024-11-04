@@ -168,24 +168,28 @@ const isMaxEntered = ref(task.value.maxLength !== 0);
 const { trigger } = watchTriggerable(() => boolState.task, fetchTasksFromNode);
 const debounceCreateTask = debounce(handleCreateTask);
 
-function handleCreateTask() {
+async function handleCreateTask() {
     const node = localStorage.getItem('node');
     if (!node) return;
-    createTask(parseInt(node), task.value)
-        .then((res) => {
-            onSuccess(res!);
-            boolState.toggle('task');
-            task.value = defaultTaskValue.value;
-        })
-        .catch((err) => onError(err.message));
+    const [response, error] = await createTask(parseInt(node), task.value);
+    if (error !== null) {
+        onError(error.message);
+        return;
+    }
+    onSuccess(response);
+    boolState.toggle('task');
+    task.value = defaultTaskValue.value;
 }
 
-function fetchTasksFromNode() {
+async function fetchTasksFromNode() {
     const nodeId = localStorage.getItem('node');
     if (!nodeId) return;
-    tasksFromNode(parseInt(nodeId))
-        .then((res) => (body.value = res))
-        .catch((err) => onError(err.message));
+    const [response, error] = await tasksFromNode(parseInt(nodeId));
+    if (error !== null) {
+        onError(error.message);
+        return;
+    }
+    body.value = response;
 }
 
 onMounted(async () => {

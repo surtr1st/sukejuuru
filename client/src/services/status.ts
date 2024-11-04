@@ -5,8 +5,8 @@ import { useFetch } from '@vueuse/core';
 export function useStatus() {
     return {
         status: async () => {
-            const { data } = await useFetch(`${BASE_URL}/status`).get().json<TStatus[]>();
-            return data.value ?? [];
+            const { data, error } = await useFetch(`${BASE_URL}/status`).get().json<TStatus[]>();
+            return [data.value ?? [], error.value];
         },
         createStatus: async (status: Partial<Omit<TStatus, 'id'>>) => {
             const { data } = await useFetch(`${BASE_URL}/status`).post(status).text();

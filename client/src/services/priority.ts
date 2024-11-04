@@ -5,8 +5,10 @@ import { useFetch } from '@vueuse/core';
 export function usePriority() {
     return {
         priorities: async () => {
-            const { data } = await useFetch(`${BASE_URL}/priorities`).get().json<TPriority[]>();
-            return data.value ?? [];
+            const { data, error } = await useFetch(`${BASE_URL}/priorities`)
+                .get()
+                .json<TPriority[]>();
+            return [data.value ?? [], error.value];
         },
         createPriority: async (priority: Partial<Omit<TPriority, 'id'>>) => {
             const { data } = await useFetch(`${BASE_URL}/priorities`).post(priority).text();

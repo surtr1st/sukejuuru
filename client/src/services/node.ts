@@ -6,13 +6,11 @@ export function useNode() {
     return {
         nodes: async () => {
             const { data, error } = await useFetch(`${BASE_URL}/nodes`).get().json<TNode[]>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value ?? [];
+            return [data.value ?? [], error.value];
         },
         createNode: async (node: Partial<Omit<TNode, 'id'>>) => {
             const { data, error } = await useFetch(`${BASE_URL}/nodes`).post(node).text();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value;
+            return [data.value, error.value];
         },
         updateNode: async (id: number, newData: Partial<TNode>) => {
             const { data } = await useFetch(`${BASE_URL}/nodes/${id}`).put(newData).text();
@@ -24,8 +22,7 @@ export function useNode() {
         },
         findNodeById: async (id: number) => {
             const { data, error } = await useFetch(`${BASE_URL}/nodes/${id}`).get().json<TNode>();
-            if (error.value !== null) throw new Error(error.value);
-            return data.value ?? {};
+            return [data.value ?? {}, error.value];
         },
     };
 }
